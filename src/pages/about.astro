@@ -1,0 +1,117 @@
+---
+import ContactCTA from '../components/ContactCTA.astro';
+import Hero from '../components/Hero.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About | Marco Mondini" description="About Marco Mondini - Engineering Leader and Developer">
+	<div class="stack gap-20">
+		<main class="wrapper about">
+			<Hero
+				title="About"
+				tagline="Thanks for stopping by. Learn more about my journey in engineering leadership and software development."
+			>
+				<img
+					width="1553"
+					height="873"
+					src="/assets/at-work.jpg"
+					alt="Marco Mondini at work"
+				/>
+			</Hero>
+
+			<section>
+				<h2 class="section-title">Background</h2>
+				<div class="content">
+					<p>
+						I'm a passionate engineering leader with a hands-on approach to software development.
+						Throughout my career, I've focused on establishing robust engineering processes and
+						fostering cultures of continuous improvement within technical teams.
+					</p>
+					<p>
+						My work spans both greenfield projects and legacy system modernization, bringing modern
+						practices and AI integration to production systems. I believe in solving complex engineering
+						problems through collaboration, technical excellence, and practical leadership.
+					</p>
+					<p>
+						As an active contributor to the XP/Agile community, I regularly speak at academic and
+						industry conferences, sharing insights on software development practices, team dynamics,
+						and the adoption of emerging technologies. I'm committed to continuous learning and helping
+						teams build better software together.
+					</p>
+				</div>
+			</section>
+			<section>
+				<h2 class="section-title">Education</h2>
+				<div class="content">
+					<p>[To be filled in with educational background]</p>
+				</div>
+			</section>
+			<section>
+				<h2 class="section-title">Skills</h2>
+				<div class="content">
+					<p>Complex Engineering Problem-Solving • Technical Team Leadership • Agile/XP Methodologies • AI Tool Adoption • Legacy System Transformation • Continuous Learning & Improvement</p>
+				</div>
+			</section>
+		</main>
+
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	img {
+		margin-top: 1.5rem;
+		border-radius: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	.section-title {
+		grid-column-start: 1;
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	.content {
+		grid-column: 2 / 4;
+	}
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	@media (min-width: 50em) {
+		.about {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.about > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+</style>
