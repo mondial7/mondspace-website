@@ -48,7 +48,7 @@ export const AREAS = [
     color: "#F48FB1",
     lines: [
       "Want the long version? Press play.",
-      "An 8-minute audio CV, in my own voice.",
+      "An 8-minute audio CV.",
     ],
     audio: true,
   },
