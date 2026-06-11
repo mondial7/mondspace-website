@@ -326,9 +326,13 @@ export function buildDog() {
   g.add(box(0.5, 0.42, 0.95, black, [0, 0.65, 0]));
   g.add(box(0.32, 0.34, 0.08, white, [0, 0.56, 0.46]));
 
-  // ----- head ----- (FRONT = local z of the head's front face)
-  const head = box(0.5, 0.46, 0.44, black, [0, 0.97, 0.54]);
+  // ----- head ----- built as a GROUP, not a box() mesh: a box() mesh carries a
+  // non-unit scale, and any child attached to it would inherit that scale and
+  // shrink into the cube (which is why the face was invisible before).
+  const head = new THREE.Group();
+  head.position.set(0, 0.97, 0.54);
   g.add(head);
+  head.add(box(0.5, 0.46, 0.44, black, [0, 0, 0]));
   const FRONT = 0.22;
 
   // tan muzzle so the snout + black nose stand out against the black head

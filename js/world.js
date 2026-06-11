@@ -223,7 +223,7 @@ export function initWorld(canvas, opts = {}) {
     } else {
       // arrived — settle into a 3/4 pose toward the viewer so the dog's
       // silhouette reads (head-on it looks like an upright blob)
-      desiredHeading = Math.atan2(camera.position.x - dogPos.x, camera.position.z - dogPos.z) + 0.6;
+      desiredHeading = Math.atan2(camera.position.x - dogPos.x, camera.position.z - dogPos.z) + 0.4;
     }
     // lerp the height so coming down from the sky glides instead of snapping
     dogPos.y = THREE.MathUtils.lerp(dogPos.y, surfaceY(dogPos.x, dogPos.z), Math.min(1, dt * 8));
