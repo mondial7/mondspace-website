@@ -158,12 +158,14 @@ export function initWorld(canvas, opts = {}) {
   const dog = buildDog();
   scene.add(dog);
   // ground spot the dog trots to for each focused area
+  // Off to one side / lower so the dog is clearly visible but never sits
+  // dead-centre behind the banner.
   const dogTargets = {
-    center: V(2, 0, -3.5),    // up close in the foreground
+    center: V(-4.5, 0, -3),
     up:     V(0, 0, -6.5),
-    left:   V(-12, 0, -9.5),  // in front of the workbench, in frame
-    right:  V(12, 0, -9.5),
-    down:   V(2.5, 0, -3.5),
+    left:   V(-13.5, 0, -11.5), // beside the builder
+    right:  V(13.5, 0, -11.5),  // beside the signposts
+    down:   V(3, 0, -3),
   };
   Object.values(dogTargets).forEach((p) => (p.y = surfaceY(p.x, p.z)));
   const dogPos = dogTargets.center.clone();
@@ -187,8 +189,9 @@ export function initWorld(canvas, opts = {}) {
       dogPos.z += (dz / dist) * step;
       desiredHeading = Math.atan2(dx, dz);
     } else {
-      // arrived — face the viewer (camera) while it waits
-      desiredHeading = Math.atan2(camera.position.x - dogPos.x, camera.position.z - dogPos.z);
+      // arrived — settle into a 3/4 pose toward the viewer so the dog's
+      // silhouette reads (head-on it looks like an upright blob)
+      desiredHeading = Math.atan2(camera.position.x - dogPos.x, camera.position.z - dogPos.z) + 0.6;
     }
     dogPos.y = surfaceY(dogPos.x, dogPos.z);
     dogHeading = lerpAngle(dogHeading, desiredHeading, Math.min(1, dt * 6));

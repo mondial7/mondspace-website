@@ -10,12 +10,20 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
+/* The viewport (html) is the scroller so window.scrollY drives the mobile
+   tour. Keeping overflow-x only on the root avoids turning <body> into a
+   nested scroll container, which previously swallowed all touch scrolling. */
+html {
   height: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  background: var(--bg);
+}
+body {
+  min-height: 100%;
   background: var(--bg);
   color: var(--ink);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  overflow-x: hidden;
 }
 
 /* On desktop we hide the native cursor and draw our own neon one. */
