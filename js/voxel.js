@@ -326,38 +326,40 @@ export function buildDog() {
   g.add(box(0.5, 0.42, 0.95, black, [0, 0.65, 0]));
   g.add(box(0.32, 0.34, 0.08, white, [0, 0.56, 0.46]));
 
-  // ----- head (kept low & doggy, not human-faced) -----
-  const head = box(0.46, 0.44, 0.42, black, [0, 0.96, 0.52]);
+  // ----- head ----- (FRONT = local z of the head's front face)
+  const head = box(0.5, 0.46, 0.44, black, [0, 0.97, 0.54]);
   g.add(head);
+  const FRONT = 0.22;
 
-  // muzzle pushing forward + slightly down, with a cute round nose at the tip
-  head.add(box(0.26, 0.2, 0.3, black, [0, -0.13, 0.3]));
-  head.add(box(0.2, 0.08, 0.24, white, [0, -0.21, 0.3]));        // light muzzle underside
-  head.add(box(0.17, 0.15, 0.13, nose, [0, -0.06, 0.47]));       // big cute nose
-  head.add(box(0.1, 0.12, 0.06, flat("#e8868f"), [0, -0.27, 0.33])); // happy tongue
-  // big friendly puppy eyes: white + dark iris + bright glint + a brow tuft
+  // tan muzzle so the snout + black nose stand out against the black head
+  head.add(box(0.3, 0.24, 0.34, brown, [0, -0.11, 0.26]));
+  head.add(box(0.18, 0.15, 0.13, nose, [0, -0.04, 0.45]));        // clear black nose
+  head.add(box(0.12, 0.1, 0.06, flat("#e8868f"), [0, -0.2, 0.42])); // happy tongue
+  // white blaze down the forehead so the face reads against the black coat
+  head.add(box(0.1, 0.34, 0.04, white, [0, 0.07, FRONT + 0.01]));
+  // big puppy eyes: white + dark pupil + glint, clearly proud of the face
   const eye = (x) => {
-    head.add(box(0.15, 0.16, 0.04, white, [x, 0.09, 0.205]));
-    head.add(box(0.1, 0.12, 0.05, flat("#140b06"), [x, 0.08, 0.215]));
-    head.add(box(0.04, 0.05, 0.03, white, [x + 0.025, 0.11, 0.235]));
-    head.add(box(0.17, 0.045, 0.05, tan, [x, 0.2, 0.2]));        // eyebrow
+    head.add(box(0.18, 0.19, 0.07, white, [x, 0.1, FRONT - 0.02]));
+    head.add(box(0.11, 0.13, 0.07, flat("#140b06"), [x, 0.09, FRONT + 0.02]));
+    head.add(box(0.05, 0.06, 0.03, white, [x + 0.03, 0.13, FRONT + 0.06]));
+    head.add(box(0.18, 0.05, 0.06, tan, [x, 0.21, FRONT - 0.02])); // eyebrow
   };
-  eye(-0.12); eye(0.12);
+  eye(-0.14); eye(0.14);
   // jaw drops open when barking
   const jaw = new THREE.Group();
-  jaw.position.set(0, -0.2, 0.16);
-  jaw.add(box(0.2, 0.05, 0.3, black, [0, 0, 0.15]));
+  jaw.position.set(0, -0.17, 0.16);
+  jaw.add(box(0.22, 0.05, 0.32, brown, [0, 0, 0.16]));
   head.add(jaw);
-  // fluffy poodle topknot
-  head.add(box(0.44, 0.26, 0.42, tan, [0, 0.32, 0.0]));
+  // fluffy poodle topknot on top
+  head.add(box(0.48, 0.24, 0.46, tan, [0, 0.32, 0]));
 
-  // ----- floppy ears on pivots so they can flop / perk -----
+  // ----- big floppy brown ears on pivots so they flop / perk -----
   function ear(side) {
     const p = new THREE.Group();
-    p.position.set(side * 0.24, 0.16, 0.02);
-    p.add(box(0.14, 0.42, 0.13, brown, [0, -0.2, 0]));           // long floppy ear
-    p.add(box(0.18, 0.18, 0.16, tan, [0, -0.42, 0]));            // fluffy tip
-    p.rotation.z = side * 0.32;                                  // splay outward
+    p.position.set(side * 0.27, 0.14, 0.02);
+    p.add(box(0.16, 0.5, 0.15, brown, [0, -0.24, 0]));            // long floppy ear
+    p.add(box(0.2, 0.2, 0.18, tan, [0, -0.5, 0]));                // fluffy rounded tip
+    p.rotation.z = side * 0.3;                                    // splay outward
     head.add(p);
     return p;
   }

@@ -163,9 +163,9 @@ export function initWorld(canvas, opts = {}) {
   const dogTargets = {
     center: V(-4.5, 0, -3),
     up:     V(0, 0, -6.5),
-    left:   V(-13.5, 0, -11.5), // beside the builder
-    right:  V(13.5, 0, -11.5),  // beside the signposts
-    down:   V(3, 0, -3),
+    left:   V(-10.5, 0, -11.5), // foreground, off to the side of the builder
+    right:  V(10.5, 0, -11.5),  // foreground, off to the side of the signposts
+    down:   V(-2, 0, -3.2),     // near the pit rim, lower-left, clear of the jukebox
   };
   Object.values(dogTargets).forEach((p) => (p.y = surfaceY(p.x, p.z)));
   const dogPos = dogTargets.center.clone();
