@@ -83,9 +83,22 @@ export function createNavigation({ camera, areas, order, onArea }) {
     camera.lookAt(look);
   }
 
+  // Jump straight to an area. On touch this smooth-scrolls the tour to the
+  // matching point (the scroll then drives the camera there).
+  function goTo(id) {
+    const idx = order.indexOf(id);
+    if (idx < 0) return;
+    lastInputAt = performance.now();
+    if (mode === "scroll") {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo({ top: (idx / (order.length - 1)) * max, behavior: "smooth" });
+    }
+  }
+
   return {
     mode,
     update,
+    goTo,
     getActive: () => active,
     isIdle: (now) => now - lastInputAt > 700,
     enable() {

@@ -67,8 +67,14 @@ async function boot() {
   await tweenFill(100);
 
   // ---- interaction layer ----
-  const hud = createHUD({ camera: W.camera, areaViews: W.areas, isCoarse });
-  const nav = createNavigation({
+  let nav;
+  const hud = createHUD({
+    camera: W.camera,
+    areaViews: W.areas,
+    isCoarse,
+    onJump: (id) => nav && nav.goTo(id),
+  });
+  nav = createNavigation({
     camera: W.camera,
     areas: W.areas,
     order: AREAS.map((a) => a.id),

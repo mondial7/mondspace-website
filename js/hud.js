@@ -8,7 +8,7 @@ function escapeHtml(s) {
 
 // Wires up everything in the #hud overlay: nav links, world-anchored narration
 // with a typewriter effect, the compass, the neon cursor and the hint.
-export function createHUD({ camera, areaViews, isCoarse }) {
+export function createHUD({ camera, areaViews, isCoarse, onJump }) {
   const $ = (id) => document.getElementById(id);
   const narration = $("narration");
   const card = narration.querySelector(".narration-card");
@@ -22,6 +22,19 @@ export function createHUD({ camera, areaViews, isCoarse }) {
 
   narration.classList.add("hidden");
   compass.style.opacity = 1;
+
+  // On touch the compass doubles as a tappable d-pad to jump between areas.
+  if (isCoarse && onJump) {
+    compass.setAttribute("aria-hidden", "false");
+    compass.querySelectorAll(".dot").forEach((dot) => {
+      const id = ["up", "left", "center", "right", "down"].find((c) => dot.classList.contains(c));
+      if (!id) return;
+      dot.setAttribute("role", "button");
+      dot.setAttribute("tabindex", "0");
+      dot.setAttribute("aria-label", `Go to ${id}`);
+      dot.addEventListener("click", () => onJump(id));
+    });
+  }
 
   // nav links
   LINKS.forEach((l) => {

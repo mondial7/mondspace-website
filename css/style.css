@@ -263,6 +263,22 @@ body.fine-pointer #audio-btn { cursor: none; }
   box-shadow: 0 0 10px var(--neon);
 }
 
+/* On touch the compass becomes a tappable d-pad — bigger, with real hit areas */
+body.coarse-pointer .compass {
+  pointer-events: auto;
+  width: 116px;
+  height: 116px;
+}
+body.coarse-pointer .compass .dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+body.coarse-pointer .compass .dot.active { transform: scale(1.25); }
+body.coarse-pointer .compass .dot:active { background: var(--neon); transform: scale(0.92); }
+
 /* Hint */
 .hint {
   position: absolute;
