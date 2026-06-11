@@ -2,513 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marco Mondini - Fun Facts</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Marco Mondini — Mondspace</title>
+  <meta name="description" content="Marco Mondini — engineering leader, hands-on developer. Explore a little voxel world." />
+  <meta name="theme-color" content="#7ec0ee" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
   <script
     src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js"
     data-app-id="DDDD9356-A027-4A8A-9C21-0BBF37511614"
   ></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
     }
-    body {
-      font-family: 'JetBrains Mono', monospace;
-      background-color: #121212;
-      color: #f0f0f0;
-      overflow-x: hidden;
-      position: relative;
-      cursor: none;
-    }
-    #container {
-      padding-top: 60px;
-    }
-    .rain, #stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .rain-drop {
-      position: absolute;
-      width: 1px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.05);
-      animation: drop 1.2s linear infinite;
-    }
-    @keyframes drop {
-      0% { transform: translateY(-100px); opacity: 0; }
-      30% { opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 50%;
-      animation: starTwinkle 4s ease-in-out infinite, starDrift 60s linear infinite;
-    }
-    @keyframes starTwinkle {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.1; }
-    }
-    @keyframes starDrift {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(20vh); }
-    }
-    nav {
-      font-family: 'Orbitron', sans-serif;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: rgba(30, 30, 30, 0.9);
-      backdrop-filter: blur(4px);
-      z-index: 10;
-    }
-    .nav-left {
-      font-weight: bold;
-      color: #ffffff;
-      font-size: 1.2rem;
-    }
-    .nav-right {
-      display: flex;
-      gap: 1.5rem;
-    }
-    .nav-right a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 2px 4px;
-      transition: outline 0.05s ease-out;
-      cursor: none;
-    }
-    .nav-right a:focus, .nav-right a:hover {
-      outline: 1px dashed #FF9800;
-    }
-    section {
-      min-height: 60vh;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      transition: opacity 0.5s ease-out;
-      position: relative;
-      padding: 4rem 2rem;
-    }
-    .fact {
-      font-size: 2.2rem;
-      max-width: 85vw;
-      text-align: justify;
-      white-space: pre-wrap;
-      word-break: break-word;
-      line-height: 1.8;
-      letter-spacing: 0.06em;
-    }
-    @media (max-width: 768px) {
-      .fact {
-        font-size: 1.5rem;
-        padding: 0rem;
-        max-width: initial;
-        text-align: left;
-      }
-      .nav-left {
-        font-size: 1rem;
-      }
-      .nav-right a {
-        font-size: 0.9rem;
-        padding: 1px;
-      }
-    }
-    .custom-cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 10px;
-      height: 10px;
-      background-color: #ff69b4;
-      border-radius: 50%;
-      box-shadow:
-          0 0 8px #ff69b4,
-          0 0 16px #ff69b4,
-          0 0 24px #ff69b4;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.05s ease-out;
-      animation: cursorColorCycle 9s infinite linear;
-    }
-    .cursor-trail {
-      position: fixed;
-      width: 6px;
-      height: 6px;
-      background-color: #ff69b4;
-      border-radius: 50%;
-      opacity: 0.3;
-      pointer-events: none;
-      z-index: 9998;
-      animation: fadeOut 0.4s forwards, cursorColorCycle 9s infinite linear;
-    }
-    @keyframes cursorColorCycle {
-        0% {
-          background-color: #00FFFF;
-          box-shadow: 0 0 8px #00FFFF, 0 0 16px #00FFFF, 0 0 24px #00FFFF;
-        }
-        16.6% {
-          background-color: #DA70D6;
-          box-shadow: 0 0 8px #DA70D6, 0 0 16px #DA70D6, 0 0 24px #DA70D6;
-        }
-        33.3% {
-          background-color: #FF9800;
-          box-shadow: 0 0 8px #FF9800, 0 0 16px #FF9800, 0 0 24px #FF9800;
-        }
-        50% {
-          background-color: #76FF03;
-          box-shadow: 0 0 8px #76FF03, 0 0 16px #76FF03, 0 0 24px #76FF03;
-        }
-        66.6% {
-          background-color: #F48FB1;
-          box-shadow: 0 0 8px #F48FB1, 0 0 16px #F48FB1, 0 0 24px #F48FB1;
-        }
-        83.3% {
-          background-color: #FAFAFA;
-          box-shadow: 0 0 8px #FAFAFA, 0 0 16px #FAFAFA, 0 0 24px #FAFAFA;
-        }
-        100% {
-          background-color: #00FFFF;
-          box-shadow: 0 0 8px #00FFFF, 0 0 16px #00FFFF, 0 0 24px #00FFFF;
-        }
-    }
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        transform: scale(0.5);
-      }
-    }
-    
-    /* --- Audio banner styles --- */
-    #audio-banner {
-      position: fixed;
-      bottom: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(30, 30, 30, 0.85);
-      backdrop-filter: blur(6px);
-      border: 1px solid #FF9800;
-      border-radius: 12px;
-      padding: 0.5rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      color: #FF9800;
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 600;
-      font-size: 1rem;
-      z-index: 15;
-      cursor: default;
-      user-select: none;
-      max-width: 350px;
-      box-shadow: 0 0 15px #FF9800AA;
-    }
-    #audio-banner button {
-      background: transparent;
-      border: 2px solid #FF9800;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FF9800;
-      cursor: pointer;
-      transition: background-color 0.2s ease, color 0.2s ease;
-      outline-offset: 2px;
-    }
-    #audio-banner button:hover,
-    #audio-banner button:focus {
-      background-color: #FF9800;
-      color: #121212;
-      outline: none;
-    }
-    #audio-banner button svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-    #audio-banner .audio-label {
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    /* Responsive smaller on mobile */
-    @media (max-width: 480px) {
-      #audio-banner {
-        max-width: 90vw;
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-      }
-      #audio-banner button {
-        width: 32px;
-        height: 32px;
-      }
-      #audio-banner button svg {
-        width: 16px;
-        height: 16px;
-      }
-    }
-  </style>
+  }
+  </script>
 </head>
 <body>
-  <div class="custom-cursor" id="customCursor"></div>
-
-  <div class="rain" id="rain"></div>
-  <div id="stars"></div>
-
-  <nav role="navigation" aria-label="Main navigation">
-    <div class="nav-left">Marco Mondini</div>
-    <div class="nav-right">
-      <a href="https://github.com/mondial7" target="_blank" rel="noopener noreferrer" aria-label="Visit Marco's GitHub profile">GitHub</a>
-      <a href="https://linkedin.com/in/mondinimarco/" target="_blank" rel="noopener noreferrer" aria-label="Visit Marco's LinkedIn profile">LinkedIn</a>
+  <!-- ============ Loading splash ============ -->
+  <div id="splash" role="status" aria-live="polite">
+    <div class="splash-inner">
+      <div class="splash-logo" aria-hidden="true">
+        <span>M</span><span>O</span><span>N</span><span>D</span><span>S</span><span>P</span><span>A</span><span>C</span><span>E</span>
+      </div>
+      <div class="splash-bar"><div class="splash-bar-fill" id="splash-fill"></div></div>
+      <div class="splash-status" id="splash-status">Generating world…</div>
     </div>
-  </nav>
-  
-  <div id="audio-banner" aria-label="Podcast audio player" role="region">
-    <button id="audio-play-btn" aria-label="Play CV audio" aria-pressed="false" type="button" tabindex="0">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <polygon points="8,5 19,12 8,19"></polygon>
-      </svg>
-    </button>
-    <div class="audio-label">
-      <span style="display: block;">8min - My audio CV</span>
-      <span id="audio-status-text" aria-live="polite" style="font-size: 0.5rem;">Start listening</span>
-    </div>
-    <audio id="audio-player" preload="none" tabindex="-1" aria-hidden="true">
-      <source src="mmcv-2025-05-26.m4a" type="audio/mp4" />
-      Your browser does not support the audio element.
-    </audio>
   </div>
 
-  <main id="container" role="main"></main>
+  <!-- ============ 3D world ============ -->
+  <canvas id="scene"></canvas>
 
-  <script>
-      const funFacts = [
-        "I'm Marco — a passionate engineering leader, hands-on developer, and advocate for building better teams and software.",
-        "I established key engineering processes and championed a culture of continuous improvement across teams.",
-        "I actively contribute to the XP/Agile community by speaking at conferences and sharing practical, experience-based insights.",
-        "I’ve driven the successful adoption of AI tools and led their integration into scalable, production-grade systems.",
-        "I’ve remained hands-on with code across a wide range of systems — from building modern greenfield apps to transforming legacy platforms.",
-        "I specialize in solving complex engineering challenges and guiding teams to deliver better software, faster.",
-        "I’m a passionate lifelong learner — constantly exploring new technologies, patterns, and ways to grow as a technical leader.",
-      ];
-    
-      const textColors = [
-        "#00FFFF", "#DA70D6", "#FF9800", "#76FF03", "#F48FB1", "#FAFAFA"
-      ];
-    
-      function getRandomPastel() {
-        return textColors[Math.floor(Math.random() * textColors.length)];
-      }
-    
-      const container = document.getElementById("container");
-    
-      funFacts.forEach((fact, index) => {
-        const section = document.createElement("section");
-        section.id = `fact-${index}`;
-        const color = getRandomPastel();
-        const shadow = `${color} 0 0 8px`;
-        section.innerHTML = `<div class="fact" id="fact-text-${index}" style="color: ${color}; text-shadow: ${shadow};">...</div>`;
-        container.appendChild(section);
-        setTimeout(() => {
-            showFact(index)
-        }, 300 + (1000 * index))
-      });
-    
-      let current = 0;
-      let isAnimating = false;
-    
-      function typeText(text, elementId, callback) {
-        const element = document.getElementById(elementId);
-        element.innerText = "";
-        let i = 0;
-        const interval = setInterval(() => {
-          const char = text.charAt(i);
-          element.innerText += char;
-          i++;
-          if (i >= text.length) {
-            clearInterval(interval);
-            callback && callback(element);
-          }
-        }, 40);
-      }
-    
-      function isElementVisible(elementId) {
-        const element = document.getElementById(elementId);
-        return element && element.getAttribute("data-visible");
-      }
-    
-      function showFact(index) {
-        const elementId = `fact-text-${index}`;
-        if (isElementVisible(elementId)) return;
-    
-        isAnimating = true;
-    
-        typeText(funFacts[index], elementId, (element) => {
-          element.setAttribute("data-visible", true);
-          isAnimating = false;
-        });
-      }
-    
-      const rain = document.getElementById('rain');
-      const stars = document.getElementById('stars');
-    
-      if (rain) {
-        for (let i = 0; i < 100; i++) {
-          const drop = document.createElement('div');
-          drop.classList.add('rain-drop');
-          drop.style.left = Math.random() * 100 + 'vw';
-          drop.style.animationDuration = (0.8 + Math.random() * 0.5).toFixed(2) + 's';
-          drop.style.opacity = (0.03 + Math.random() * 0.07).toFixed(2);
-          drop.style.animationDelay = Math.random().toFixed(2) + 's';
-          rain.appendChild(drop);
-        }
-      }
-    
-      if (stars) {
-        stars.style.display = 'none';
-        for (let i = 0; i < 100; i++) {
-          const star = document.createElement('div');
-          star.classList.add('star');
-          star.style.left = Math.random() * 100 + 'vw';
-          star.style.top = Math.random() * 100 + 'vh';
-          stars.appendChild(star);
-        }
-      }
-    
-      function toggleWeather(index) {
-        if (!rain || !stars) return;
-        if (index % 2 === 0) {
-          rain.style.display = 'block';
-          stars.style.display = 'none';
-        } else {
-          rain.style.display = 'none';
-          stars.style.display = 'block';
-        }
-      }
-    
-      document.querySelectorAll('section').forEach((section, index) => {
-        // observer.observe(section);
-        section.addEventListener("mouseenter", () => {
-            if (!isAnimating) {
-              current = index;
-              toggleWeather(current);
-            }
-          });
-        
-          section.addEventListener("touchstart", (e) => {
-            if (!isAnimating) {
-              current = index;
-              toggleWeather(current);
-            }
-          }, { passive: false });
-      });
-    
-      // Initial trigger
-      toggleWeather(current);
-    </script>
-  <script>
-      const cursor = document.getElementById('customCursor');
+  <!-- Tall spacer that gives the page something to scroll on touch devices -->
+  <div id="scroll-track" aria-hidden="true"></div>
 
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    
-        // Optional: Create fading trail
-        const trail = document.createElement('div');
-        trail.classList.add('cursor-trail');
-        trail.style.left = `${e.clientX}px`;
-        trail.style.top = `${e.clientY}px`;
-        document.body.appendChild(trail);
-        setTimeout(() => trail.remove(), 400);
-      });
-  </script>
-  <script>
-    (() => {
-      const audio = document.getElementById('audio-player');
-      const btn = document.getElementById('audio-play-btn');
-      const statusText = document.getElementById('audio-status-text');
-    
-      // Playback states cycle: 0 = stopped, 1 = playing 1x, 2 = playing 2x
-      let state = 0;
-    
-      // Update button aria-pressed and status text
-      function updateUI() {
-        if(state === 0) {
-          btn.setAttribute('aria-pressed', 'false');
-          statusText.textContent = 'Start listening';
-          btn.innerHTML = `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="24" height="24" fill="currentColor">
-              <polygon points="8,5 19,12 8,19"></polygon>
-            </svg>
-          `;
-        } else if (state === 2) {
-            btn.setAttribute('aria-pressed', 'true');
-            statusText.textContent = `Playing 2x`;
-            btn.innerHTML = `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="24" height="24" fill="currentColor">
-              <rect x="6" y="5" width="4" height="14"></rect>
-              <rect x="14" y="5" width="4" height="14"></rect>
-            </svg>
-          `;
-        } else {
-          btn.setAttribute('aria-pressed', 'true');
-          statusText.textContent = `Playing 1x`;
-          btn.innerHTML = `
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="24" height="24" fill="currentColor">
-              <polygon points="5,5 14,12 5,19"></polygon>
-              <polygon points="10,5 19,12 10,19"></polygon>
-            </svg>
-            `
-        }
-      }
-    
-      btn.addEventListener('click', () => {
-        if(state === 0) {
-          // Start playing at normal speed
-          state = 1;
-          audio.playbackRate = 1;
-          audio.play();
-        } else if(state === 1) {
-          // Switch to 2x speed while playing
-          state = 2;
-          audio.playbackRate = 2;
-        } else {
-          // Stop playback
-          state = 0;
-          audio.pause();
-          audio.currentTime = 0;
-        }
-        updateUI();
-      });
-    
-      // Sync UI when audio ends
-      audio.addEventListener('ended', () => {
-        state = 0;
-        updateUI();
-      });
-    
-      // Initialize UI on load
-      updateUI();
-    })();
-  </script>
+  <!-- ============ HUD overlay ============ -->
+  <div id="hud" aria-hidden="false">
+    <nav class="hud-nav" aria-label="Main navigation">
+      <a class="brand" href="#" id="brand">Marco Mondini</a>
+      <div class="links" id="links"></div>
+    </nav>
+
+    <!-- Floating, world-anchored narration panel -->
+    <div id="narration" class="narration" role="region" aria-label="About Marco">
+      <div class="narration-card">
+        <div class="narration-label" id="narration-label"></div>
+        <p class="narration-text" id="narration-text"></p>
+
+        <!-- Jukebox controls, revealed only in the audio area -->
+        <div id="jukebox" class="jukebox" hidden>
+          <button id="audio-btn" type="button" aria-label="Play audio CV" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="8,5 19,12 8,19"></polygon></svg>
+          </button>
+          <span class="jukebox-status" id="audio-status">8 min · Play</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compass / area minimap -->
+    <div class="compass" id="compass" aria-hidden="true">
+      <span class="dot up"></span>
+      <span class="dot left"></span>
+      <span class="dot center"></span>
+      <span class="dot right"></span>
+      <span class="dot down"></span>
+    </div>
+
+    <div class="hint" id="hint"></div>
+  </div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <audio id="audio" preload="none" tabindex="-1" aria-hidden="true">
+    <source src="mmcv-2025-05-26.m4a" type="audio/mp4" />
+  </audio>
+
+  <noscript>
+    <p style="color:#fff;font-family:monospace;padding:2rem;">
+      This site is an interactive voxel world that needs JavaScript. I'm Marco Mondini —
+      engineering leader and hands-on developer. Find me on
+      <a style="color:#FF9800" href="https://github.com/mondial7">GitHub</a> and
+      <a style="color:#FF9800" href="https://linkedin.com/in/mondinimarco/">LinkedIn</a>.
+    </p>
+  </noscript>
+
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,301 @@
+:root {
+  --bg: #7ec0ee;          /* sky */
+  --ink: #f4f4f4;
+  --panel: rgba(18, 22, 28, 0.72);
+  --panel-border: rgba(255, 255, 255, 0.14);
+  --accent: #ff9800;
+  --neon: #76ff03;
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  overflow-x: hidden;
+}
+
+/* On desktop we hide the native cursor and draw our own neon one. */
+body.fine-pointer { cursor: none; }
+
+/* ============ 3D canvas ============ */
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  touch-action: none; /* overridden to allow scroll on coarse pointers */
+}
+body.coarse-pointer #scene { touch-action: pan-y; }
+
+/* The scroll track only matters on touch devices: it makes the page tall so
+   the user can scroll, and that scroll drives the camera tour. */
+#scroll-track { position: relative; width: 1px; height: 100vh; z-index: -1; pointer-events: none; }
+body.coarse-pointer #scroll-track { height: 600vh; }
+
+/* ============ Loading splash ============ */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 120% at 50% 30%, #243b55 0%, #141e30 70%, #0b0f17 100%);
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+#splash.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.splash-inner { text-align: center; width: min(520px, 82vw); }
+
+.splash-logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1.1rem, 5vw, 2.1rem);
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  gap: 0.12em;
+  margin-bottom: 1.8rem;
+}
+.splash-logo span {
+  display: inline-block;
+  color: #cfe8ff;
+  text-shadow: 0 4px 0 #1c3047, 0 0 18px rgba(126, 192, 238, 0.7);
+  animation: blockDrop 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.4) backwards;
+}
+.splash-logo span:nth-child(1) { animation-delay: 0.00s; }
+.splash-logo span:nth-child(2) { animation-delay: 0.06s; }
+.splash-logo span:nth-child(3) { animation-delay: 0.12s; }
+.splash-logo span:nth-child(4) { animation-delay: 0.18s; }
+.splash-logo span:nth-child(5) { animation-delay: 0.24s; }
+.splash-logo span:nth-child(6) { animation-delay: 0.30s; }
+.splash-logo span:nth-child(7) { animation-delay: 0.36s; }
+.splash-logo span:nth-child(8) { animation-delay: 0.42s; }
+.splash-logo span:nth-child(9) { animation-delay: 0.48s; }
+@keyframes blockDrop {
+  from { transform: translateY(-120px) rotate(-12deg); opacity: 0; }
+  to   { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+.splash-bar {
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 3px;
+  overflow: hidden;
+  /* pixelated chunky fill */
+  image-rendering: pixelated;
+}
+.splash-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: repeating-linear-gradient(
+    90deg,
+    #76ff03 0 10px,
+    #5fd400 10px 12px
+  );
+  transition: width 0.25s ease;
+  box-shadow: 0 0 12px rgba(118, 255, 3, 0.6);
+}
+.splash-status {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+  min-height: 1.2em;
+}
+
+/* ============ HUD ============ */
+#hud {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none; /* children opt back in */
+}
+
+.hud-nav {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem clamp(1rem, 4vw, 2rem);
+  padding-top: max(1rem, env(safe-area-inset-top));
+  font-family: 'Orbitron', sans-serif;
+}
+.brand {
+  font-weight: 700;
+  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  pointer-events: auto;
+}
+.links { display: flex; gap: clamp(0.8rem, 3vw, 1.6rem); }
+.links a {
+  pointer-events: auto;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  padding: 3px 6px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.links a:hover, .links a:focus-visible {
+  border-color: var(--accent);
+  background: rgba(255, 152, 0, 0.12);
+  outline: none;
+}
+
+/* World-anchored narration card */
+.narration {
+  position: absolute;
+  left: 0; top: 0;
+  width: min(560px, 86vw);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+  will-change: transform;
+}
+.narration.hidden { opacity: 0; }
+.narration-card {
+  /* Capture the pointer so hovering the banner pauses navigation instead of
+     swinging the camera around while you're reading or reaching for a button. */
+  pointer-events: auto;
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--panel-border);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+.narration-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 0.7rem;
+  text-transform: uppercase;
+}
+.narration-text {
+  font-size: clamp(1rem, 2.6vw, 1.35rem);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  min-height: 3em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.narration-text .caret {
+  display: inline-block;
+  width: 0.6ch;
+  margin-left: 1px;
+  background: currentColor;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Jukebox controls */
+.jukebox { display: flex; align-items: center; gap: 0.9rem; margin-top: 1.1rem; pointer-events: auto; }
+#audio-btn {
+  pointer-events: auto;
+  width: 48px; height: 48px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.1s ease;
+}
+body.fine-pointer #audio-btn { cursor: none; }
+#audio-btn:hover, #audio-btn:focus-visible { background: var(--accent); color: #121212; outline: none; }
+#audio-btn:active { transform: scale(0.94); }
+#audio-btn svg { width: 20px; height: 20px; fill: currentColor; }
+.jukebox-status { font-size: 0.9rem; color: var(--accent); font-weight: 700; }
+
+/* Compass */
+.compass {
+  position: absolute;
+  right: clamp(1rem, 4vw, 2rem);
+  bottom: max(1.4rem, env(safe-area-inset-bottom));
+  width: 84px; height: 84px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.compass .dot {
+  width: 9px; height: 9px;
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 2px;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.compass .dot.up     { grid-area: 1 / 2; }
+.compass .dot.left   { grid-area: 2 / 1; }
+.compass .dot.center { grid-area: 2 / 2; }
+.compass .dot.right  { grid-area: 2 / 3; }
+.compass .dot.down   { grid-area: 3 / 2; }
+.compass .dot.active {
+  background: var(--neon);
+  transform: scale(1.5);
+  box-shadow: 0 0 10px var(--neon);
+}
+
+/* Hint */
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: max(1.6rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.6s ease;
+  white-space: nowrap;
+}
+.hint.fade { opacity: 0; }
+
+/* ============ Custom neon cursor (desktop only) ============ */
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 12px; height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon), 0 0 18px var(--neon);
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+  transition: transform 0.08s ease-out, background 0.4s linear, box-shadow 0.4s linear;
+}
+body.fine-pointer .cursor { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-logo span { animation: none; }
+  .narration, .hint, .compass .dot { transition: none; }
+}
+
+/* Small screens: move compass narration so they don't collide */
+@media (max-width: 600px) {
+  .narration { top: auto !important; bottom: 16vh; transform: translate(-50%, 0) !important; left: 50% !important; }
+  .compass { transform: scale(0.85); transform-origin: bottom right; }
+}
