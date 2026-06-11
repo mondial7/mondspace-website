@@ -15,6 +15,7 @@ export function createNavigation({ camera, areas, order, onArea }) {
   let mx = 0, my = 0;          // normalized mouse, [-1, 1]
   let active = "center";
   let enabled = false;         // intro animation holds this off until ready
+  let lastInputAt = 0;         // ms of last navigation input (drives the dog)
 
   const look = areas.center.lookAt.clone();
   const tmpPos = new THREE.Vector3();
@@ -34,7 +35,10 @@ export function createNavigation({ camera, areas, order, onArea }) {
       if (e.target.closest && e.target.closest(".narration-card")) return;
       mx = (e.clientX / window.innerWidth) * 2 - 1;
       my = (e.clientY / window.innerHeight) * 2 - 1;
+      lastInputAt = performance.now();
     });
+  } else {
+    window.addEventListener("scroll", () => { lastInputAt = performance.now(); }, { passive: true });
   }
 
   function computeDesired() {
@@ -83,6 +87,7 @@ export function createNavigation({ camera, areas, order, onArea }) {
     mode,
     update,
     getActive: () => active,
+    isIdle: (now) => now - lastInputAt > 700,
     enable() {
       enabled = true;
       // sync the smoothing state to wherever the intro left the camera

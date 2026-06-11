@@ -1,10 +1,38 @@
 import * as THREE from "three";
 import {
   buildGround, buildTree, buildClouds, buildMonument,
-  buildStage, buildWorkbench, buildSigns, buildPitAndJukebox,
+  buildStage, buildWorkbench, buildSigns, buildPitAndJukebox, buildDog,
 } from "./voxel.js";
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
+
+function lerpAngle(a, b, t) {
+  let d = b - a;
+  while (d > Math.PI) d -= Math.PI * 2;
+  while (d < -Math.PI) d += Math.PI * 2;
+  return a + d * t;
+}
+
+// A short synthesized "woof woof" so the site ships no audio asset for it.
+function playBark(ctx) {
+  if (!ctx || ctx.state !== "running") return;
+  const t0 = ctx.currentTime;
+  for (let k = 0; k < 2; k++) {
+    const ts = t0 + k * 0.16;
+    const osc = ctx.createOscillator();
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(420, ts);
+    osc.frequency.exponentialRampToValueAtTime(150, ts + 0.12);
+    const bp = ctx.createBiquadFilter();
+    bp.type = "bandpass"; bp.frequency.value = 900; bp.Q.value = 0.8;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, ts);
+    gain.gain.exponentialRampToValueAtTime(0.16, ts + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ts + 0.14);
+    osc.connect(bp); bp.connect(gain); gain.connect(ctx.destination);
+    osc.start(ts); osc.stop(ts + 0.16);
+  }
+}
 
 // Gradient sky dome.
 function makeSky() {
@@ -126,6 +154,68 @@ export function initWorld(canvas, opts = {}) {
   scene.add(juke);
   updatables.push(juke.userData.update);
 
+  // ---- the dog ----
+  const dog = buildDog();
+  scene.add(dog);
+  // ground spot the dog trots to for each focused area
+  const dogTargets = {
+    center: V(2, 0, -3.5),    // up close in the foreground
+    up:     V(0, 0, -6.5),
+    left:   V(-12, 0, -9.5),  // in front of the workbench, in frame
+    right:  V(12, 0, -9.5),
+    down:   V(2.5, 0, -3.5),
+  };
+  Object.values(dogTargets).forEach((p) => (p.y = surfaceY(p.x, p.z)));
+  const dogPos = dogTargets.center.clone();
+  let dogHeading = 0;
+  let nextBark = 5;     // seconds; first possible bark
+  let barkUntil = 0;
+  let audioCtx = null;
+  dog.position.copy(dogPos);
+
+  function updateDog(t, dt, activeArea, idle) {
+    const target = dogTargets[activeArea] || dogTargets.center;
+    const dx = target.x - dogPos.x;
+    const dz = target.z - dogPos.z;
+    const dist = Math.hypot(dx, dz);
+    const moving = dist > 0.35;
+
+    let desiredHeading = dogHeading;
+    if (moving) {
+      const step = Math.min(dist, 6 * dt); // ~6 units/sec trot
+      dogPos.x += (dx / dist) * step;
+      dogPos.z += (dz / dist) * step;
+      desiredHeading = Math.atan2(dx, dz);
+    } else {
+      // arrived — face the viewer (camera) while it waits
+      desiredHeading = Math.atan2(camera.position.x - dogPos.x, camera.position.z - dogPos.z);
+    }
+    dogPos.y = surfaceY(dogPos.x, dogPos.z);
+    dogHeading = lerpAngle(dogHeading, desiredHeading, Math.min(1, dt * 6));
+
+    const sitting = !moving && idle;
+
+    // barking
+    if (t > nextBark) {
+      barkUntil = t + 0.45;
+      playBark(audioCtx);
+      nextBark = t + 6 + Math.random() * 9;
+    }
+    const barking = t < barkUntil;
+
+    dog.position.set(dogPos.x, dogPos.y, dogPos.z);
+    dog.userData.update(t, Math.min(dt, 0.05), { moving, sitting, barking, heading: dogHeading });
+  }
+
+  // The dog's bark needs an AudioContext; browsers only allow it after a
+  // user gesture, so the page resumes it on first interaction.
+  function resumeAudio() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    if (!audioCtx) audioCtx = new AC();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+  }
+
   // ---- camera viewpoints per area ----
   // CENTER is a wide establishing shot; pushing the mouse toward an area flies
   // the camera in close so the avatar / banner there becomes the focus.
@@ -153,6 +243,7 @@ export function initWorld(canvas, opts = {}) {
 
   return {
     scene, camera, renderer, areas, tick, render, resize,
+    updateDog, resumeAudio,
     setJukeboxPlaying: (on) => juke.userData.setPlaying(on),
   };
 }

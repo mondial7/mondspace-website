@@ -295,6 +295,123 @@ export function buildAvatar({ skin = "#e0ac69", shirt = "#ff9800", pants = "#3a4
 }
 
 // ---------------------------------------------------------------------------
+// The dog — a blocky companion that runs to the focused area, sits when idle,
+// wags non-stop and barks now and then. Forward is +z; feet rest at y = 0.
+// world.js drives its position/heading; this returns the animated model.
+// ---------------------------------------------------------------------------
+
+export function buildDog() {
+  const g = new THREE.Group();
+  const black = flat("#1c1c1c");
+  const brown = flat("#6b4a2b");
+  const tan = flat("#b5874f");   // poodle fluff accent
+  const white = flat("#f2f2f2");
+  const nose = flat("#0a0a0a");
+
+  const hipY = 0.44;
+
+  // a leg = black upper + brown paw, hung from a hip pivot so it can swing
+  function leg(x, z) {
+    const p = new THREE.Group();
+    p.position.set(x, hipY, z);
+    p.add(box(0.16, 0.3, 0.16, black, [0, -0.15, 0]));
+    p.add(box(0.2, 0.14, 0.22, brown, [0, -0.37, 0.02]));
+    return p;
+  }
+  const fl = leg(-0.2, 0.34), fr = leg(0.2, 0.34);
+  const bl = leg(-0.2, -0.34), br = leg(0.2, -0.34);
+  g.add(fl, fr, bl, br);
+
+  // body + white chest
+  g.add(box(0.5, 0.42, 0.95, black, [0, 0.65, 0]));
+  g.add(box(0.32, 0.34, 0.08, white, [0, 0.56, 0.46]));
+
+  // ----- head (kept low & doggy, not human-faced) -----
+  const head = box(0.46, 0.44, 0.42, black, [0, 0.96, 0.52]);
+  g.add(head);
+
+  // muzzle pushing forward + slightly down, with a cute round nose at the tip
+  head.add(box(0.26, 0.2, 0.3, black, [0, -0.13, 0.3]));
+  head.add(box(0.2, 0.08, 0.24, white, [0, -0.21, 0.3]));        // light muzzle underside
+  head.add(box(0.17, 0.15, 0.13, nose, [0, -0.06, 0.47]));       // big cute nose
+  head.add(box(0.1, 0.12, 0.06, flat("#e8868f"), [0, -0.27, 0.33])); // happy tongue
+  // big friendly puppy eyes: white + dark iris + bright glint + a brow tuft
+  const eye = (x) => {
+    head.add(box(0.15, 0.16, 0.04, white, [x, 0.09, 0.205]));
+    head.add(box(0.1, 0.12, 0.05, flat("#140b06"), [x, 0.08, 0.215]));
+    head.add(box(0.04, 0.05, 0.03, white, [x + 0.025, 0.11, 0.235]));
+    head.add(box(0.17, 0.045, 0.05, tan, [x, 0.2, 0.2]));        // eyebrow
+  };
+  eye(-0.12); eye(0.12);
+  // jaw drops open when barking
+  const jaw = new THREE.Group();
+  jaw.position.set(0, -0.2, 0.16);
+  jaw.add(box(0.2, 0.05, 0.3, black, [0, 0, 0.15]));
+  head.add(jaw);
+  // fluffy poodle topknot
+  head.add(box(0.44, 0.26, 0.42, tan, [0, 0.32, 0.0]));
+
+  // ----- floppy ears on pivots so they can flop / perk -----
+  function ear(side) {
+    const p = new THREE.Group();
+    p.position.set(side * 0.24, 0.16, 0.02);
+    p.add(box(0.14, 0.42, 0.13, brown, [0, -0.2, 0]));           // long floppy ear
+    p.add(box(0.18, 0.18, 0.16, tan, [0, -0.42, 0]));            // fluffy tip
+    p.rotation.z = side * 0.32;                                  // splay outward
+    head.add(p);
+    return p;
+  }
+  const earL = ear(-1), earR = ear(1);
+
+  // ----- tail with a poodle pompom -----
+  const tail = new THREE.Group();
+  tail.position.set(0, 0.76, -0.46);
+  tail.rotation.x = -1.0;
+  tail.add(box(0.1, 0.1, 0.3, black, [0, 0, -0.15]));
+  tail.add(box(0.24, 0.24, 0.24, tan, [0, 0, -0.34]));           // pompom
+  g.add(tail);
+
+  g.scale.setScalar(1.05);
+
+  let sitAmt = 0;
+  g.userData.update = (t, dt, state) => {
+    const d = Math.min(1, dt * 10);
+    sitAmt += ((state.sitting ? 1 : 0) - sitAmt) * d;
+
+    g.rotation.y = state.heading;
+    g.rotation.x = -0.3 * sitAmt; // lean back when sitting (nose up)
+
+    // running gait (diagonal pairs), damped to a gentle idle sway when stopped
+    const amp = state.moving ? 0.7 : 0.05;
+    const ph = t * 11;
+    fl.rotation.x = Math.sin(ph) * amp;
+    br.rotation.x = Math.sin(ph) * amp;
+    fr.rotation.x = -Math.sin(ph) * amp;
+    bl.rotation.x = -Math.sin(ph) * amp;
+    // fold the hind legs and straighten the front when sitting
+    bl.rotation.x = THREE.MathUtils.lerp(bl.rotation.x, 1.3, sitAmt);
+    br.rotation.x = THREE.MathUtils.lerp(br.rotation.x, 1.3, sitAmt);
+    fl.rotation.x = THREE.MathUtils.lerp(fl.rotation.x, 0, sitAmt);
+    fr.rotation.x = THREE.MathUtils.lerp(fr.rotation.x, 0, sitAmt);
+
+    // always-happy tail wag, faster on the move
+    tail.rotation.y = Math.sin(t * (state.moving ? 16 : 10)) * 0.55;
+
+    // bark: open jaw, tilt head up, perk the ears up, little hop
+    const bk = state.barking ? 1 : 0;
+    head.rotation.x = -0.25 * bk + Math.sin(t * 2) * 0.04;
+    jaw.rotation.x = 0.6 * bk;
+    // ears flop a little while running, lift forward on a bark
+    const flop = state.moving ? Math.sin(t * 16) * 0.18 : 0;
+    earL.rotation.x = 0.1 + flop - 0.5 * bk;
+    earR.rotation.x = 0.1 + flop - 0.5 * bk;
+    g.position.y += Math.abs(Math.sin(t * 22)) * 0.07 * bk;
+  };
+
+  return g;
+}
+
+// ---------------------------------------------------------------------------
 // UP — a floating island with a stage + speaker avatar.
 // ---------------------------------------------------------------------------
 

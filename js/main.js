@@ -76,6 +76,12 @@ async function boot() {
   });
   createAudio({ onPlayingChange: (on) => W.setJukeboxPlaying(on) });
 
+  // resume the WebAudio context (for the dog's bark) on the first gesture
+  const resume = () => W.resumeAudio();
+  ["pointerdown", "touchstart", "keydown"].forEach((ev) =>
+    window.addEventListener(ev, resume, { once: true, passive: true })
+  );
+
   // ---- intro camera fly-in ----
   const introStartPos = new THREE.Vector3(0, 30, 46);
   const introStartLook = new THREE.Vector3(0, 8, -4);
@@ -97,9 +103,12 @@ async function boot() {
     W.camera.lookAt(curLook);
   }
 
+  let prevNow = null;
   function loop(now) {
     requestAnimationFrame(loop);
     const t = now / 1000;
+    const dt = prevNow == null ? 0.016 : Math.min(0.05, (now - prevNow) / 1000);
+    prevNow = now;
     W.tick(t);
 
     if (phase === "intro") {
@@ -115,6 +124,7 @@ async function boot() {
       }
     } else {
       nav.update();
+      W.updateDog(t, dt, nav.getActive(), nav.isIdle(now));
     }
 
     hud.update();
