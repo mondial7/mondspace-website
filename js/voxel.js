@@ -337,14 +337,14 @@ export function buildDog() {
   head.add(box(0.12, 0.1, 0.06, flat("#e8868f"), [0, -0.2, 0.42])); // happy tongue
   // white blaze down the forehead so the face reads against the black coat
   head.add(box(0.1, 0.34, 0.04, white, [0, 0.07, FRONT + 0.01]));
-  // big puppy eyes: white + dark pupil + glint, clearly proud of the face
+  // pretty puppy eyes: big white sclera (frontmost) + amber iris + pupil + glint
   const eye = (x) => {
-    head.add(box(0.18, 0.19, 0.07, white, [x, 0.1, FRONT - 0.02]));
-    head.add(box(0.11, 0.13, 0.07, flat("#140b06"), [x, 0.09, FRONT + 0.02]));
-    head.add(box(0.05, 0.06, 0.03, white, [x + 0.03, 0.13, FRONT + 0.06]));
-    head.add(box(0.18, 0.05, 0.06, tan, [x, 0.21, FRONT - 0.02])); // eyebrow
+    head.add(box(0.2, 0.2, 0.12, white, [x, 0.11, FRONT - 0.01]));            // sclera, proud of the face
+    head.add(box(0.13, 0.15, 0.06, flat("#b9772e"), [x, 0.1, FRONT + 0.06])); // amber iris
+    head.add(box(0.07, 0.09, 0.04, flat("#0a0a0a"), [x, 0.1, FRONT + 0.09])); // pupil
+    head.add(box(0.04, 0.05, 0.03, white, [x + 0.04, 0.14, FRONT + 0.11]));   // bright glint
   };
-  eye(-0.14); eye(0.14);
+  eye(-0.15); eye(0.15);
   // jaw drops open when barking
   const jaw = new THREE.Group();
   jaw.position.set(0, -0.17, 0.16);
@@ -373,10 +373,42 @@ export function buildDog() {
   tail.add(box(0.24, 0.24, 0.24, tan, [0, 0, -0.34]));           // pompom
   g.add(tail);
 
+  // ----- rocket jetpack (hidden until the dog takes flight in the sky scene) -----
+  const rocket = new THREE.Group();
+  rocket.position.set(0, 0.92, -0.18);
+  rocket.add(box(0.3, 0.42, 0.3, flat("#c0392b"), [0, 0, -0.12]));    // red pack
+  rocket.add(box(0.14, 0.14, 0.12, flat("#cfcfcf"), [0, 0.2, -0.12])); // top fin
+  rocket.add(box(0.18, 0.16, 0.12, flat("#9e9e9e"), [0, -0.16, -0.28])); // nozzle
+  const flame = new THREE.Group();
+  flame.position.set(0, -0.16, -0.42);
+  flame.add(box(0.18, 0.18, 0.34, flat("#ff7043"), [0, 0, -0.17]));
+  flame.add(box(0.1, 0.1, 0.24, flat("#ffd54a"), [0, 0, -0.13]));
+  rocket.add(flame);
+  rocket.visible = false;
+  g.add(rocket);
+
   g.scale.setScalar(1.05);
 
   let sitAmt = 0;
   g.userData.update = (t, dt, state) => {
+    // FLYING: jetpack on, legs splayed, ears blown back, flame flickering
+    if (state.flying) {
+      rocket.visible = true;
+      g.rotation.y = state.heading;
+      g.rotation.x = state.pitch || 0;
+      fl.rotation.x = -0.7; fr.rotation.x = -0.7;
+      bl.rotation.x = 0.8; br.rotation.x = 0.8;
+      tail.rotation.y = Math.sin(t * 22) * 0.3;
+      earL.rotation.x = -0.7; earR.rotation.x = -0.7;
+      flame.scale.set(0.85 + Math.sin(t * 44) * 0.15, 0.85 + Math.cos(t * 40) * 0.15, 0.7 + Math.abs(Math.sin(t * 30)) * 0.9);
+      const bkf = state.barking ? 1 : 0;
+      head.rotation.x = Math.sin(t * 3) * 0.05 - 0.2 * bkf;
+      jaw.rotation.x = 0.6 * bkf;
+      g.position.y += Math.abs(Math.sin(t * 22)) * 0.05 * bkf;
+      return;
+    }
+    rocket.visible = false;
+
     const d = Math.min(1, dt * 10);
     sitAmt += ((state.sitting ? 1 : 0) - sitAmt) * d;
 

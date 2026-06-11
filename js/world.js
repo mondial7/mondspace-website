@@ -125,9 +125,9 @@ export function initWorld(canvas, opts = {}) {
   scene.add(cMon);
   updatables.push(cMon.userData.update);
 
-  // UP — floating island + speaker
+  // UP — floating island + speaker (kept off-centre so the banner doesn't hide it)
   const stage = buildStage();
-  stage.position.set(0, 15, -13);
+  stage.position.set(-7, 15, -13);
   scene.add(stage);
   updatables.push(stage.userData.update);
 
@@ -169,13 +169,45 @@ export function initWorld(canvas, opts = {}) {
   };
   Object.values(dogTargets).forEach((p) => (p.y = surfaceY(p.x, p.z)));
   const dogPos = dogTargets.center.clone();
+  const dogAirCenter = V(-4, 14.5, -11); // dog's flight loop in the sky scene
   let dogHeading = 0;
   let nextBark = 5;     // seconds; first possible bark
   let barkUntil = 0;
   let audioCtx = null;
   dog.position.copy(dogPos);
 
+  const _air = new THREE.Vector3();
+  const _ahead = new THREE.Vector3();
+  const flightPath = (out, tt) =>
+    out.set(
+      dogAirCenter.x + Math.cos(tt * 0.7) * 4.5,
+      dogAirCenter.y + Math.sin(tt * 1.3) * 1.8,
+      dogAirCenter.z + Math.sin(tt * 0.7) * 3.0
+    );
+
   function updateDog(t, dt, activeArea, idle) {
+    // bark scheduling (shared by ground + flight)
+    if (t > nextBark) {
+      barkUntil = t + 0.45;
+      playBark(audioCtx);
+      nextBark = t + 6 + Math.random() * 9;
+    }
+    const barking = t < barkUntil;
+
+    // SKY scene: the dog jetpacks around the airspace by the island
+    if (activeArea === "up") {
+      flightPath(_air, t);
+      flightPath(_ahead, t + 0.12);
+      dogPos.lerp(_air, Math.min(1, dt * 2.5)); // smooth take-off, then orbit
+      const hx = _ahead.x - dogPos.x, hz = _ahead.z - dogPos.z;
+      const hd = Math.hypot(hx, hz) || 1;
+      dogHeading = lerpAngle(dogHeading, Math.atan2(hx, hz), Math.min(1, dt * 5));
+      const pitch = -Math.atan2(_ahead.y - dogPos.y, hd) * 0.8;
+      dog.position.copy(dogPos);
+      dog.userData.update(t, Math.min(dt, 0.05), { flying: true, barking, heading: dogHeading, pitch });
+      return;
+    }
+
     const target = dogTargets[activeArea] || dogTargets.center;
     const dx = target.x - dogPos.x;
     const dz = target.z - dogPos.z;
@@ -193,20 +225,12 @@ export function initWorld(canvas, opts = {}) {
       // silhouette reads (head-on it looks like an upright blob)
       desiredHeading = Math.atan2(camera.position.x - dogPos.x, camera.position.z - dogPos.z) + 0.6;
     }
-    dogPos.y = surfaceY(dogPos.x, dogPos.z);
+    // lerp the height so coming down from the sky glides instead of snapping
+    dogPos.y = THREE.MathUtils.lerp(dogPos.y, surfaceY(dogPos.x, dogPos.z), Math.min(1, dt * 8));
     dogHeading = lerpAngle(dogHeading, desiredHeading, Math.min(1, dt * 6));
 
     const sitting = !moving && idle;
-
-    // barking
-    if (t > nextBark) {
-      barkUntil = t + 0.45;
-      playBark(audioCtx);
-      nextBark = t + 6 + Math.random() * 9;
-    }
-    const barking = t < barkUntil;
-
-    dog.position.set(dogPos.x, dogPos.y, dogPos.z);
+    dog.position.copy(dogPos);
     dog.userData.update(t, Math.min(dt, 0.05), { moving, sitting, barking, heading: dogHeading });
   }
 
@@ -224,7 +248,7 @@ export function initWorld(canvas, opts = {}) {
   // the camera in close so the avatar / banner there becomes the focus.
   const areas = {
     center: { camPos: V(0, 7, 9),       lookAt: V(0, cy + 3, -16),       anchor: V(0, cy + 2.6, -16) },
-    up:     { camPos: V(0, 16.6, -3.2), lookAt: V(0, 16.6, -13),         anchor: V(0, 18.2, -13) },
+    up:     { camPos: V(0, 16.5, -2.5), lookAt: V(-5, 16.5, -13),        anchor: V(4, 18, -13) },
     left:   { camPos: V(-9.5, ly + 3, -7), lookAt: V(-15, ly + 1.8, -13.6), anchor: V(-15, ly + 3.2, -13.6) },
     right:  { camPos: V(9.5, ry + 3, -7),  lookAt: V(15, ry + 1.8, -13.6),  anchor: V(15, ry + 3.4, -13.6) },
     down:   { camPos: V(0, 5, -2),      lookAt: V(0, -1.8, -9),          anchor: V(0, 0.6, -9) },
