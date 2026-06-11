@@ -304,7 +304,8 @@ export function buildDog() {
   const g = new THREE.Group();
   const black = flat("#1c1c1c");
   const brown = flat("#6b4a2b");
-  const tan = flat("#b5874f");   // poodle fluff accent
+  const darkBrown = flat("#3a2616");
+  const tan = flat("#b5874f");   // poodle fluff accent (tail pompom)
   const white = flat("#f2f2f2");
   const nose = flat("#0a0a0a");
 
@@ -344,7 +345,7 @@ export function buildDog() {
   // pretty puppy eyes: big white sclera (frontmost) + amber iris + pupil + glint
   const eye = (x) => {
     head.add(box(0.2, 0.2, 0.12, white, [x, 0.11, FRONT - 0.01]));            // sclera, proud of the face
-    head.add(box(0.13, 0.15, 0.06, flat("#b9772e"), [x, 0.1, FRONT + 0.06])); // amber iris
+    head.add(box(0.13, 0.15, 0.06, flat("#3b82f6"), [x, 0.1, FRONT + 0.06])); // blue iris
     head.add(box(0.07, 0.09, 0.04, flat("#0a0a0a"), [x, 0.1, FRONT + 0.09])); // pupil
     head.add(box(0.04, 0.05, 0.03, white, [x + 0.04, 0.14, FRONT + 0.11]));   // bright glint
   };
@@ -354,15 +355,15 @@ export function buildDog() {
   jaw.position.set(0, -0.17, 0.16);
   jaw.add(box(0.22, 0.05, 0.32, brown, [0, 0, 0.16]));
   head.add(jaw);
-  // fluffy poodle topknot on top
-  head.add(box(0.48, 0.24, 0.46, tan, [0, 0.32, 0]));
+  // fluffy poodle topknot on top (black)
+  head.add(box(0.48, 0.24, 0.46, black, [0, 0.32, 0]));
 
-  // ----- big floppy brown ears on pivots so they flop / perk -----
+  // ----- shorter floppy ears (black with a dark-brown tip) -----
   function ear(side) {
     const p = new THREE.Group();
-    p.position.set(side * 0.27, 0.14, 0.02);
-    p.add(box(0.16, 0.5, 0.15, brown, [0, -0.24, 0]));            // long floppy ear
-    p.add(box(0.2, 0.2, 0.18, tan, [0, -0.5, 0]));                // fluffy rounded tip
+    p.position.set(side * 0.27, 0.16, 0.02);
+    p.add(box(0.16, 0.3, 0.15, black, [0, -0.15, 0]));           // short floppy ear
+    p.add(box(0.18, 0.14, 0.16, darkBrown, [0, -0.3, 0]));       // dark-brown tip
     p.rotation.z = side * 0.3;                                    // splay outward
     head.add(p);
     return p;
