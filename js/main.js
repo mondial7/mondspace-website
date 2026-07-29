@@ -39,7 +39,7 @@ function failGracefully(err) {
       <div class="splash-logo" style="font-size:1.1rem"><span>M</span><span>!</span></div>
       <p style="color:#cfe8ff;font-size:0.85rem">
         This world needs WebGL, which isn't available here.<br><br>
-        I'm <strong>Marco Mondini</strong> — engineering leader and hands-on developer.<br>
+        I'm <strong>Marco Mondini</strong> — I build systems that help people and engineering teams thrive.<br>
         <a style="color:#FF9800" href="https://github.com/mondial7">GitHub</a> ·
         <a style="color:#FF9800" href="https://linkedin.com/in/mondinimarco/">LinkedIn</a>
       </p>

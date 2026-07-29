@@ -1,6 +1,9 @@
 // All site content lives here so the world stays a thin presentation layer.
 // Five areas arranged as a panorama the visitor looks around (desktop) or
 // scrolls through (mobile). Order below is also the mobile scroll order.
+//
+// Each area is a CATEGORY. Phase 0 sets the identity + copy; later phases hang
+// project cards (`projects[]`) off each area (see docs/adr/0004).
 
 export const PALETTE = ["#00FFFF", "#DA70D6", "#FF9800", "#76FF03", "#F48FB1", "#FAFAFA"];
 
@@ -9,46 +12,46 @@ export const AREAS = [
     id: "center",
     label: "Spawn",
     color: "#76FF03",
-    // The first thing you read.
+    // The first thing you read — the positioning.
     lines: [
-      "I'm Marco.",
-      "Engineering leader, hands-on developer, and advocate for building better teams and software.",
+      "I'm Marco. I build systems that help people and engineering teams thrive.",
+      "Software, internal platforms, AI-assisted workflows and developer experiences that reduce friction and improve feedback loops.",
     ],
   },
   {
     id: "up",
-    label: "The Stage",
+    label: "Knowledge Garden",
     color: "#FF9800",
     lines: [
-      "I contribute to the XP / Agile community — speaking at conferences and sharing practical, experience-based insights.",
-      "I establish key engineering processes and champion a culture of continuous improvement across teams.",
+      "Talks, lessons and an engineering playbook — as interactive experiences, not slides.",
+      "A decade of XP, Agile and AI-adoption practice, made explorable.",
     ],
   },
   {
     id: "left",
-    label: "The Workbench",
+    label: "Engineering Systems",
     color: "#00FFFF",
     lines: [
-      "I stay hands-on with code — from modern greenfield apps to transforming legacy platforms.",
-      "I've driven the adoption of AI tools and led their integration into scalable, production-grade systems.",
+      "Systems that make engineering organisations work better.",
+      "Rebuilt engineering workspaces, KPIs & reporting, AI-assisted workflows — and the practices that hold them together.",
     ],
   },
   {
     id: "right",
-    label: "The Grove",
+    label: "Thoughtful Products",
     color: "#DA70D6",
     lines: [
-      "I solve complex engineering challenges and guide teams to deliver better software, faster.",
-      "I'm a lifelong learner — always exploring new technologies, patterns, and ways to grow.",
+      "Small, thoughtful software built around real human needs.",
+      "Journaling, a puppy companion, habit-building, travel utilities — each removes friction so you can think about what matters.",
     ],
   },
   {
     id: "down",
-    label: "The Jukebox",
+    label: "About",
     color: "#F48FB1",
     lines: [
       "Want the long version? Press play.",
-      "An 8-minute AI-narrated audio CV.",
+      "An 8-minute AI-narrated audio CV — or reach me on GitHub and LinkedIn.",
     ],
     audio: true,
   },
