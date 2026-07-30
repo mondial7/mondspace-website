@@ -66,10 +66,9 @@ export const AREAS = [
     label: "About",
     color: "#F48FB1",
     lines: [
-      "Want the long version? Press play.",
-      "An 8-minute AI-narrated audio CV — or reach me on GitHub and LinkedIn.",
+      "The short version: 10+ years building software — and the systems teams build it with. Hands-on, startup-shaped, XP at heart.",
+      "Speaker in the XP / Agile community. Find me on GitHub and LinkedIn — a fuller CV lands here soon.",
     ],
-    audio: true,
   },
 ];
 
@@ -78,6 +77,7 @@ export const LINKS = [
   { label: "LinkedIn", href: "https://linkedin.com/in/mondinimarco/" },
 ];
 
+// Audio CV parked for now (see docs/adr/0008). Kept for a future re-add in About.
 export const AUDIO_SRC = "mmcv-2025-05-26.m4a";
 
 // Flat index of every project by slug — used by the drawer for cross-links and

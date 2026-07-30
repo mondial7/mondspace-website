@@ -30,3 +30,4 @@ What follows — good and bad.
 - [0005](0005-case-study-drawer-overlay.md) — Deep content lives in a DOM overlay, not the 3D scene
 - [0006](0006-embeddable-demo-pattern.md) — Interactive demos are self-contained, lazily mounted modules
 - [0007](0007-content-modules-and-graph.md) — Split content into per-category modules with a cross-link graph
+- [0008](0008-park-audio-cv.md) — Park the audio CV (remove from UI, keep the source)

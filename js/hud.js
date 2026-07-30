@@ -14,13 +14,12 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
   const card = narration.querySelector(".narration-card");
   const labelEl = $("narration-label");
   const textEl = $("narration-text");
-  const jukeboxEl = $("jukebox");
 
-  // Project cards live between the narration text and the jukebox. Built once,
-  // repopulated per area from the content data.
+  // Project cards live below the narration text. Built once, repopulated per
+  // area from the content data.
   const cardsEl = document.createElement("div");
   cardsEl.className = "area-cards";
-  card.insertBefore(cardsEl, jukeboxEl);
+  card.appendChild(cardsEl);
   const linksEl = $("links");
   const hintEl = $("hint");
   const cursor = $("cursor");
@@ -124,7 +123,6 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
     labelEl.textContent = a.label;
     labelEl.style.color = a.color;
     card.style.borderLeftColor = a.color;
-    jukeboxEl.hidden = !a.audio;
     renderCards(a);
     narration.classList.remove("hidden");
     typeLines(id, a.lines, a.color);

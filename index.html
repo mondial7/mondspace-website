@@ -60,13 +60,8 @@
         <div class="narration-label" id="narration-label"></div>
         <p class="narration-text" id="narration-text"></p>
 
-        <!-- Jukebox controls, revealed only in the audio area -->
-        <div id="jukebox" class="jukebox" hidden>
-          <button id="audio-btn" type="button" aria-label="Play audio CV" aria-pressed="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="8,5 19,12 8,19"></polygon></svg>
-          </button>
-          <span class="jukebox-status" id="audio-status">8 min · Play</span>
-        </div>
+        <!-- Audio CV jukebox parked for now — see docs/adr/0008. Source kept in
+             js/audio.js + mmcv-2025-05-26.m4a for a future re-add in About. -->
       </div>
     </div>
 
@@ -89,10 +84,6 @@
   </div>
 
   <div class="cursor" id="cursor" aria-hidden="true"></div>
-
-  <audio id="audio" preload="none" tabindex="-1" aria-hidden="true">
-    <source src="mmcv-2025-05-26.m4a" type="audio/mp4" />
-  </audio>
 
   <noscript>
     <p style="color:#fff;font-family:monospace;padding:2rem;">

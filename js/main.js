@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { initWorld } from "./world.js";
 import { createNavigation } from "./navigation.js";
 import { createHUD } from "./hud.js";
-import { createAudio } from "./audio.js";
 import { createDrawer } from "./drawer.js";
 import { createSearch } from "./search.js";
 import { DEMOS } from "./demos.js";
@@ -91,7 +90,6 @@ async function boot() {
     order: AREAS.map((a) => a.id),
     onArea: (id) => hud.showArea(id),
   });
-  createAudio({ onPlayingChange: (on) => W.setJukeboxPlaying(on) });
 
   // resume the WebAudio context (for the dog's bark) on the first gesture
   const resume = () => W.resumeAudio();
