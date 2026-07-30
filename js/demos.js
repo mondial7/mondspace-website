@@ -4,5 +4,5 @@
 // (see docs/adr/0006). Populated per phase; empty until phase 2.
 
 export const DEMOS = {
-  // "kpi-explorer": ... registered in phase 2
+  "kpi-explorer": (el) => import("./demos/kpi-explorer.js").then((m) => m.mount(el)),
 };
