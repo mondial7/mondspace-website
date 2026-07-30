@@ -251,7 +251,7 @@ export function initWorld(canvas, opts = {}) {
     up:     { camPos: V(0, 16.5, -2.5), lookAt: V(-5, 16.5, -13),        anchor: V(4, 18, -13) },
     left:   { camPos: V(-9.5, ly + 3, -7), lookAt: V(-15, ly + 1.8, -13.6), anchor: V(-15, ly + 3.2, -13.6) },
     right:  { camPos: V(9.5, ry + 3, -7),  lookAt: V(15, ry + 1.8, -13.6),  anchor: V(15, ry + 3.4, -13.6) },
-    down:   { camPos: V(0, 5, -2),      lookAt: V(0, -1.8, -9),          anchor: V(0, 0.6, -9) },
+    down:   { camPos: V(0, 3.8, -2.5),  lookAt: V(0, 0.2, -10),          anchor: V(0, 2.2, -10) },
   };
 
   function resize() {

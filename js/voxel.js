@@ -536,13 +536,48 @@ export function buildStage() {
   g.add(box(0.08, 1.2, 0.08, flat("#222"), [0, 2.1, 0.7]));
   g.add(cube(0.22, flat("#111"), [0, 2.75, 0.7]));
 
+  // a jukebox on the island, puffing music notes over the show
+  const jukeMat = [
+    mat(tex.plank), mat(tex.plank),
+    mat(tex.noteBlock), mat(tex.plank),
+    mat(tex.plank), mat(tex.plank),
+  ];
+  const jbX = 1.9, jbY = 0.95, jbZ = 1.9;
+  g.add(cube(0.9, jukeMat, [jbX, jbY, jbZ]));
+  const notes = new THREE.Group();
+  const noteGeo = new THREE.BoxGeometry(0.16, 0.16, 0.16);
+  const noteList = [];
+  for (let i = 0; i < 8; i++) {
+    const n = new THREE.Mesh(
+      noteGeo,
+      new THREE.MeshLambertMaterial({ color: 0xd8c0ff, emissive: 0x9c6cff, emissiveIntensity: 0.8, transparent: true })
+    );
+    n.userData.phase = Math.random() * Math.PI * 2;
+    notes.add(n);
+    noteList.push(n);
+  }
+  g.add(notes);
+
   // the speaker — a trading villager at the mic
   const villager = buildVillager({ robe: "#7a4a2b", apron: "#d8c49a", mode: "wave" });
   villager.position.set(0, 1.5, 0);
   villager.scale.setScalar(1.25);
   g.add(villager);
   g.userData.avatar = villager;
-  g.userData.update = (t) => villager.userData.update(t);
+  g.userData.update = (t) => {
+    villager.userData.update(t);
+    noteList.forEach((n) => {
+      const p = (t * 0.6 + n.userData.phase) % 2.4;
+      n.position.set(
+        jbX + Math.sin((t + n.userData.phase) * 1.8) * 0.3,
+        jbY + 0.5 + p,
+        jbZ + Math.cos((t + n.userData.phase) * 1.3) * 0.2
+      );
+      n.material.opacity = Math.max(0, 1 - p / 2.4);
+      n.rotation.y = t * 2 + n.userData.phase;
+      n.scale.setScalar(1 - p / 6);
+    });
+  };
   return g;
 }
 
@@ -607,8 +642,9 @@ export function buildSigns() {
 }
 
 // ---------------------------------------------------------------------------
-// DOWN — a sunken library: bookshelf-lined walls around an enchanting table
-// with a floating open book and rising arcane runes.
+// DOWN — a sunken reading nook: a tall bookshelf wall that faces the camera,
+// side shelves, and an enchanting table raised to the rim with a floating open
+// book and rising arcane runes.
 // ---------------------------------------------------------------------------
 
 export function buildPitAndLibrary() {
@@ -622,40 +658,64 @@ export function buildPitAndLibrary() {
     mat(tex.bookshelf), mat(tex.bookshelf),
   ];
 
-  // line the pit shaft — bookshelves stacked against the walls, stone capstone
+  // pit floor
   for (let x = -PIT.r; x <= PIT.r; x++) {
     for (let z = -PIT.r; z <= PIT.r; z++) {
-      const wx = PIT.cx + x, wz = PIT.cz + z;
-      const dist = Math.hypot(x, z);
-      if (dist > PIT.r) continue;
-      g.add(cube(1, cobble, [wx, PIT.floor, wz])); // floor
-      if (dist > PIT.r - 1) {
-        for (let y = PIT.floor + 1; y <= -1; y++) g.add(cube(1, shelfMat, [wx, y, wz]));
-        g.add(cube(1, stone, [wx, 0, wz])); // capstone lip at ground level
-      }
+      if (Math.hypot(x, z) > PIT.r) continue;
+      g.add(cube(1, cobble, [PIT.cx + x, PIT.floor, PIT.cz + z]));
     }
   }
 
-  // ---- enchanting table ----
-  const tableY = PIT.floor + 1; // sits on the floor
+  // outer ring wall: two courses of bookshelves capped by a stone lip
+  for (let x = -PIT.r; x <= PIT.r; x++) {
+    for (let z = -PIT.r; z <= PIT.r; z++) {
+      const d = Math.hypot(x, z);
+      if (d > PIT.r || d <= PIT.r - 1) continue;
+      const wx = PIT.cx + x, wz = PIT.cz + z;
+      g.add(cube(1, shelfMat, [wx, PIT.floor + 1, wz]));
+      g.add(cube(1, shelfMat, [wx, PIT.floor + 2, wz]));
+      g.add(cube(1, stone, [wx, 0, wz]));
+    }
+  }
+
+  // tall bookshelf back wall (faces the camera, rises above the rim) + returns
+  const backZ = PIT.cz - 3;
+  for (let x = -3; x <= 3; x++)
+    for (let y = PIT.floor + 1; y <= 2; y++) g.add(cube(1, shelfMat, [PIT.cx + x, y, backZ]));
+  for (let z = backZ + 1; z <= PIT.cz - 1; z++)
+    for (let y = PIT.floor + 1; y <= 1; y++) {
+      g.add(cube(1, shelfMat, [PIT.cx - 3, y, z]));
+      g.add(cube(1, shelfMat, [PIT.cx + 3, y, z]));
+    }
+  // warm glowstone lanterns on the wall's top corners
+  const glowMat = mat(tex.glow, { emissive: "#ffce54", emissiveIntensity: 1.3 });
+  g.add(cube(1, glowMat, [PIT.cx - 3, 2, backZ]));
+  g.add(cube(1, glowMat, [PIT.cx + 3, 2, backZ]));
+
+  // ---- enchanting table on a raised dais, in front of the wall ----
+  const tableZ = PIT.cz - 0.5;
+  const tableY = 0; // lifted to the rim so it reads from above
+  g.add(cube(1, stone, [PIT.cx, PIT.floor + 1, tableZ]));
+  g.add(cube(1, stone, [PIT.cx, PIT.floor + 2, tableZ]));
   const tableMat = [
     mat(tex.obsidian), mat(tex.obsidian),
     mat(tex.enchantTop), mat(tex.obsidian),
     mat(tex.obsidian), mat(tex.obsidian),
   ];
-  g.add(box(1.1, 0.85, 1.1, tableMat, [PIT.cx, tableY, PIT.cz]));
+  g.add(box(1.02, 0.8, 1.02, tableMat, [PIT.cx, tableY, tableZ]));
 
   // warm reading light + cool arcane glow
-  const warm = new THREE.PointLight(0xffd9a0, 0.9, 13, 2);
-  warm.position.set(PIT.cx, tableY + 3, PIT.cz);
+  const warm = new THREE.PointLight(0xffd9a0, 1.0, 16, 2);
+  warm.position.set(PIT.cx, tableY + 3, tableZ + 1.5);
   g.add(warm);
-  const arcane = new THREE.PointLight(0x9c6cff, 0.85, 6, 2);
-  arcane.position.set(PIT.cx, tableY + 1.4, PIT.cz);
+  const arcane = new THREE.PointLight(0x9c6cff, 0.9, 7, 2);
+  arcane.position.set(PIT.cx, tableY + 1.4, tableZ);
   g.add(arcane);
 
   // ---- floating open book above the table ----
   const book = new THREE.Group();
-  book.position.set(PIT.cx, tableY + 1.15, PIT.cz);
+  const bookBaseY = tableY + 1.05;
+  book.position.set(PIT.cx, bookBaseY, tableZ);
   book.add(box(0.12, 0.32, 0.5, flat("#5a3f8a"), [0, 0, 0])); // spine
   const pageMat = flat("#f4efe0");
   const coverMat = flat("#7a4aa0");
@@ -680,24 +740,24 @@ export function buildPitAndLibrary() {
       new THREE.MeshLambertMaterial({ color: 0xd8c0ff, emissive: 0x9c6cff, emissiveIntensity: 0.9, transparent: true })
     );
     n.userData.phase = Math.random() * Math.PI * 2;
-    n.userData.x = PIT.cx + (Math.random() - 0.5) * 1.4;
-    n.userData.z = PIT.cz + (Math.random() - 0.5) * 1.4;
+    n.userData.x = PIT.cx + (Math.random() - 0.5) * 1.2;
+    n.userData.z = tableZ + (Math.random() - 0.5) * 1.2;
     runes.add(n);
     runeList.push(n);
   }
   g.add(runes);
 
   g.userData.update = (t) => {
-    book.position.y = tableY + 1.15 + Math.sin(t * 1.4) * 0.06;
+    book.position.y = bookBaseY + Math.sin(t * 1.4) * 0.06;
     book.rotation.y = Math.sin(t * 0.5) * 0.25;
     leafL.rotation.z = -0.5 + Math.sin(t * 1.2) * 0.06;
     leafR.rotation.z = 0.5 - Math.sin(t * 1.2) * 0.06;
-    arcane.intensity = 0.7 + Math.sin(t * 2.5) * 0.25;
+    arcane.intensity = 0.75 + Math.sin(t * 2.5) * 0.25;
     runeList.forEach((n) => {
       const p = (t * 0.5 + n.userData.phase) % 2.2;
       n.position.set(
-        n.userData.x + Math.sin((t + n.userData.phase) * 1.6) * 0.18,
-        tableY + 1.2 + p,
+        n.userData.x + Math.sin((t + n.userData.phase) * 1.6) * 0.16,
+        bookBaseY + 0.1 + p,
         n.userData.z
       );
       n.material.opacity = Math.max(0, 1 - p / 2.2);

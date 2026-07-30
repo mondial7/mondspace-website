@@ -36,6 +36,22 @@ audio source stays parked per ADR 0008).
 brow-nose, robe + apron, clasped hands, idle head-bob) replaces `buildAvatar`
 on the stage and workbench. `buildAvatar` is kept in the file for reference.
 
+**Refinements after first review:**
+
+- The Engineering Playbook **moves from Knowledge Garden into The Library** (it's
+  my writing, and it belongs on the shelf). Knowledge Garden is now purely talks.
+- The first library scene read as gray/brown from the top-down pit camera (you
+  saw plank tops, not spines). Reworked into a **reading nook**: a tall bookshelf
+  back-wall that faces the camera and rises above the rim, side-shelf returns,
+  glowstone lanterns, and the **enchanting table lifted onto a dais to rim
+  level** so it's unmistakable. The `down` camera drops lower and looks across
+  rather than straight down.
+- The **jukebox + note particles move to the stage** (up) as scenery — music
+  fits the speaker; it no longer belongs in the library.
+- **Navigation fix:** hovering the narration card now fully pauses mouse
+  navigation (no area change, no parallax drift), so the tall Library card can be
+  read without the view sliding away.
+
 ## Consequences
 
 - Every area now follows the card/drawer pattern; "about me" gains depth.

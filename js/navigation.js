@@ -16,6 +16,7 @@ export function createNavigation({ camera, areas, order, onArea }) {
   let active = "center";
   let enabled = false;         // intro animation holds this off until ready
   let lastInputAt = 0;         // ms of last navigation input (drives the dog)
+  let overBanner = false;      // pointer is over the narration card → hold still
 
   const look = areas.center.lookAt.clone();
   const tmpPos = new THREE.Vector3();
@@ -31,8 +32,9 @@ export function createNavigation({ camera, areas, order, onArea }) {
   if (mode === "mouse") {
     window.addEventListener("mousemove", (e) => {
       // While the cursor is over the narration banner, hold position so the
-      // world doesn't swing around — keeps it calm and easy to navigate.
-      if (e.target.closest && e.target.closest(".narration-card")) return;
+      // world doesn't swing around — keeps it calm and easy to read cards.
+      overBanner = !!(e.target.closest && e.target.closest(".narration-card"));
+      if (overBanner) return;
       mx = (e.clientX / window.innerWidth) * 2 - 1;
       my = (e.clientY / window.innerHeight) * 2 - 1;
       lastInputAt = performance.now();
@@ -77,6 +79,9 @@ export function createNavigation({ camera, areas, order, onArea }) {
 
   function update() {
     if (!enabled) return;
+    // Reading a card? Hold the camera completely still — no area change, no
+    // easing, no parallax drift — so the pointer can roam the card freely.
+    if (mode === "mouse" && overBanner) return;
     computeDesired();
     camera.position.lerp(tmpPos, 0.06);
     look.lerp(tmpLook, 0.06);

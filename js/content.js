@@ -45,7 +45,7 @@ export const AREAS = [
     label: "Knowledge Garden",
     color: "#FF9800",
     lines: [
-      "Talks, lessons and an engineering playbook — as interactive experiences, not slides.",
+      "Conference talks reborn as interactive experiences, not slides.",
       "A decade of XP, Agile and AI-adoption practice, made explorable.",
     ],
     projects: knowledgeGarden,
@@ -75,8 +75,8 @@ export const AREAS = [
     label: "The Library",
     color: "#F48FB1",
     lines: [
-      "Books that shaped how I think — a shelf, not a syllabus.",
-      "Pick one up, or read the short version of me.",
+      "Books that shaped how I think, my engineering playbook, and the short version of me.",
+      "A shelf, not a syllabus — pick something up.",
     ],
     projects: library,
   },
