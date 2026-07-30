@@ -1,4 +1,4 @@
-import { AREAS, LINKS } from "./content.js";
+import { AREAS, LINKS, CONTEXTS } from "./content.js";
 
 const byId = Object.fromEntries(AREAS.map((a) => [a.id, a]));
 
@@ -107,7 +107,12 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
       btn.type = "button";
       btn.className = "area-card";
       btn.style.setProperty("--c", a.color);
+      const ctx = CONTEXTS[p.context];
+      const ctxTag = ctx
+        ? `<span class="area-card-ctx ctx--${p.context}" style="--ctx:${ctx.color}">${escapeHtml(ctx.label)}</span>`
+        : "";
       btn.innerHTML =
+        ctxTag +
         `<span class="area-card-title">${escapeHtml(p.title)}</span>` +
         `<span class="area-card-type">${escapeHtml(p.type)}${p.explore ? " · ▶ demo" : ""}</span>`;
       btn.addEventListener("click", () => onOpenProject && onOpenProject(p.slug));

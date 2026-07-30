@@ -21,6 +21,14 @@ import { knowledgeGarden } from "./content/knowledge-garden.js";
 
 export const PALETTE = ["#00FFFF", "#DA70D6", "#FF9800", "#76FF03", "#F48FB1", "#FAFAFA"];
 
+// How a project came to exist — so business-context work reads differently from
+// indie projects and talks. Each project carries a `context` key into this map.
+export const CONTEXTS = {
+  business: { label: "Work", full: "Business project", color: "#7ec0ee" },
+  indie: { label: "Indie", full: "Indie project", color: "#FF9800" },
+  talk: { label: "Talk", full: "Conference talk", color: "#DA70D6" },
+};
+
 export const AREAS = [
   {
     id: "center",

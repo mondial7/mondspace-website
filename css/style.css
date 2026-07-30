@@ -355,6 +355,25 @@ body.fine-pointer .area-card { cursor: none; }
   outline: none;
 }
 .area-card:active { transform: translateY(1px); }
+.area-card-ctx {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ctx, var(--accent));
+  margin-bottom: 1px;
+}
+.area-card-ctx::before {
+  content: "";
+  width: 5px; height: 5px;
+  border-radius: 1px;
+  background: var(--ctx, var(--accent));
+  box-shadow: 0 0 5px var(--ctx, var(--accent));
+}
 .area-card-title { font-size: 0.86rem; font-weight: 700; }
 .area-card-type {
   font-size: 0.64rem;
@@ -457,6 +476,18 @@ body.fine-pointer .drawer-close { cursor: none; }
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: rgba(255, 255, 255, 0.82);
+}
+/* Context badge (Business / Indie / Talk) — coloured, distinct from the neutral
+   type/status badges. */
+.ctx-badge {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  color: var(--ctx, var(--accent));
+  border: 1px solid var(--ctx, var(--accent));
+  background: color-mix(in srgb, var(--ctx, var(--accent)) 16%, transparent);
 }
 .drawer-summary {
   font-size: clamp(1.02rem, 2.6vw, 1.2rem);

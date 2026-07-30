@@ -4,6 +4,7 @@
 export const knowledgeGarden = [
   {
     slug: "engineering-playbook",
+    context: "indie",
     title: "Engineering Playbook",
     type: "Playbook",
     status: "Growing",
@@ -22,6 +23,7 @@ export const knowledgeGarden = [
   },
   {
     slug: "adapting-to-ai",
+    context: "talk",
     title: "Adapting to AI",
     type: "Talk",
     meta: "AiSIS 2024 · Utrecht",
@@ -40,6 +42,7 @@ export const knowledgeGarden = [
   },
   {
     slug: "sync-code-reviews",
+    context: "talk",
     title: "Time to Pair Up!",
     type: "Talk",
     meta: "XP2023 · Amsterdam",
@@ -58,6 +61,7 @@ export const knowledgeGarden = [
   },
   {
     slug: "sustainable-remote-pairing",
+    context: "talk",
     title: "One Pairing Session at a Time",
     type: "Talk",
     meta: "XP2022 · Copenhagen",

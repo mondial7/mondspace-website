@@ -4,6 +4,7 @@
 export const engineeringSystems = [
   {
     slug: "engineering-product-workspace",
+    context: "business",
     title: "Engineering & Product Workspace",
     type: "Internal platform",
     status: "In production",
@@ -24,6 +25,7 @@ export const engineeringSystems = [
   },
   {
     slug: "engineering-kpis",
+    context: "business",
     title: "Engineering KPIs",
     type: "Engineering system",
     meta: "Agile Venture Bolzano 2024",
@@ -46,6 +48,7 @@ export const engineeringSystems = [
   },
   {
     slug: "ai-engineering-assistant",
+    context: "business",
     title: "AI Engineering Assistant",
     type: "AI workflow",
     status: "In production",
@@ -66,6 +69,7 @@ export const engineeringSystems = [
   },
   {
     slug: "ai-360-feedback",
+    context: "business",
     title: "360 AI Feedback",
     type: "AI product",
     status: "Piloting with the team",
