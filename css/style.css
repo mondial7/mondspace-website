@@ -581,6 +581,9 @@ body.fine-pointer .related-card { cursor: none; }
 
 /* Jukebox controls */
 .jukebox { display: flex; align-items: center; gap: 0.9rem; margin-top: 1.1rem; pointer-events: auto; }
+/* The `hidden` attribute (set on every non-audio area) must beat display:flex,
+   so the audio CV control shows only in the About area. */
+.jukebox[hidden] { display: none; }
 #audio-btn {
   pointer-events: auto;
   width: 48px; height: 48px;
