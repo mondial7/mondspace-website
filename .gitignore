@@ -1,0 +1,9 @@
+# Scratch / local-only material (CVs, source docs, brainstorming)
+/temp/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

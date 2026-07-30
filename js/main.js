@@ -2,7 +2,9 @@ import * as THREE from "three";
 import { initWorld } from "./world.js";
 import { createNavigation } from "./navigation.js";
 import { createHUD } from "./hud.js";
-import { createAudio } from "./audio.js";
+import { createDrawer } from "./drawer.js";
+import { createSearch } from "./search.js";
+import { DEMOS } from "./demos.js";
 import { AREAS } from "./content.js";
 
 const canvas = document.getElementById("scene");
@@ -39,7 +41,7 @@ function failGracefully(err) {
       <div class="splash-logo" style="font-size:1.1rem"><span>M</span><span>!</span></div>
       <p style="color:#cfe8ff;font-size:0.85rem">
         This world needs WebGL, which isn't available here.<br><br>
-        I'm <strong>Marco Mondini</strong> — engineering leader and hands-on developer.<br>
+        I'm <strong>Marco Mondini</strong> — I build systems that help people and engineering teams thrive.<br>
         <a style="color:#FF9800" href="https://github.com/mondial7">GitHub</a> ·
         <a style="color:#FF9800" href="https://linkedin.com/in/mondinimarco/">LinkedIn</a>
       </p>
@@ -68,11 +70,19 @@ async function boot() {
 
   // ---- interaction layer ----
   let nav;
+  const search = createSearch({ onOpen: (slug) => drawer.open(slug) });
+  const drawer = createDrawer({
+    demos: DEMOS,
+    onTheme: (theme) => search.open(theme),
+  });
+  const searchBtn = document.getElementById("nav-search");
+  if (searchBtn) searchBtn.addEventListener("click", () => search.open());
   const hud = createHUD({
     camera: W.camera,
     areaViews: W.areas,
     isCoarse,
     onJump: (id) => nav && nav.goTo(id),
+    onOpenProject: (slug) => drawer.open(slug),
   });
   nav = createNavigation({
     camera: W.camera,
@@ -80,7 +90,6 @@ async function boot() {
     order: AREAS.map((a) => a.id),
     onArea: (id) => hud.showArea(id),
   });
-  createAudio({ onPlayingChange: (on) => W.setJukeboxPlaying(on) });
 
   // resume the WebAudio context (for the dog's bark) on the first gesture
   const resume = () => W.resumeAudio();
@@ -141,6 +150,9 @@ async function boot() {
   // reveal the world
   await new Promise((r) => setTimeout(r, 350));
   splash.classList.add("gone");
+
+  // honour a deep link like mondspace.com/#engineering-product-workspace
+  drawer.openFromHash();
 }
 
 boot().catch(failGracefully);

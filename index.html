@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Marco Mondini — Mondspace</title>
-  <meta name="description" content="Marco Mondini — engineering leader, hands-on developer. Explore a little voxel world." />
+  <meta name="description" content="Marco Mondini — building systems that help people and engineering teams thrive. Explore an interactive voxel engineering garden." />
   <meta name="theme-color" content="#7ec0ee" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,7 +49,9 @@
   <div id="hud" aria-hidden="false">
     <nav class="hud-nav" aria-label="Main navigation">
       <a class="brand" href="#" id="brand">Marco Mondini</a>
-      <div class="links" id="links"></div>
+      <div class="links" id="links">
+        <button class="nav-search" id="nav-search" type="button" aria-label="Search (press /)" title="Search — press /">⌕</button>
+      </div>
     </nav>
 
     <!-- Floating, world-anchored narration panel -->
@@ -58,13 +60,8 @@
         <div class="narration-label" id="narration-label"></div>
         <p class="narration-text" id="narration-text"></p>
 
-        <!-- Jukebox controls, revealed only in the audio area -->
-        <div id="jukebox" class="jukebox" hidden>
-          <button id="audio-btn" type="button" aria-label="Play audio CV" aria-pressed="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="8,5 19,12 8,19"></polygon></svg>
-          </button>
-          <span class="jukebox-status" id="audio-status">8 min · Play</span>
-        </div>
+        <!-- Audio CV jukebox parked for now — see docs/adr/0008. Source kept in
+             js/audio.js + mmcv-2025-05-26.m4a for a future re-add in About. -->
       </div>
     </div>
 
@@ -80,16 +77,18 @@
     <div class="hint" id="hint"></div>
   </div>
 
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <!-- Always-visible work-in-progress notice -->
+  <div class="wip-badge" role="status" aria-label="Preview — this site is a work in progress and some content is still under review">
+    <span class="wip-dot" aria-hidden="true"></span>
+    <span class="wip-text"><strong>Preview</strong> · content still under review</span>
+  </div>
 
-  <audio id="audio" preload="none" tabindex="-1" aria-hidden="true">
-    <source src="mmcv-2025-05-26.m4a" type="audio/mp4" />
-  </audio>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <noscript>
     <p style="color:#fff;font-family:monospace;padding:2rem;">
       This site is an interactive voxel world that needs JavaScript. I'm Marco Mondini —
-      engineering leader and hands-on developer. Find me on
+      a Staff-level engineer building systems that help people and engineering teams thrive. Find me on
       <a style="color:#FF9800" href="https://github.com/mondial7">GitHub</a> and
       <a style="color:#FF9800" href="https://linkedin.com/in/mondinimarco/">LinkedIn</a>.
     </p>
