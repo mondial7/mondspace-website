@@ -26,8 +26,16 @@ Rewrite those three case studies from the actual source. Concretely:
     app is offline-*capable* (graceful fallback), not offline-first by design.
 - Keep the habit tracker's "re-engagement over streaks" thesis — it is validated
   by the real nudge scoring (days-since-action ×3 vs streak-protection ×0.5).
+- Rewrite Puppy Companion → **Mare** from its repo (Go + HTMX web + SwiftUI iOS
+  monorepo on Fly.io): lead with one-tap logging + the age-based potty countdown
+  + auto-written recaps, drop the invented "training" tracking, and add the AI
+  adoption / privacy themes.
 
-Puppy Companion and Office Chores remain as-is (no backing repo provided).
+**Publish status is stated honestly, per project.** Only LempiraEUR (currency) is
+on the App Store — it links to its listing
+(`apps.apple.com/ae/app/lempiraeur/id6755972445`). Mira and Leafstep say "Coming
+soon to the App Store"; Mare says "Web live · iOS in beta" and links to
+`mare.mondspace.com`. Office Chores stays as-is (no backing repo).
 
 ## Consequences
 

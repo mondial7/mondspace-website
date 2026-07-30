@@ -1,15 +1,16 @@
 // Thoughtful Products — small software with real purpose. Project shape is
 // documented in ../content.js.
 //
-// The journaling, currency and habits entries describe real, shipping iOS apps
-// (Mira, MConverter, Leafstep); details verified against their source repos.
+// The journaling, puppy, habits and currency entries describe real apps
+// (Mira, Mare, Leafstep, LempiraEUR); details verified against their source
+// repos. Only LempiraEUR is on the App Store yet; the others are in review.
 
 export const thoughtfulProducts = [
   {
     slug: "journaling",
     title: "Mira",
     type: "iOS app",
-    status: "Live on App Store",
+    status: "Coming soon to the App Store",
     meta: "SwiftUI · SwiftData",
     themes: ["Thoughtful software", "Reducing cognitive load", "Privacy by design", "Continuous learning"],
     summary: "A calm, private place to notice how you really feel — capture a thought, tag the feeling, rate its intensity, and move on.",
@@ -27,28 +28,31 @@ export const thoughtfulProducts = [
   },
   {
     slug: "puppy-companion",
-    title: "Puppy Companion",
-    type: "Indie product",
-    status: "Personal project",
-    themes: ["Reducing cognitive load", "Thoughtful software"],
+    title: "Mare",
+    type: "Full-stack app",
+    status: "Web live · iOS in beta",
+    meta: "Go · HTMX · SwiftUI",
+    themes: ["Reducing cognitive load", "Thoughtful software", "AI adoption", "Privacy by design"],
     summary:
-      "A system that remembers everything a first-time puppy owner can't — vaccinations, growth, training, vet visits — so you can just enjoy the dog.",
+      "The app that watches the clock so you don't have to. One tap logs a care event; the potty timer stays current and the journal writes itself — for first-time puppy owners who'd rather watch the puppy than the checklist.",
     sections: {
       problem:
-        "I suddenly became responsible for a puppy and was drowning in things to track: vaccination schedules, weight, training milestones, vet appointments — each in a different place, each easy to forget, all stressful to get wrong.",
+        "I suddenly became responsible for a puppy and was drowning: when did she last pee, has she eaten, which vaccination is next, is she growing normally? Every answer lived in a different place, each easy to forget, all stressful to get wrong. The friction wasn't looking things up — it was *remembering to log* in the first place.",
       build:
-        "A tiny companion app that holds the whole picture: vaccination and vet timeline, growth and weight tracking, training progress, appointment reminders, and a photo timeline for the fun part.\n\nBuilt through an AI-assisted workflow, with product direction, system design and refinement led by me.",
+        "Mare is a small monorepo with one domain shared across three surfaces:\n\n- **Go backend** (standard-library `net/http` + `html/template`) — a single static binary with embedded migrations, on PostgreSQL, deployed stateless on Fly.io.\n- **Server-rendered web app** with HTMX for live updates, plus a native **SwiftUI** iOS app with home-screen widgets and Siri voice logging.\n- **Brand-as-code** — one `tokens.json` generates both the web CSS and the iOS Swift, so the design system can't drift.\n\nThe hero is a one-tap, no-forms log (pee, poop, meal, walk, nap) that feeds everything else: an age-based **potty countdown**, a computed food-and-activity plan, a growth curve, auto-written weekly recaps, and AI-generated puppy tips.",
       decisions:
-        "- **Reduce load, don't add chores.** Every feature must remove more worry than it adds.\n- **Timeline as the spine.** A puppy's life is a sequence; the UI follows that.\n- **Forgiving reminders.** Nudge, don't nag.",
+        "- **Surface, don't store.** The home screen shows what's happening and what's next, so you rarely have to go looking. Outputs — journal, growth chart, recaps — are *generated from* logging, never typed.\n- **Quiet by default.** Proactive nudges are few, prioritised (max ~3) and dismissible — it must never nag.\n- **Not a vet.** It tracks what you and your vet decide and never prescribes; AI tips are clearly labelled and GDPR-minimised (no names or emails in prompts).\n- **Offline-first logging.** The critical path works on a walk with no signal and syncs later.",
       learnings:
-        "It wasn't 'a puppy app' — it was a system for reducing the cognitive load of caring for something you love but can't hold entirely in your head. That reframing sits behind everything else I build. (The roaming dog on this site is a nod to it.)",
+        "The real cognitive load wasn't accessing past data — it was the remembering. Making one-tap logging the single primitive, and deriving the journal, plan and reminders *from* it, means the owner gets the outputs for free.\n\nSharing one Go domain across web and iOS — with brand tokens generated for both — kept a three-surface product coherent as a solo build, and forced the discipline of a testable, framework-light core.",
     },
-    related: ["habit-tracker", "journaling"],
+    links: [{ label: "mare.mondspace.com", href: "https://mare.mondspace.com" }],
+    related: ["habit-tracker", "journaling", "ai-engineering-assistant"],
   },
   {
     slug: "habit-tracker",
     title: "Leafstep",
     type: "iOS app",
+    status: "Coming soon to the App Store",
     meta: "SwiftUI · SwiftData",
     themes: ["Behaviour systems", "Thoughtful software", "Privacy by design", "Sustainable engineering"],
     summary: "Consistency through re-engagement, not streaks — a habit tracker that welcomes you back after a miss instead of punishing a broken chain.",
@@ -66,7 +70,7 @@ export const thoughtfulProducts = [
   },
   {
     slug: "currency-converter",
-    title: "MConverter",
+    title: "LempiraEUR",
     type: "iOS app",
     status: "Live on App Store",
     meta: "SwiftUI · Combine",
@@ -83,6 +87,7 @@ export const thoughtfulProducts = [
       learnings:
         "Sharp, tiny software removes a disproportionate amount of friction. Constraining it to two real trips — Honduras and Nepal — made every decision easy. Scope is a feature.",
     },
+    links: [{ label: "View on the App Store", href: "https://apps.apple.com/ae/app/lempiraeur/id6755972445" }],
     related: ["puppy-companion", "journaling"],
   },
   {
