@@ -8,13 +8,19 @@ function escapeHtml(s) {
 
 // Wires up everything in the #hud overlay: nav links, world-anchored narration
 // with a typewriter effect, the compass, the neon cursor and the hint.
-export function createHUD({ camera, areaViews, isCoarse, onJump }) {
+export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }) {
   const $ = (id) => document.getElementById(id);
   const narration = $("narration");
   const card = narration.querySelector(".narration-card");
   const labelEl = $("narration-label");
   const textEl = $("narration-text");
   const jukeboxEl = $("jukebox");
+
+  // Project cards live between the narration text and the jukebox. Built once,
+  // repopulated per area from the content data.
+  const cardsEl = document.createElement("div");
+  cardsEl.className = "area-cards";
+  card.insertBefore(cardsEl, jukeboxEl);
   const linksEl = $("links");
   const hintEl = $("hint");
   const cursor = $("cursor");
@@ -92,6 +98,24 @@ export function createHUD({ camera, areaViews, isCoarse, onJump }) {
     })();
   }
 
+  // Compact clickable chips, one per project in the area. Each opens the drawer.
+  function renderCards(a) {
+    const projects = a.projects || [];
+    cardsEl.innerHTML = "";
+    cardsEl.hidden = projects.length === 0;
+    projects.forEach((p) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "area-card";
+      btn.style.setProperty("--c", a.color);
+      btn.innerHTML =
+        `<span class="area-card-title">${escapeHtml(p.title)}</span>` +
+        `<span class="area-card-type">${escapeHtml(p.type)}${p.explore ? " · ▶ demo" : ""}</span>`;
+      btn.addEventListener("click", () => onOpenProject && onOpenProject(p.slug));
+      cardsEl.appendChild(btn);
+    });
+  }
+
   let current = "center";
   function showArea(id) {
     const a = byId[id];
@@ -101,6 +125,7 @@ export function createHUD({ camera, areaViews, isCoarse, onJump }) {
     labelEl.style.color = a.color;
     card.style.borderLeftColor = a.color;
     jukeboxEl.hidden = !a.audio;
+    renderCards(a);
     narration.classList.remove("hidden");
     typeLines(id, a.lines, a.color);
 

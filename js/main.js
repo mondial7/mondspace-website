@@ -3,6 +3,8 @@ import { initWorld } from "./world.js";
 import { createNavigation } from "./navigation.js";
 import { createHUD } from "./hud.js";
 import { createAudio } from "./audio.js";
+import { createDrawer } from "./drawer.js";
+import { DEMOS } from "./demos.js";
 import { AREAS } from "./content.js";
 
 const canvas = document.getElementById("scene");
@@ -68,11 +70,13 @@ async function boot() {
 
   // ---- interaction layer ----
   let nav;
+  const drawer = createDrawer({ demos: DEMOS });
   const hud = createHUD({
     camera: W.camera,
     areaViews: W.areas,
     isCoarse,
     onJump: (id) => nav && nav.goTo(id),
+    onOpenProject: (slug) => drawer.open(slug),
   });
   nav = createNavigation({
     camera: W.camera,
@@ -141,6 +145,9 @@ async function boot() {
   // reveal the world
   await new Promise((r) => setTimeout(r, 350));
   splash.classList.add("gone");
+
+  // honour a deep link like mondspace.com/#engineering-product-workspace
+  drawer.openFromHash();
 }
 
 boot().catch(failGracefully);
