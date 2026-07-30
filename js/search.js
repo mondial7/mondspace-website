@@ -1,4 +1,4 @@
-import { PROJECTS } from "./content.js";
+import { PROJECTS, CONTEXTS } from "./content.js";
 
 // Search across the whole knowledge garden — titles, types, summaries, themes
 // and section prose (see docs/adr/0007). Opens results in the drawer.
@@ -20,7 +20,10 @@ export function createSearch({ onOpen } = {}) {
     fields: {
       title: (p.title || "").toLowerCase(),
       theme: (p.themes || []).join(" ").toLowerCase(),
-      meta: [p.type, p.status, p.meta].filter(Boolean).join(" ").toLowerCase(),
+      meta: [p.type, p.status, p.meta, CONTEXTS[p.context]?.label, CONTEXTS[p.context]?.full]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase(),
       summary: (p.summary || "").toLowerCase(),
       section: Object.values(p.sections || {}).join(" ").toLowerCase(),
     },

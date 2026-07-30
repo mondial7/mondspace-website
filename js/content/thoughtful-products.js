@@ -8,6 +8,7 @@
 export const thoughtfulProducts = [
   {
     slug: "journaling",
+    context: "indie",
     title: "Mira",
     type: "iOS app",
     status: "Live on App Store",
@@ -29,6 +30,7 @@ export const thoughtfulProducts = [
   },
   {
     slug: "puppy-companion",
+    context: "indie",
     title: "Mare",
     type: "Full-stack app",
     status: "In development",
@@ -50,6 +52,7 @@ export const thoughtfulProducts = [
   },
   {
     slug: "habit-tracker",
+    context: "indie",
     title: "Leafstep",
     type: "iOS app",
     status: "Coming soon to the App Store",
@@ -70,6 +73,7 @@ export const thoughtfulProducts = [
   },
   {
     slug: "currency-converter",
+    context: "indie",
     title: "LempiraEUR",
     type: "iOS app",
     status: "Live on App Store",
@@ -92,6 +96,7 @@ export const thoughtfulProducts = [
   },
   {
     slug: "office-chores",
+    context: "business",
     title: "Office Chores Manager",
     type: "Playful tool",
     status: "In use (started as a Google Sheet)",

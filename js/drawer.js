@@ -1,4 +1,4 @@
-import { PROJECTS } from "./content.js";
+import { PROJECTS, CONTEXTS } from "./content.js";
 
 // The case-study drawer: a DOM overlay (NOT part of the 3D scene, see
 // docs/adr/0005) that renders any project in the consistent Problem / Build /
@@ -95,6 +95,10 @@ export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
   }
 
   function render(p) {
+    const ctx = CONTEXTS[p.context];
+    const ctxBadge = ctx
+      ? `<span class="ctx-badge ctx--${p.context}" style="--ctx:${ctx.color}">${escapeHtml(ctx.full)}</span>`
+      : "";
     const badges = [p.type, p.status, p.meta].filter(Boolean);
     const sections = SECTION_ORDER.filter(([k]) => p.sections && p.sections[k])
       .map(
@@ -122,7 +126,7 @@ export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
     body.innerHTML = `
       <div class="drawer-eyebrow" style="--c:${p.areaColor}">${escapeHtml(p.areaLabel)}</div>
       <h2 id="drawer-title" class="drawer-title">${escapeHtml(p.title)}</h2>
-      ${badges.length ? `<div class="drawer-badges">${badges.map((b) => `<span>${escapeHtml(b)}</span>`).join("")}</div>` : ""}
+      ${ctxBadge || badges.length ? `<div class="drawer-badges">${ctxBadge}${badges.map((b) => `<span>${escapeHtml(b)}</span>`).join("")}</div>` : ""}
       <p class="drawer-summary">${escapeHtml(p.summary)}</p>
       ${themeTags(p.themes)}
       ${sections}

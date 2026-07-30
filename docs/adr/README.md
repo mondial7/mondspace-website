@@ -32,3 +32,4 @@ What follows — good and bad.
 - [0007](0007-content-modules-and-graph.md) — Split content into per-category modules with a cross-link graph
 - [0008](0008-park-audio-cv.md) — Park the audio CV (remove from UI, keep the source)
 - [0009](0009-ground-product-case-studies-in-real-apps.md) — Ground the product case studies in the real apps
+- [0010](0010-project-context-distinction.md) — Distinguish project context: business vs indie vs talk
