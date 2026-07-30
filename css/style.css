@@ -666,6 +666,52 @@ body.coarse-pointer .compass .dot:active { background: var(--neon); transform: s
 }
 .hint.fade { opacity: 0; }
 
+/* ============ Work-in-progress badge (always visible) ============ */
+.wip-badge {
+  position: fixed;
+  left: max(0.9rem, env(safe-area-inset-left));
+  bottom: max(0.9rem, env(safe-area-inset-bottom));
+  z-index: 40; /* above the world, below the drawer/search overlays */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.75rem;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: #ffe0b2;
+  background: rgba(18, 22, 28, 0.7);
+  border: 1px solid rgba(255, 152, 0, 0.45);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  pointer-events: none; /* never blocks navigation */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+.wip-badge strong { color: var(--accent); font-weight: 700; }
+.wip-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: wipPulse 2.2s ease-in-out infinite;
+}
+@keyframes wipPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.75); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wip-dot { animation: none; }
+}
+/* On the smallest screens, trim to just the label so it stays out of the way */
+@media (max-width: 420px) {
+  .wip-badge { font-size: 0.62rem; padding: 0.36rem 0.6rem; }
+}
+
 /* ============ Custom neon cursor (desktop only) ============ */
 .cursor {
   position: fixed;
