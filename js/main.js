@@ -4,6 +4,7 @@ import { createNavigation } from "./navigation.js";
 import { createHUD } from "./hud.js";
 import { createAudio } from "./audio.js";
 import { createDrawer } from "./drawer.js";
+import { createSearch } from "./search.js";
 import { DEMOS } from "./demos.js";
 import { AREAS } from "./content.js";
 
@@ -70,7 +71,13 @@ async function boot() {
 
   // ---- interaction layer ----
   let nav;
-  const drawer = createDrawer({ demos: DEMOS });
+  const search = createSearch({ onOpen: (slug) => drawer.open(slug) });
+  const drawer = createDrawer({
+    demos: DEMOS,
+    onTheme: (theme) => search.open(theme),
+  });
+  const searchBtn = document.getElementById("nav-search");
+  if (searchBtn) searchBtn.addEventListener("click", () => search.open());
   const hud = createHUD({
     camera: W.camera,
     areaViews: W.areas,

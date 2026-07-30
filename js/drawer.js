@@ -42,7 +42,7 @@ const SECTION_ORDER = [
   ["learnings", "Learnings"],
 ];
 
-export function createDrawer({ demos = {}, onNavigate } = {}) {
+export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
   const root = document.createElement("div");
   root.id = "drawer";
   root.className = "drawer";
@@ -65,9 +65,13 @@ export function createDrawer({ demos = {}, onNavigate } = {}) {
   let lastFocus = null;
   let disposeDemo = null;
 
-  function tags(items, cls) {
+  // Themes are clickable — they route into search so a visitor can wander the
+  // garden by idea, not just by area.
+  function themeTags(items) {
     if (!items || !items.length) return "";
-    return `<div class="${cls}">${items.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>`;
+    return `<div class="drawer-themes">${items
+      .map((t) => `<button type="button" class="theme-tag" data-theme="${escapeHtml(t)}">${escapeHtml(t)}</button>`)
+      .join("")}</div>`;
   }
 
   function relatedHtml(slugs) {
@@ -120,7 +124,7 @@ export function createDrawer({ demos = {}, onNavigate } = {}) {
       <h2 id="drawer-title" class="drawer-title">${escapeHtml(p.title)}</h2>
       ${badges.length ? `<div class="drawer-badges">${badges.map((b) => `<span>${escapeHtml(b)}</span>`).join("")}</div>` : ""}
       <p class="drawer-summary">${escapeHtml(p.summary)}</p>
-      ${tags(p.themes, "drawer-themes")}
+      ${themeTags(p.themes)}
       ${sections}
       ${explore}
       ${links ? `<div class="drawer-links">${links}</div>` : ""}
@@ -130,6 +134,13 @@ export function createDrawer({ demos = {}, onNavigate } = {}) {
     body.querySelectorAll("[data-goto]").forEach((el) =>
       el.addEventListener("click", () => open(el.getAttribute("data-goto")))
     );
+
+    // clicking a theme jumps into search
+    if (onTheme) {
+      body.querySelectorAll("[data-theme]").forEach((el) =>
+        el.addEventListener("click", () => { close(); onTheme(el.getAttribute("data-theme")); })
+      );
+    }
 
     // mount an interactive demo if one is registered for this kind
     const mount = body.querySelector(".demo-mount");
