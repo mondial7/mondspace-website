@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import {
   buildGround, buildTree, buildClouds, buildMonument,
-  buildStage, buildWorkbench, buildSigns, buildPitAndJukebox, buildDog,
+  buildStage, buildWorkbench, buildSigns, buildPitAndLibrary, buildDog,
 } from "./voxel.js";
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -149,10 +149,10 @@ export function initWorld(canvas, opts = {}) {
   scene.add(buildTree(18, surfaceY(18, -16) - 0.5, -16, 0.8));
   scene.add(buildTree(13, surfaceY(13, -11) - 0.5, -11, 0.7));
 
-  // DOWN — sunken jukebox
-  const juke = buildPitAndJukebox();
-  scene.add(juke);
-  updatables.push(juke.userData.update);
+  // DOWN — sunken library + enchanting table
+  const library = buildPitAndLibrary();
+  scene.add(library);
+  updatables.push(library.userData.update);
 
   // ---- the dog ----
   const dog = buildDog();
@@ -165,7 +165,7 @@ export function initWorld(canvas, opts = {}) {
     up:     V(0, 0, -6.5),
     left:   V(-10.5, 0, -11.5), // foreground, off to the side of the builder
     right:  V(10.5, 0, -11.5),  // foreground, off to the side of the signposts
-    down:   V(-2, 0, -3.2),     // near the pit rim, lower-left, clear of the jukebox
+    down:   V(-2, 0, -3.2),     // near the pit rim, lower-left, clear of the enchanting table
   };
   Object.values(dogTargets).forEach((p) => (p.y = surfaceY(p.x, p.z)));
   const dogPos = dogTargets.center.clone();
@@ -271,6 +271,5 @@ export function initWorld(canvas, opts = {}) {
   return {
     scene, camera, renderer, areas, tick, render, resize,
     updateDog, resumeAudio,
-    setJukeboxPlaying: (on) => juke.userData.setPlaying(on),
   };
 }

@@ -18,6 +18,7 @@
 import { engineeringSystems } from "./content/engineering-systems.js";
 import { thoughtfulProducts } from "./content/thoughtful-products.js";
 import { knowledgeGarden } from "./content/knowledge-garden.js";
+import { library } from "./content/library.js";
 
 export const PALETTE = ["#00FFFF", "#DA70D6", "#FF9800", "#76FF03", "#F48FB1", "#FAFAFA"];
 
@@ -71,12 +72,13 @@ export const AREAS = [
   },
   {
     id: "down",
-    label: "About",
+    label: "The Library",
     color: "#F48FB1",
     lines: [
-      "The short version: 10+ years building software — and the systems teams build it with. Hands-on, startup-shaped, XP at heart.",
-      "Speaker in the XP / Agile community. Find me on GitHub and LinkedIn — a fuller CV lands here soon.",
+      "Books that shaped how I think — a shelf, not a syllabus.",
+      "Pick one up, or read the short version of me.",
     ],
+    projects: library,
   },
 ];
 
