@@ -30,7 +30,7 @@ export const thoughtfulProducts = [
     slug: "puppy-companion",
     title: "Mare",
     type: "Full-stack app",
-    status: "Web live · iOS in beta",
+    status: "In development",
     meta: "Go · HTMX · SwiftUI",
     themes: ["Reducing cognitive load", "Thoughtful software", "AI adoption", "Privacy by design"],
     summary:
@@ -45,7 +45,6 @@ export const thoughtfulProducts = [
       learnings:
         "The real cognitive load wasn't accessing past data — it was the remembering. Making one-tap logging the single primitive, and deriving the journal, plan and reminders *from* it, means the owner gets the outputs for free.\n\nSharing one Go domain across web and iOS — with brand tokens generated for both — kept a three-surface product coherent as a solo build, and forced the discipline of a testable, framework-light core.",
     },
-    links: [{ label: "mare.mondspace.com", href: "https://mare.mondspace.com" }],
     related: ["habit-tracker", "journaling", "ai-engineering-assistant"],
   },
   {

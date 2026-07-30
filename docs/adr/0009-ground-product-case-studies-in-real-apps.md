@@ -34,8 +34,10 @@ Rewrite those three case studies from the actual source. Concretely:
 **Publish status is stated honestly, per project.** Only LempiraEUR (currency) is
 on the App Store — it links to its listing
 (`apps.apple.com/ae/app/lempiraeur/id6755972445`). Mira and Leafstep say "Coming
-soon to the App Store"; Mare says "Web live · iOS in beta" and links to
-`mare.mondspace.com`. Office Chores stays as-is (no backing repo).
+soon to the App Store"; Mare says "In development" with no link — it is not
+considered ready for distribution yet (the web version especially). Office Chores
+stays as-is (no backing repo). Only link to products the owner considers
+publicly ready.
 
 ## Consequences
 
