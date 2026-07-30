@@ -10,7 +10,7 @@ export const thoughtfulProducts = [
     slug: "journaling",
     title: "Mira",
     type: "iOS app",
-    status: "Coming soon to the App Store",
+    status: "Live on App Store",
     meta: "SwiftUI · SwiftData",
     themes: ["Thoughtful software", "Reducing cognitive load", "Privacy by design", "Continuous learning"],
     summary: "A calm, private place to notice how you really feel — capture a thought, tag the feeling, rate its intensity, and move on.",
@@ -24,6 +24,7 @@ export const thoughtfulProducts = [
       learnings:
         "Keeping the domain free of Apple frameworks turned reminders and the audit trail into pure functions I could test in milliseconds — the calm UX rests on a boringly testable core.\n\nAnd shipping changes your principles: v1 had *no streaks* on purpose, but real use pushed me to add a **gentle** streak that encourages consistency without the guilt. Designing for reflection is a constant negotiation with the engagement playbook.",
     },
+    links: [{ label: "View on the App Store", href: "https://apps.apple.com/nl/app/mira-mondspace-journal/id6792884985" }],
     related: ["habit-tracker", "puppy-companion"],
   },
   {

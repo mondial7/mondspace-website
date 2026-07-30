@@ -31,10 +31,11 @@ Rewrite those three case studies from the actual source. Concretely:
   + auto-written recaps, drop the invented "training" tracking, and add the AI
   adoption / privacy themes.
 
-**Publish status is stated honestly, per project.** Only LempiraEUR (currency) is
-on the App Store — it links to its listing
-(`apps.apple.com/ae/app/lempiraeur/id6755972445`). Mira and Leafstep say "Coming
-soon to the App Store"; Mare says "In development" with no link — it is not
+**Publish status is stated honestly, per project.** LempiraEUR (currency) and
+Mira (journal) are on the App Store and link to their listings
+(`apps.apple.com/ae/app/lempiraeur/id6755972445`,
+`apps.apple.com/nl/app/mira-mondspace-journal/id6792884985`). Leafstep says
+"Coming soon to the App Store"; Mare says "In development" with no link — it is not
 considered ready for distribution yet (the web version especially). Office Chores
 stays as-is (no backing repo). Only link to products the owner considers
 publicly ready.
