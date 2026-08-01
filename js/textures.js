@@ -130,6 +130,44 @@ export const tex = {
       c.fillRect(8, 4, 3, 2);
       c.beginPath(); c.arc(6, 11, 2, 0, Math.PI * 2); c.fill();
     }),
+  // Oak-framed bookshelf: two rows of coloured book spines between wood boards.
+  bookshelf: () =>
+    make("bookshelf", (c) => {
+      speckle(c, "#a9763e", 0.1, 0.4); // oak plank backing
+      c.fillStyle = "rgba(60,35,15,0.6)"; // top & bottom frame
+      c.fillRect(0, 0, SIZE, 2);
+      c.fillRect(0, 14, SIZE, 2);
+      c.fillStyle = "#8a5a2b"; // middle shelf board
+      c.fillRect(0, 8, SIZE, 1);
+      const spines = ["#b23a48", "#2e6b8a", "#c9922c", "#3f7d2f", "#7a4aa0", "#b5602c", "#4a6b8a", "#a34a6b"];
+      const drawRow = (ry, ph) => {
+        let x = 0, i = ph;
+        while (x < SIZE) {
+          const w = 2 + (i % 2); // 2–3px spines
+          c.fillStyle = spines[i % spines.length];
+          c.fillRect(x, ry, Math.min(w, SIZE - x), 5);
+          c.fillStyle = "rgba(255,255,255,0.14)"; // top highlight
+          c.fillRect(x, ry, Math.min(w, SIZE - x), 1);
+          c.fillStyle = "rgba(0,0,0,0.28)"; // gap
+          c.fillRect(Math.min(x + w, SIZE - 1), ry, 1, 5);
+          x += w + 1; i++;
+        }
+      };
+      drawRow(3, 0);
+      drawRow(10, 3);
+    }),
+  // Enchanting-table top: dark obsidian base with the red diamond "cloth".
+  enchantTop: () =>
+    make("enchantTop", (c) => {
+      speckle(c, "#171226", 0.14, 0.5);
+      c.save();
+      c.translate(8, 8);
+      c.rotate(Math.PI / 4);
+      c.fillStyle = "#7e1d2c"; c.fillRect(-5, -5, 10, 10);
+      c.fillStyle = "#a5283a"; c.fillRect(-3.5, -3.5, 7, 7);
+      c.fillStyle = "#c74b3a"; c.fillRect(-1.5, -1.5, 3, 3);
+      c.restore();
+    }),
 };
 
 // A face on the avatar head, generated to a chosen skin/eye palette.

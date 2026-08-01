@@ -295,6 +295,61 @@ export function buildAvatar({ skin = "#e0ac69", shirt = "#ff9800", pants = "#3a4
 }
 
 // ---------------------------------------------------------------------------
+// A Minecraft-style trading villager — big brow-nose, robe + apron, hands
+// clasped in front. Feet rest at y = 0; expose userData.update(t) like the
+// avatar so the stage/workbench can drive it the same way.
+// ---------------------------------------------------------------------------
+
+export function buildVillager({ robe = "#6b4a2b", apron = "#c9b08a", mode = "idle" } = {}) {
+  const g = new THREE.Group();
+  const skin = flat("#b9946a");
+  const noseSkin = flat("#a9855d");
+  const robeMat = flat(robe);
+
+  // feet peeking under the robe
+  g.add(box(0.22, 0.3, 0.26, flat("#3a3a3a"), [-0.16, 0.15, 0]));
+  g.add(box(0.22, 0.3, 0.26, flat("#3a3a3a"), [0.16, 0.15, 0]));
+  // robe: flared skirt + torso + dark collar
+  g.add(box(0.8, 0.78, 0.54, robeMat, [0, 0.64, 0]));
+  g.add(box(0.66, 0.7, 0.42, robeMat, [0, 1.33, 0]));
+  g.add(box(0.7, 0.12, 0.44, flat("#4a3320"), [0, 1.62, 0]));
+  // trader apron — lighter front panel
+  g.add(box(0.5, 1.0, 0.02, flat(apron), [0, 0.95, 0.28]));
+  // arms down the sides, forearms + clasped hands in front
+  g.add(box(0.17, 0.6, 0.32, robeMat, [-0.42, 1.35, 0]));
+  g.add(box(0.17, 0.6, 0.32, robeMat, [0.42, 1.35, 0]));
+  g.add(box(0.52, 0.2, 0.2, robeMat, [0, 1.14, 0.28]));
+  g.add(box(0.26, 0.17, 0.16, skin, [0, 1.12, 0.4]));
+
+  // head — big nose, heavy brow, small eyes either side
+  const head = new THREE.Group();
+  head.position.set(0, 2.0, 0);
+  g.add(head);
+  head.add(box(0.66, 0.66, 0.62, skin, [0, 0, 0]));
+  head.add(box(0.17, 0.44, 0.36, noseSkin, [0, -0.02, 0.34])); // protruding nose
+  head.add(box(0.52, 0.09, 0.04, flat("#5a4634"), [0, 0.16, 0.31])); // unibrow
+  const eye = (x) => {
+    head.add(box(0.14, 0.13, 0.04, flat("#f4f4f4"), [x, 0.02, 0.31]));
+    head.add(box(0.07, 0.13, 0.05, flat("#6b4a8a"), [x, 0.02, 0.32])); // pupil
+  };
+  eye(-0.2); eye(0.2);
+
+  g.castShadow = true;
+  const baseY = g.position.y;
+  g.userData.update = (t) => {
+    g.position.y = baseY + Math.sin(t * 1.8) * 0.03;
+    head.rotation.y = Math.sin(t * 0.5) * 0.28;
+    head.rotation.x = Math.sin(t * 1.1) * 0.05;
+    if (mode === "wave") {
+      head.rotation.x += 0.06 + Math.sin(t * 2.2) * 0.05; // curious head bob
+    } else if (mode === "mine") {
+      g.rotation.x = Math.sin(t * 2.0) * 0.03; // small trading nod
+    }
+  };
+  return g;
+}
+
+// ---------------------------------------------------------------------------
 // The dog — a blocky companion that runs to the focused area, sits when idle,
 // wags non-stop and barks now and then. Forward is +z; feet rest at y = 0.
 // world.js drives its position/heading; this returns the animated model.
@@ -481,13 +536,48 @@ export function buildStage() {
   g.add(box(0.08, 1.2, 0.08, flat("#222"), [0, 2.1, 0.7]));
   g.add(cube(0.22, flat("#111"), [0, 2.75, 0.7]));
 
-  // the speaker
-  const avatar = buildAvatar({ shirt: "#ff9800", pants: "#39424f", mode: "wave" });
-  avatar.position.set(0, 1.5, 0);
-  avatar.scale.setScalar(1.25);
-  g.add(avatar);
-  g.userData.avatar = avatar;
-  g.userData.update = (t) => avatar.userData.update(t);
+  // a jukebox on the island, puffing music notes over the show
+  const jukeMat = [
+    mat(tex.plank), mat(tex.plank),
+    mat(tex.noteBlock), mat(tex.plank),
+    mat(tex.plank), mat(tex.plank),
+  ];
+  const jbX = 1.9, jbY = 0.95, jbZ = 1.9;
+  g.add(cube(0.9, jukeMat, [jbX, jbY, jbZ]));
+  const notes = new THREE.Group();
+  const noteGeo = new THREE.BoxGeometry(0.16, 0.16, 0.16);
+  const noteList = [];
+  for (let i = 0; i < 8; i++) {
+    const n = new THREE.Mesh(
+      noteGeo,
+      new THREE.MeshLambertMaterial({ color: 0xd8c0ff, emissive: 0x9c6cff, emissiveIntensity: 0.8, transparent: true })
+    );
+    n.userData.phase = Math.random() * Math.PI * 2;
+    notes.add(n);
+    noteList.push(n);
+  }
+  g.add(notes);
+
+  // the speaker — a trading villager at the mic
+  const villager = buildVillager({ robe: "#7a4a2b", apron: "#d8c49a", mode: "wave" });
+  villager.position.set(0, 1.5, 0);
+  villager.scale.setScalar(1.25);
+  g.add(villager);
+  g.userData.avatar = villager;
+  g.userData.update = (t) => {
+    villager.userData.update(t);
+    noteList.forEach((n) => {
+      const p = (t * 0.6 + n.userData.phase) % 2.4;
+      n.position.set(
+        jbX + Math.sin((t + n.userData.phase) * 1.8) * 0.3,
+        jbY + 0.5 + p,
+        jbZ + Math.cos((t + n.userData.phase) * 1.3) * 0.2
+      );
+      n.material.opacity = Math.max(0, 1 - p / 2.4);
+      n.rotation.y = t * 2 + n.userData.phase;
+      n.scale.setScalar(1 - p / 6);
+    });
+  };
   return g;
 }
 
@@ -516,13 +606,13 @@ export function buildWorkbench() {
   g.add(cube(0.7, mat(tex.cobble), [-1.4, 0.35, 0.2]));
   g.add(cube(0.7, mat(tex.plank), [-1.4, 1.05, 0.2]));
 
-  const avatar = buildAvatar({ skin: "#c68642", shirt: "#00bcd4", pants: "#2f3b2f", mode: "mine" });
-  avatar.position.set(-0.2, 0, 1.5);
-  avatar.rotation.y = 0.1; // faces the camera that flies in from the front-right
-  avatar.scale.setScalar(1.25);
-  g.add(avatar);
-  g.userData.avatar = avatar;
-  g.userData.update = (t) => avatar.userData.update(t);
+  const villager = buildVillager({ robe: "#4f5b34", apron: "#b9a06a", mode: "mine" });
+  villager.position.set(-0.2, 0, 1.5);
+  villager.rotation.y = 0.1; // faces the camera that flies in from the front-right
+  villager.scale.setScalar(1.25);
+  g.add(villager);
+  g.userData.avatar = villager;
+  g.userData.update = (t) => villager.userData.update(t);
   return g;
 }
 
@@ -552,75 +642,129 @@ export function buildSigns() {
 }
 
 // ---------------------------------------------------------------------------
-// DOWN — the jukebox at the bottom of the sunken pit.
+// DOWN — a sunken reading nook: a tall bookshelf wall that faces the camera,
+// side shelves, and an enchanting table raised to the rim with a floating open
+// book and rising arcane runes.
 // ---------------------------------------------------------------------------
 
-export function buildPitAndJukebox() {
+export function buildPitAndLibrary() {
   const g = new THREE.Group();
   const cobble = mat(tex.cobble);
   const stone = mat(tex.stone);
+  const plankTop = mat(tex.plank);
+  const shelfMat = [
+    mat(tex.bookshelf), mat(tex.bookshelf),
+    plankTop, plankTop,
+    mat(tex.bookshelf), mat(tex.bookshelf),
+  ];
 
-  // line the pit shaft
+  // pit floor
   for (let x = -PIT.r; x <= PIT.r; x++) {
     for (let z = -PIT.r; z <= PIT.r; z++) {
-      const wx = PIT.cx + x, wz = PIT.cz + z;
-      const dist = Math.hypot(x, z);
-      if (dist > PIT.r) continue;
-      // floor
-      g.add(cube(1, cobble, [wx, PIT.floor, wz]));
-      // walls (ring)
-      if (dist > PIT.r - 1) {
-        for (let y = PIT.floor + 1; y <= 0; y++) g.add(cube(1, stone, [wx, y, wz]));
-      }
+      if (Math.hypot(x, z) > PIT.r) continue;
+      g.add(cube(1, cobble, [PIT.cx + x, PIT.floor, PIT.cz + z]));
     }
   }
 
-  // jukebox + note blocks on the floor
-  const jbY = PIT.floor + 1;
-  const jukeMat = [
-    mat(tex.plank), mat(tex.plank),
-    mat(tex.noteBlock), mat(tex.plank),
-    mat(tex.plank), mat(tex.plank),
-  ];
-  const juke = cube(1.2, jukeMat, [PIT.cx, jbY, PIT.cz]);
-  g.add(juke);
-
-  const noteMat = mat(tex.noteBlock);
-  const around = [[-2, 0], [2, 0], [0, -2], [0, 2]];
-  around.forEach(([dx, dz]) => g.add(cube(0.9, noteMat, [PIT.cx + dx, jbY - 0.05, PIT.cz + dz])));
-
-  // floating music-note particles, animated; visibility toggled while playing
-  const notes = new THREE.Group();
-  const noteGeo = new THREE.BoxGeometry(0.18, 0.18, 0.18);
-  const noteMatGlow = new THREE.MeshLambertMaterial({ color: 0xd8c0ff, emissive: 0x9c6cff, emissiveIntensity: 0.8 });
-  const noteList = [];
-  for (let i = 0; i < 10; i++) {
-    const n = new THREE.Mesh(noteGeo, noteMatGlow);
-    n.userData.phase = Math.random() * Math.PI * 2;
-    n.userData.x = PIT.cx + (Math.random() - 0.5) * 2;
-    n.userData.z = PIT.cz + (Math.random() - 0.5) * 2;
-    notes.add(n);
-    noteList.push(n);
+  // outer ring wall: two courses of bookshelves capped by a stone lip
+  for (let x = -PIT.r; x <= PIT.r; x++) {
+    for (let z = -PIT.r; z <= PIT.r; z++) {
+      const d = Math.hypot(x, z);
+      if (d > PIT.r || d <= PIT.r - 1) continue;
+      const wx = PIT.cx + x, wz = PIT.cz + z;
+      g.add(cube(1, shelfMat, [wx, PIT.floor + 1, wz]));
+      g.add(cube(1, shelfMat, [wx, PIT.floor + 2, wz]));
+      g.add(cube(1, stone, [wx, 0, wz]));
+    }
   }
-  notes.visible = false;
-  g.add(notes);
 
-  g.userData.notes = notes;
+  // tall bookshelf back wall (faces the camera, rises above the rim) + returns
+  const backZ = PIT.cz - 3;
+  for (let x = -3; x <= 3; x++)
+    for (let y = PIT.floor + 1; y <= 2; y++) g.add(cube(1, shelfMat, [PIT.cx + x, y, backZ]));
+  for (let z = backZ + 1; z <= PIT.cz - 1; z++)
+    for (let y = PIT.floor + 1; y <= 1; y++) {
+      g.add(cube(1, shelfMat, [PIT.cx - 3, y, z]));
+      g.add(cube(1, shelfMat, [PIT.cx + 3, y, z]));
+    }
+  // warm glowstone lanterns on the wall's top corners
+  const glowMat = mat(tex.glow, { emissive: "#ffce54", emissiveIntensity: 1.3 });
+  g.add(cube(1, glowMat, [PIT.cx - 3, 2, backZ]));
+  g.add(cube(1, glowMat, [PIT.cx + 3, 2, backZ]));
+
+  // ---- enchanting table on a raised dais, in front of the wall ----
+  const tableZ = PIT.cz - 0.5;
+  const tableY = 0; // lifted to the rim so it reads from above
+  g.add(cube(1, stone, [PIT.cx, PIT.floor + 1, tableZ]));
+  g.add(cube(1, stone, [PIT.cx, PIT.floor + 2, tableZ]));
+  const tableMat = [
+    mat(tex.obsidian), mat(tex.obsidian),
+    mat(tex.enchantTop), mat(tex.obsidian),
+    mat(tex.obsidian), mat(tex.obsidian),
+  ];
+  g.add(box(1.02, 0.8, 1.02, tableMat, [PIT.cx, tableY, tableZ]));
+
+  // warm reading light + cool arcane glow
+  const warm = new THREE.PointLight(0xffd9a0, 1.0, 16, 2);
+  warm.position.set(PIT.cx, tableY + 3, tableZ + 1.5);
+  g.add(warm);
+  const arcane = new THREE.PointLight(0x9c6cff, 0.9, 7, 2);
+  arcane.position.set(PIT.cx, tableY + 1.4, tableZ);
+  g.add(arcane);
+
+  // ---- floating open book above the table ----
+  const book = new THREE.Group();
+  const bookBaseY = tableY + 1.05;
+  book.position.set(PIT.cx, bookBaseY, tableZ);
+  book.add(box(0.12, 0.32, 0.5, flat("#5a3f8a"), [0, 0, 0])); // spine
+  const pageMat = flat("#f4efe0");
+  const coverMat = flat("#7a4aa0");
+  const makeLeaf = (side) => {
+    const p = new THREE.Group();
+    p.add(box(0.44, 0.05, 0.5, coverMat, [side * 0.23, -0.03, 0])); // cover
+    p.add(box(0.4, 0.04, 0.46, pageMat, [side * 0.22, 0.01, 0]));    // pages
+    p.rotation.z = side * 0.5; // open into a V
+    return p;
+  };
+  const leafL = makeLeaf(-1), leafR = makeLeaf(1);
+  book.add(leafL, leafR);
+  g.add(book);
+
+  // ---- rising rune particles ----
+  const runes = new THREE.Group();
+  const runeGeo = new THREE.BoxGeometry(0.14, 0.14, 0.02);
+  const runeList = [];
+  for (let i = 0; i < 12; i++) {
+    const n = new THREE.Mesh(
+      runeGeo,
+      new THREE.MeshLambertMaterial({ color: 0xd8c0ff, emissive: 0x9c6cff, emissiveIntensity: 0.9, transparent: true })
+    );
+    n.userData.phase = Math.random() * Math.PI * 2;
+    n.userData.x = PIT.cx + (Math.random() - 0.5) * 1.2;
+    n.userData.z = tableZ + (Math.random() - 0.5) * 1.2;
+    runes.add(n);
+    runeList.push(n);
+  }
+  g.add(runes);
+
   g.userData.update = (t) => {
-    if (!notes.visible) return;
-    noteList.forEach((n) => {
-      const p = (t + n.userData.phase) % 3;
+    book.position.y = bookBaseY + Math.sin(t * 1.4) * 0.06;
+    book.rotation.y = Math.sin(t * 0.5) * 0.25;
+    leafL.rotation.z = -0.5 + Math.sin(t * 1.2) * 0.06;
+    leafR.rotation.z = 0.5 - Math.sin(t * 1.2) * 0.06;
+    arcane.intensity = 0.75 + Math.sin(t * 2.5) * 0.25;
+    runeList.forEach((n) => {
+      const p = (t * 0.5 + n.userData.phase) % 2.2;
       n.position.set(
-        n.userData.x + Math.sin((t + n.userData.phase) * 2) * 0.3,
-        jbY + 0.6 + p,
+        n.userData.x + Math.sin((t + n.userData.phase) * 1.6) * 0.16,
+        bookBaseY + 0.1 + p,
         n.userData.z
       );
-      n.material.opacity = 1 - p / 3;
-      n.rotation.y = t * 2 + n.userData.phase;
-      n.scale.setScalar(1 - p / 6);
+      n.material.opacity = Math.max(0, 1 - p / 2.2);
+      n.rotation.y = t * 1.5 + n.userData.phase;
+      n.scale.setScalar(1 - p / 4.4);
     });
   };
-  g.userData.setPlaying = (on) => { notes.visible = on; };
   return g;
 }
 

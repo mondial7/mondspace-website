@@ -1,26 +1,8 @@
-// Knowledge Garden — talks reborn as interactive artifacts, plus the growing
-// Engineering Playbook. Project shape is documented in ../content.js.
+// Knowledge Garden — conference talks reborn as interactive artifacts.
+// (The Engineering Playbook now lives in The Library.) Project shape is
+// documented in ../content.js.
 
 export const knowledgeGarden = [
-  {
-    slug: "engineering-playbook",
-    context: "indie",
-    title: "Engineering Playbook",
-    type: "Playbook",
-    status: "Growing",
-    themes: ["Technical leadership", "Sustainable engineering", "Ways of working", "Continuous learning"],
-    summary:
-      "An open, growing handbook of everything I've learned building software and teams — principles, not prescriptions.",
-    sections: {
-      problem:
-        "Hard-won engineering lessons usually stay locked in people's heads or scattered across old talk decks. I wanted one growing place where the thinking connects — a reference for engineers and Staff-level ICs, not a listicle.",
-      build:
-        "A living playbook, added to over time. Early chapters:\n\n- Sustainable pace is an engineering constraint\n- Influence without authority\n- Build feedback loops, not reporting theatre\n- Use AI to remove friction, not judgment\n- Internal tools are products\n- Pairing as distributed system knowledge\n- Staff engineering in small organisations\n- When process becomes overhead",
-      learnings:
-        "Writing the playbook is how I find out what I actually believe. Each chapter starts as an opinion and gets sharpened until it's useful to someone who isn't me.",
-    },
-    related: ["engineering-product-workspace", "engineering-kpis", "sustainable-remote-pairing", "ai-engineering-assistant"],
-  },
   {
     slug: "adapting-to-ai",
     context: "talk",

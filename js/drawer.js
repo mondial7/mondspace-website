@@ -35,12 +35,21 @@ function renderMarkup(md) {
     .join("");
 }
 
-const SECTION_ORDER = [
-  ["problem", "Problem"],
-  ["build", "Build"],
-  ["decisions", "Decisions"],
-  ["learnings", "Learnings"],
-];
+// Sections render in the order they're authored; keys map to friendly headings,
+// with a humanised fallback for any key not listed here.
+const SECTION_LABELS = {
+  problem: "Problem",
+  build: "Build",
+  decisions: "Decisions",
+  learnings: "Learnings",
+  about: "What it's about",
+  why: "Why I recommend it",
+  takeaway: "What I took from it",
+  now: "Now",
+  path: "The path here",
+  beyond: "Beyond the code",
+};
+const humanizeKey = (k) => k.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
 
 export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
   const root = document.createElement("div");
@@ -100,10 +109,10 @@ export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
       ? `<span class="ctx-badge ctx--${p.context}" style="--ctx:${ctx.color}">${escapeHtml(ctx.full)}</span>`
       : "";
     const badges = [p.type, p.status, p.meta].filter(Boolean);
-    const sections = SECTION_ORDER.filter(([k]) => p.sections && p.sections[k])
+    const sections = Object.entries(p.sections || {})
       .map(
-        ([k, title]) =>
-          `<div class="drawer-section"><h3>${title}</h3>${renderMarkup(p.sections[k])}</div>`
+        ([k, v]) =>
+          `<div class="drawer-section"><h3>${SECTION_LABELS[k] || humanizeKey(k)}</h3>${renderMarkup(v)}</div>`
       )
       .join("");
 

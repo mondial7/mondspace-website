@@ -16,6 +16,8 @@ export function createNavigation({ camera, areas, order, onArea }) {
   let active = "center";
   let enabled = false;         // intro animation holds this off until ready
   let lastInputAt = 0;         // ms of last navigation input (drives the dog)
+  let overBanner = false;      // pointer is over the narration card → hold still
+  let keyArea = null;          // WASD/arrow pick an area; cleared when the mouse moves
 
   const look = areas.center.lookAt.clone();
   const tmpPos = new THREE.Vector3();
@@ -30,9 +32,15 @@ export function createNavigation({ camera, areas, order, onArea }) {
 
   if (mode === "mouse") {
     window.addEventListener("mousemove", (e) => {
-      // While the cursor is over the narration banner, hold position so the
-      // world doesn't swing around — keeps it calm and easy to navigate.
-      if (e.target.closest && e.target.closest(".narration-card")) return;
+      // While the cursor is over the (expanded) narration banner, hold position
+      // so the world doesn't swing around — keeps it calm and easy to read
+      // cards. When the card is minimised it no longer freezes navigation, so
+      // the pointer can roam the world freely with the panel parked away.
+      const onCard = e.target.closest && e.target.closest(".narration-card");
+      const isMini = e.target.closest && e.target.closest(".narration.minimized");
+      overBanner = !!onCard && !isMini;
+      if (overBanner) return;
+      keyArea = null; // moving the mouse hands control back to the pointer
       mx = (e.clientX / window.innerWidth) * 2 - 1;
       my = (e.clientY / window.innerHeight) * 2 - 1;
       lastInputAt = performance.now();
@@ -41,27 +49,56 @@ export function createNavigation({ camera, areas, order, onArea }) {
     window.addEventListener("scroll", () => { lastInputAt = performance.now(); }, { passive: true });
   }
 
+  // Keyboard: W/A/S/D (and arrow keys) jump to the up/left/down/right areas;
+  // C or Space recentres. The selected area holds until the mouse moves. On
+  // touch the same keys drive the scroll tour via goTo.
+  const KEY_AREAS = {
+    w: "up", a: "left", s: "down", d: "right",
+    arrowup: "up", arrowleft: "left", arrowdown: "down", arrowright: "right",
+  };
+  window.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target;
+    if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+    if (document.querySelector(".drawer.open")) return; // don't steer the world behind an open case study
+    const k = e.key.toLowerCase();
+    const area = k === "c" || k === " " ? "center" : KEY_AREAS[k];
+    if (!area) return;
+    e.preventDefault();
+    lastInputAt = performance.now();
+    if (mode === "scroll") { goTo(area); return; }
+    keyArea = area;
+  });
+
   function computeDesired() {
     if (mode === "mouse") {
-      // Hysteresis: a wide threshold to LEAVE the centre keeps it calm, and a
-      // tighter one to RETURN to the centre makes the side/up/down views sticky
-      // so easing the mouse back doesn't snap you to centre too early.
-      const enter = 0.45;
-      const exit = 0.25;
-      const r = Math.hypot(mx, my);
-      const threshold = active === "center" ? enter : exit;
-      let id = "center";
-      if (r > threshold) {
-        if (Math.abs(my) > Math.abs(mx)) id = my < 0 ? "up" : "down";
-        else id = mx < 0 ? "left" : "right";
+      let id;
+      if (keyArea) {
+        // A key press holds a fixed view until the mouse takes over.
+        id = keyArea;
+      } else {
+        // Hysteresis: a wide threshold to LEAVE the centre keeps it calm, and a
+        // tighter one to RETURN to the centre makes the side/up/down views
+        // sticky so easing the mouse back doesn't snap to centre too early.
+        const enter = 0.45;
+        const exit = 0.25;
+        const r = Math.hypot(mx, my);
+        const threshold = active === "center" ? enter : exit;
+        id = "center";
+        if (r > threshold) {
+          if (Math.abs(my) > Math.abs(mx)) id = my < 0 ? "up" : "down";
+          else id = mx < 0 ? "left" : "right";
+        }
       }
       setActive(id);
       const a = areas[id];
       tmpPos.copy(a.camPos);
       tmpLook.copy(a.lookAt);
-      // subtle parallax within an area
-      tmpPos.x += mx * 0.7;
-      tmpPos.y += -my * 0.5;
+      // subtle parallax within an area (skipped while a key holds the view)
+      if (!keyArea) {
+        tmpPos.x += mx * 0.7;
+        tmpPos.y += -my * 0.5;
+      }
     } else {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
@@ -77,6 +114,9 @@ export function createNavigation({ camera, areas, order, onArea }) {
 
   function update() {
     if (!enabled) return;
+    // Reading a card? Hold the camera completely still — no area change, no
+    // easing, no parallax drift — so the pointer can roam the card freely.
+    if (mode === "mouse" && overBanner) return;
     computeDesired();
     camera.position.lerp(tmpPos, 0.06);
     look.lerp(tmpLook, 0.06);

@@ -276,19 +276,23 @@ body.fine-pointer .search-result { cursor: none; }
   .search-backdrop, .search-panel { transition: none; }
 }
 
-/* World-anchored narration card */
+/* Section card — pinned to screen centre, same spot & size for every area so the
+   large dead-zone under the pointer keeps accidental mouse-drift from swinging
+   the camera to another scene while you read. */
 .narration {
   position: absolute;
-  left: 0; top: 0;
-  width: min(560px, 86vw);
+  left: 50%; top: 50%;
+  width: min(640px, 92vw);
   transform: translate(-50%, -50%);
-  transition: opacity 0.5s ease;
+  transform-origin: top left;
+  transition: transform 0.42s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.5s ease;
   will-change: transform;
 }
 .narration.hidden { opacity: 0; }
 .narration-card {
   /* Capture the pointer so hovering the banner pauses navigation instead of
      swinging the camera around while you're reading or reaching for a button. */
+  position: relative;
   pointer-events: auto;
   background: var(--panel);
   backdrop-filter: blur(8px);
@@ -296,15 +300,67 @@ body.fine-pointer .search-result { cursor: none; }
   border: 1px solid var(--panel-border);
   border-left: 4px solid var(--accent);
   border-radius: 12px;
-  padding: 1.1rem 1.3rem;
+  padding: 1.45rem 1.6rem;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
 }
+
+/* Classic "reduce" icon, top-left of the card. Collapses the panel into a
+   miniature parked in the top-left corner (see .narration.minimized). */
+.narration-reduce {
+  position: absolute;
+  top: 1.4rem; left: 1.15rem;
+  width: 22px; height: 22px;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.narration-reduce::before {
+  content: "";
+  width: 11px; height: 2px;
+  margin-bottom: 4px;
+  border-radius: 1px;
+  background: var(--ink);
+  opacity: 0.85;
+}
+.narration-reduce:hover, .narration-reduce:focus-visible {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--accent);
+  outline: none;
+}
+body.fine-pointer .narration-reduce { cursor: none; }
+body.coarse-pointer .narration-reduce { display: none; }
+
+/* Miniature: scale the whole card down toward its top-left corner and park it
+   near the top-left of the viewport. transform-origin keeps the corner pinned
+   so the maths is size-independent. Mouse tracking stays live while minimised
+   (see navigation.js) so you can roam the world with the card tucked away. */
+.narration.minimized {
+  transform: translate(calc(18px - 50vw), calc(18px - 50vh)) scale(0.34);
+  cursor: pointer;
+}
+.narration.minimized:hover {
+  transform: translate(calc(18px - 50vw), calc(18px - 50vh)) scale(0.37);
+}
+.narration.minimized .narration-card { cursor: pointer; }
+.narration.minimized .narration-reduce { display: none; }
+.narration.minimized .area-card { pointer-events: none; }
+
 .narration-label {
   font-family: 'Press Start 2P', monospace;
   font-size: 0.62rem;
   letter-spacing: 1px;
   color: var(--accent);
   margin-bottom: 0.7rem;
+  padding-left: 2rem; /* clears the reduce icon */
+  min-height: 22px;
+  display: flex;
+  align-items: center;
   text-transform: uppercase;
 }
 .narration-text {
@@ -664,6 +720,28 @@ body.fine-pointer #audio-btn { cursor: none; }
   background: var(--neon);
   transform: scale(1.5);
   box-shadow: 0 0 10px var(--neon);
+}
+
+/* On desktop the compass doubles as a keybinding legend: each directional dot
+   becomes a little key-cap showing its W/A/S/D letter (C recentres). */
+body.fine-pointer .compass { width: 104px; height: 104px; }
+body.fine-pointer .compass .dot {
+  width: 22px; height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.05);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.5);
+}
+body.fine-pointer .compass .dot::after { content: attr(data-key); }
+body.fine-pointer .compass .dot.active {
+  transform: scale(1.12);
+  color: #0b0f17;
+  box-shadow: 0 0 12px var(--neon);
 }
 
 /* On touch the compass becomes a tappable d-pad — bigger, with real hit areas */

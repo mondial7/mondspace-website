@@ -57,6 +57,7 @@
     <!-- Floating, world-anchored narration panel -->
     <div id="narration" class="narration" role="region" aria-label="About Marco">
       <div class="narration-card">
+        <button type="button" class="narration-reduce" id="narration-reduce" aria-label="Minimize panel" title="Minimize"></button>
         <div class="narration-label" id="narration-label"></div>
         <p class="narration-text" id="narration-text"></p>
 
@@ -66,12 +67,12 @@
     </div>
 
     <!-- Compass / area minimap -->
-    <div class="compass" id="compass" aria-hidden="true">
-      <span class="dot up"></span>
-      <span class="dot left"></span>
-      <span class="dot center"></span>
-      <span class="dot right"></span>
-      <span class="dot down"></span>
+    <div class="compass" id="compass" aria-hidden="true" title="W A S D to move · C to centre">
+      <span class="dot up" data-key="W"></span>
+      <span class="dot left" data-key="A"></span>
+      <span class="dot center" data-key="C"></span>
+      <span class="dot right" data-key="D"></span>
+      <span class="dot down" data-key="S"></span>
     </div>
 
     <div class="hint" id="hint"></div>
