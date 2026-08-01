@@ -397,10 +397,10 @@ export function buildDog() {
   head.add(box(0.12, 0.1, 0.06, flat("#e8868f"), [0, -0.2, 0.42])); // happy tongue
   // white blaze down the forehead so the face reads against the black coat
   head.add(box(0.1, 0.34, 0.04, white, [0, 0.07, FRONT + 0.01]));
-  // pretty puppy eyes: big white sclera (frontmost) + amber iris + pupil + glint
+  // pretty puppy eyes: big white sclera (frontmost) + dark brown iris + pupil + glint
   const eye = (x) => {
     head.add(box(0.2, 0.2, 0.12, white, [x, 0.11, FRONT - 0.01]));            // sclera, proud of the face
-    head.add(box(0.13, 0.15, 0.06, flat("#3b82f6"), [x, 0.1, FRONT + 0.06])); // blue iris
+    head.add(box(0.13, 0.15, 0.06, flat("#2a1608"), [x, 0.1, FRONT + 0.06])); // dark brown iris
     head.add(box(0.07, 0.09, 0.04, flat("#0a0a0a"), [x, 0.1, FRONT + 0.09])); // pupil
     head.add(box(0.04, 0.05, 0.03, white, [x + 0.04, 0.14, FRONT + 0.11]));   // bright glint
   };
@@ -506,13 +506,15 @@ export function buildDog() {
 }
 
 // ---------------------------------------------------------------------------
-// UP — a floating island with a stage + speaker avatar.
+// UP — a floating island crowned with ancient ruins, with a spring at its near
+// edge that spills off into the waterfall below (see buildWaterfall).
 // ---------------------------------------------------------------------------
 
 export function buildStage() {
   const g = new THREE.Group();
-  const plank = mat(tex.plank);
   const stone = mat(tex.stone);
+  const cobble = mat(tex.cobble);
+  const moss = mat(tex.leaves);
 
   // floating island chunk (grass on top, stone underside)
   for (let x = -3; x <= 3; x++) {
@@ -523,96 +525,144 @@ export function buildStage() {
       if (Math.hypot(x, z) < 1.6) g.add(cube(1, stone, [x, -2, z]));
     }
   }
-  // raised plank stage
-  for (let x = -1; x <= 1; x++)
-    for (let z = -1; z <= 1; z++) g.add(cube(1, plank, [x, 1, z]));
 
-  // speakers
-  const spk = mat(tex.speaker);
-  g.add(box(0.9, 1.6, 0.9, spk, [-2, 1.3, 0]));
-  g.add(box(0.9, 1.6, 0.9, spk, [2, 1.3, 0]));
-
-  // mic stand
-  g.add(box(0.08, 1.2, 0.08, flat("#222"), [0, 2.1, 0.7]));
-  g.add(cube(0.22, flat("#111"), [0, 2.75, 0.7]));
-
-  // a jukebox on the island, puffing music notes over the show
-  const jukeMat = [
-    mat(tex.plank), mat(tex.plank),
-    mat(tex.noteBlock), mat(tex.plank),
-    mat(tex.plank), mat(tex.plank),
-  ];
-  const jbX = 1.9, jbY = 0.95, jbZ = 1.9;
-  g.add(cube(0.9, jukeMat, [jbX, jbY, jbZ]));
-  const notes = new THREE.Group();
-  const noteGeo = new THREE.BoxGeometry(0.16, 0.16, 0.16);
-  const noteList = [];
-  for (let i = 0; i < 8; i++) {
-    const n = new THREE.Mesh(
-      noteGeo,
-      new THREE.MeshLambertMaterial({ color: 0xd8c0ff, emissive: 0x9c6cff, emissiveIntensity: 0.8, transparent: true })
-    );
-    n.userData.phase = Math.random() * Math.PI * 2;
-    notes.add(n);
-    noteList.push(n);
-  }
-  g.add(notes);
-
-  // the speaker — a trading villager at the mic
-  const villager = buildVillager({ robe: "#7a4a2b", apron: "#d8c49a", mode: "wave" });
-  villager.position.set(0, 1.5, 0);
-  villager.scale.setScalar(1.25);
-  g.add(villager);
-  g.userData.avatar = villager;
-  g.userData.update = (t) => {
-    villager.userData.update(t);
-    noteList.forEach((n) => {
-      const p = (t * 0.6 + n.userData.phase) % 2.4;
-      n.position.set(
-        jbX + Math.sin((t + n.userData.phase) * 1.8) * 0.3,
-        jbY + 0.5 + p,
-        jbZ + Math.cos((t + n.userData.phase) * 1.3) * 0.2
-      );
-      n.material.opacity = Math.max(0, 1 - p / 2.4);
-      n.rotation.y = t * 2 + n.userData.phase;
-      n.scale.setScalar(1 - p / 6);
-    });
+  // ---- ruined columns: cracked cobble at varied, broken-off heights ----
+  const column = (x, z, h) => {
+    for (let y = 1; y <= h; y++) g.add(cube(0.92, cobble, [x, y, z]));
+    if (h >= 2) g.add(box(1.02, 0.4, 1.02, stone, [x, h + 0.55, z])); // toppling capstone
+    g.add(box(0.5, 0.12, 0.5, moss, [x, h + 0.78, z]));               // moss on top
   };
+  column(-2, -2, 3);
+  column(2, -2, 2);
+  column(2, 2, 3);
+  column(-2, 2, 1); // broken stump
+
+  // a fallen lintel bridging the two back columns
+  g.add(box(4.4, 0.5, 0.9, stone, [0, 3.75, 2]));
+  // scattered rubble across the grass
+  g.add(cube(0.7, cobble, [0.3, 0.6, -1]));
+  g.add(cube(0.5, cobble, [-1, 0.55, 0.4]));
+  g.add(cube(0.55, stone, [1, 0.55, -0.3]));
+  g.add(box(0.4, 0.2, 0.9, moss, [-0.6, 0.65, -1.6])); // creeping moss patch
+
+  // ---- spring at the near (-x) edge that overflows into the waterfall ----
+  const water = mat(tex.water, { transparent: true, opacity: 0.85 });
+  g.add(box(1.6, 0.3, 1.4, water, [-2.6, 0.65, 0])); // brimming basin at the rim
+
+  g.userData.update = () => {};
   return g;
 }
 
 // ---------------------------------------------------------------------------
-// LEFT — a workbench with the builder avatar.
+// LEFT — a cute little cottage (stone base, timber walls, thatched gable roof).
 // ---------------------------------------------------------------------------
 
 export function buildWorkbench() {
   const g = new THREE.Group();
   const plank = mat(tex.plank);
-  const logMat = [
-    mat(tex.logSide), mat(tex.logSide),
-    mat(tex.plank), mat(tex.plank),
-    mat(tex.logSide), mat(tex.logSide),
-  ];
-  // crafting table
-  g.add(cube(1, logMat, [0, 0.5, 0]));
-  // an anvil-ish block + "laptop"
-  g.add(box(0.9, 0.5, 0.6, mat(tex.stone), [1.4, 0.25, 0.3]));
-  const laptopBase = box(0.7, 0.06, 0.5, flat("#3a3a3a"), [0, 1.03, 0]);
-  const laptopScreen = box(0.7, 0.5, 0.06, flat("#1b2a3a"), [0, 1.28, -0.22]);
-  const glow = box(0.6, 0.4, 0.02, new THREE.MeshLambertMaterial({ color: 0x123, emissive: 0x00bcd4, emissiveIntensity: 0.8 }), [0, 1.28, -0.18]);
-  g.add(laptopBase, laptopScreen, glow);
+  const cobble = mat(tex.cobble);
+  const thatch = mat(tex.leaves);
+  const door = flat("#6b4a2b");
+  const glowMat = mat(tex.glow, { emissive: "#ffce54", emissiveIntensity: 1.2 });
 
-  // stack of blocks as "builds"
-  g.add(cube(0.7, mat(tex.cobble), [-1.4, 0.35, 0.2]));
-  g.add(cube(0.7, mat(tex.plank), [-1.4, 1.05, 0.2]));
+  const W = 2, D = 2, wallH = 3; // 5x5 footprint, 3 courses tall
+  const isDoor = (x, y) => x === 0 && (y === 1 || y === 2);
+  const isWindow = (x, y, z) =>
+    y === 2 && ((z === -D && (x === -1 || x === 1)) || (x === -W && z === 0) || (x === W && z === 0));
 
-  const villager = buildVillager({ robe: "#4f5b34", apron: "#b9a06a", mode: "mine" });
-  villager.position.set(-0.2, 0, 1.5);
-  villager.rotation.y = 0.1; // faces the camera that flies in from the front-right
-  villager.scale.setScalar(1.25);
-  g.add(villager);
-  g.userData.avatar = villager;
-  g.userData.update = (t) => villager.userData.update(t);
+  // floor
+  for (let x = -W; x <= W; x++)
+    for (let z = -D; z <= D; z++) g.add(box(1, 0.2, 1, plank, [x, 0.6, z]));
+
+  // walls — stone base course, timber above, with a doorway + windows cut out
+  for (let x = -W; x <= W; x++)
+    for (let z = -D; z <= D; z++) {
+      if (!(x === -W || x === W || z === -D || z === D)) continue; // perimeter only
+      for (let y = 1; y <= wallH; y++) {
+        if (z === D && isDoor(x, y)) continue;
+        if (isWindow(x, y, z)) continue;
+        g.add(cube(1, y === 1 ? cobble : plank, [x, y, z]));
+      }
+    }
+  // door slab + a warm lantern beside it
+  g.add(box(0.9, 2, 0.12, door, [0, 1.5, D + 0.02]));
+  g.add(cube(0.34, glowMat, [W + 0.2, 2, D - 0.2]));
+  // cosy interior light spilling through the windows
+  const hearth = new THREE.PointLight(0xffce54, 0.9, 10, 2);
+  hearth.position.set(0, 1.8, 0);
+  g.add(hearth);
+
+  // ---- stepped gable roof (thatch), overhanging the walls ----
+  for (let i = 0; i <= W + 1; i++) {
+    const y = wallH + 0.7 + i * 0.7;
+    const half = W + 1 - i;
+    for (let z = -D - 1; z <= D + 1; z++) {
+      g.add(box(1.15, 0.7, 1.15, thatch, [-half, y, z]));
+      if (half !== 0) g.add(box(1.15, 0.7, 1.15, thatch, [half, y, z]));
+    }
+  }
+  // a little cobble chimney at the back corner
+  g.add(cube(0.8, cobble, [W - 0.4, wallH + 1, -D + 0.4]));
+  g.add(cube(0.8, cobble, [W - 0.4, wallH + 1.8, -D + 0.4]));
+
+  g.userData.update = () => {};
+  return g;
+}
+
+// ---------------------------------------------------------------------------
+// A cascading waterfall + pool. Spills from the floating ruins island (topDX,
+// topDY give the island edge's offset from the pool, in world units) down into
+// a tiny lake beside the cottage.
+// ---------------------------------------------------------------------------
+
+export function buildWaterfall(topDX, topDY) {
+  const g = new THREE.Group();
+  const water = mat(tex.water, { transparent: true, opacity: 0.82 });
+  const sand = mat(tex.sand);
+  const stone = mat(tex.stone);
+
+  // tiny lake at the base (pool ringed by a sandy shore)
+  const R = 2;
+  for (let x = -R; x <= R; x++)
+    for (let z = -R; z <= R; z++) {
+      const d = Math.hypot(x, z);
+      if (d > R + 0.35) continue;
+      if (d > R - 0.8) g.add(cube(1, sand, [x, -0.4, z]));
+      else {
+        g.add(cube(1, stone, [x, -1, z]));          // lake bed
+        g.add(box(1, 0.5, 1, water, [x, -0.15, z])); // surface
+      }
+    }
+
+  // falling sheet — overlapping water boxes stepping from the pool up to the
+  // island edge at (topDX, topDY)
+  const N = Math.max(6, Math.round(topDY));
+  for (let i = 0; i <= N; i++) {
+    const f = i / N;
+    g.add(box(1.2, topDY / N + 0.5, 1.2, water, [topDX * f, topDY * f, 0]));
+  }
+
+  // sparkling foam that tumbles down the sheet
+  const foam = [];
+  const fg = new THREE.BoxGeometry(0.22, 0.22, 0.22);
+  for (let i = 0; i < 8; i++) {
+    const m = new THREE.Mesh(fg, new THREE.MeshLambertMaterial({ color: 0xeaf6ff, transparent: true }));
+    m.userData.p = i / 8;
+    g.add(m);
+    foam.push(m);
+  }
+
+  g.userData.update = (t) => {
+    foam.forEach((m, i) => {
+      const f = (m.userData.p + t * 0.15) % 1; // 0 at pool, 1 at the top
+      m.position.set(
+        topDX * f + Math.sin((t + i) * 3) * 0.22,
+        topDY * f,
+        Math.cos((t + i) * 2) * 0.22
+      );
+      m.material.opacity = 0.85 * f; // fade out as it hits the pool
+    });
+  };
   return g;
 }
 

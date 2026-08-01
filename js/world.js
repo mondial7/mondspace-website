@@ -2,6 +2,7 @@ import * as THREE from "three";
 import {
   buildGround, buildTree, buildClouds, buildMonument,
   buildStage, buildWorkbench, buildSigns, buildPitAndLibrary, buildDog,
+  buildWaterfall,
 } from "./voxel.js";
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -125,19 +126,30 @@ export function initWorld(canvas, opts = {}) {
   scene.add(cMon);
   updatables.push(cMon.userData.update);
 
-  // UP — floating island + speaker (kept off-centre so the banner doesn't hide it)
+  // UP — floating island crowned with ruins (kept off-centre so the banner
+  // doesn't hide it); a spring at its near edge feeds the waterfall below.
   const stage = buildStage();
-  stage.position.set(-7, 15, -13);
+  const upX = -7, upY = 15, upZ = -13;
+  stage.position.set(upX, upY, upZ);
   scene.add(stage);
   updatables.push(stage.userData.update);
 
-  // LEFT — workbench + builder
+  // LEFT — a cute cottage
   const bench = buildWorkbench();
   const ly = surfaceY(-15, -14);
   bench.position.set(-15, ly, -14);
   bench.rotation.y = 0.6;
   scene.add(bench);
   updatables.push(bench.userData.update);
+
+  // waterfall cascading off the ruins island into a tiny lake by the cottage
+  const poolX = -13, poolZ = -13;
+  const poolY = surfaceY(poolX, poolZ);
+  const islandEdgeX = -10; // near (-x) rim of the up island (centre -7, radius ~3.4)
+  const waterfall = buildWaterfall(islandEdgeX - poolX, upY - poolY);
+  waterfall.position.set(poolX, poolY, poolZ);
+  scene.add(waterfall);
+  updatables.push(waterfall.userData.update);
 
   // RIGHT — signposts grove
   const signs = buildSigns();
@@ -163,7 +175,7 @@ export function initWorld(canvas, opts = {}) {
   const dogTargets = {
     center: V(-4.5, 0, -3),
     up:     V(0, 0, -6.5),
-    left:   V(-10.5, 0, -11.5), // foreground, off to the side of the builder
+    left:   V(-13, 0, -10.5),   // by the cottage, in front of the little lake
     right:  V(10.5, 0, -11.5),  // foreground, off to the side of the signposts
     down:   V(-2, 0, -3.2),     // near the pit rim, lower-left, clear of the enchanting table
   };
