@@ -46,7 +46,7 @@ const books = [
   {
     slug: "book-pragmatic-programmer",
     title: "The Pragmatic Programmer",
-    type: "Book",
+    type: "Suggested read",
     meta: "Andrew Hunt & David Thomas",
     themes: ["Craft", "Ways of working", "Continuous learning"],
     summary: "The closest thing our field has to a book of good habits.",
@@ -59,7 +59,7 @@ const books = [
   {
     slug: "book-team-topologies",
     title: "Team Topologies",
-    type: "Book",
+    type: "Suggested read",
     meta: "Matthew Skelton & Manuel Pais",
     themes: ["Organisational design", "Ways of working", "Developer experience"],
     summary: "Conway's Law, turned into a design tool for how teams are shaped.",
@@ -73,7 +73,7 @@ const books = [
   {
     slug: "book-thinking-in-systems",
     title: "Thinking in Systems",
-    type: "Book",
+    type: "Suggested read",
     meta: "Donella H. Meadows",
     themes: ["Systems thinking", "Sustainable engineering"],
     summary: "The book behind how I actually see problems.",
@@ -87,7 +87,7 @@ const books = [
   {
     slug: "book-accelerate",
     title: "Accelerate",
-    type: "Book",
+    type: "Suggested read",
     meta: "Forsgren, Humble & Kim",
     themes: ["Engineering metrics", "Ways of working"],
     summary: "The research that made delivery metrics respectable.",
@@ -101,7 +101,7 @@ const books = [
   {
     slug: "book-xp-explained",
     title: "Extreme Programming Explained",
-    type: "Book",
+    type: "Suggested read",
     meta: "Kent Beck",
     themes: ["XP", "Sustainable engineering", "Ways of working"],
     summary: "Where my values as an engineer come from.",
@@ -115,7 +115,7 @@ const books = [
   {
     slug: "book-staff-engineer",
     title: "Staff Engineer",
-    type: "Book",
+    type: "Suggested read",
     meta: "Will Larson",
     themes: ["Technical leadership", "Continuous learning"],
     summary: "A map of the senior-IC path that isn't 'become a manager'.",

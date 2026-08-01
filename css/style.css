@@ -248,13 +248,19 @@ body.fine-pointer .nav-search { cursor: none; }
   border-radius: 4px;
   padding: 2px 5px;
 }
-.search-results { list-style: none; overflow-y: auto; overscroll-behavior: contain; padding: 0.4rem; }
+.search-results {
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.4rem;
+  display: grid;
+  gap: 0.5rem; /* breathing room between results */
+}
 .search-result {
   display: grid;
   gap: 2px;
   padding: 0.6rem 0.75rem;
   border-radius: 8px;
-  border-left: 3px solid var(--c, var(--accent));
   cursor: pointer;
 }
 body.fine-pointer .search-result { cursor: none; }
@@ -294,11 +300,10 @@ body.fine-pointer .search-result { cursor: none; }
      swinging the camera around while you're reading or reaching for a button. */
   position: relative;
   pointer-events: auto;
+  /* Layering comes from translucent background + blur + shadow, not borders. */
   background: var(--panel);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--panel-border);
-  border-left: 4px solid var(--accent);
   border-radius: 12px;
   padding: 1.45rem 1.6rem;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
@@ -314,11 +319,11 @@ body.fine-pointer .search-result { cursor: none; }
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  border: 1px solid var(--panel-border);
+  border: none;
   border-radius: 6px;
-  background: rgba(0, 0, 0, 0.28);
+  background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease;
 }
 .narration-reduce::before {
   content: "";
@@ -329,8 +334,7 @@ body.fine-pointer .search-result { cursor: none; }
   opacity: 0.85;
 }
 .narration-reduce:hover, .narration-reduce:focus-visible {
-  background: rgba(0, 0, 0, 0.5);
-  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.16);
   outline: none;
 }
 body.fine-pointer .narration-reduce { cursor: none; }
@@ -395,19 +399,17 @@ body.coarse-pointer .narration-reduce { display: none; }
   gap: 2px;
   text-align: left;
   padding: 0.5rem 0.7rem;
+  /* Recessed layer read purely from background, no borders. */
   background: rgba(0, 0, 0, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-left: 3px solid var(--c, var(--accent));
   border-radius: 8px;
   color: var(--ink);
   font-family: inherit;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+  transition: background 0.15s ease, transform 0.08s ease;
 }
 body.fine-pointer .area-card { cursor: none; }
 .area-card:hover, .area-card:focus-visible {
   background: rgba(0, 0, 0, 0.45);
-  border-color: var(--c, var(--accent));
   outline: none;
 }
 .area-card:active { transform: translateY(1px); }
@@ -730,12 +732,11 @@ body.fine-pointer .compass .dot {
   display: grid;
   place-items: center;
   border-radius: 5px;
-  border: 1px solid var(--panel-border);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   font-family: 'Press Start 2P', monospace;
   font-size: 0.5rem;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.75);
 }
 body.fine-pointer .compass .dot::after { content: attr(data-key); }
 body.fine-pointer .compass .dot.active {

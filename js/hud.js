@@ -154,7 +154,6 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
     current = id;
     labelEl.textContent = a.label;
     labelEl.style.color = a.color;
-    card.style.borderLeftColor = a.color;
     renderCards(a);
     narration.classList.remove("hidden");
     typeLines(id, a.lines, a.color);

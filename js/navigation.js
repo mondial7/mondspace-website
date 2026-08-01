@@ -114,9 +114,10 @@ export function createNavigation({ camera, areas, order, onArea }) {
 
   function update() {
     if (!enabled) return;
-    // Reading a card? Hold the camera completely still — no area change, no
-    // easing, no parallax drift — so the pointer can roam the card freely.
-    if (mode === "mouse" && overBanner) return;
+    // Reading a card? Hold the camera still so the pointer can roam the card
+    // freely — but a keyboard pick (keyArea) still drives the scene change, so
+    // WASD/arrows work even while the mouse rests over the card.
+    if (mode === "mouse" && overBanner && !keyArea) return;
     computeDesired();
     camera.position.lerp(tmpPos, 0.06);
     look.lerp(tmpLook, 0.06);
