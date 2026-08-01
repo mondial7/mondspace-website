@@ -75,7 +75,7 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
   // hint
   hintEl.textContent = isCoarse
     ? "Scroll to explore the world ↓"
-    : "Move your mouse to explore ✦";
+    : "Move your mouse or press W A S D to explore ✦";
   let hintFaded = false;
   const fadeHint = () => {
     if (hintFaded) return;
@@ -100,8 +100,14 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
     textEl.style.color = color;
     textEl.style.textShadow = `0 0 8px ${color}55`;
     const full = lines.join("\n\n");
+    const fullHtml = escapeHtml(full).replace(/\n/g, "<br>");
+    // Reserve the final text height up-front (render full, measure, pin
+    // min-height) so the card doesn't grow line-by-line as the typewriter runs.
+    textEl.style.minHeight = "0px";
+    textEl.innerHTML = fullHtml;
+    textEl.style.minHeight = `${textEl.offsetHeight}px`;
     if (typed.has(id)) {
-      textEl.innerHTML = escapeHtml(full).replace(/\n/g, "<br>");
+      textEl.innerHTML = fullHtml;
       return;
     }
     let i = 0;
@@ -112,7 +118,7 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
       if (i < full.length) {
         typeTimer = setTimeout(step, 22);
       } else {
-        textEl.innerHTML = escapeHtml(full).replace(/\n/g, "<br>");
+        textEl.innerHTML = fullHtml;
         typed.add(id); // fully written — don't animate this one again
       }
     })();
