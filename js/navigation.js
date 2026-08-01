@@ -31,9 +31,13 @@ export function createNavigation({ camera, areas, order, onArea }) {
 
   if (mode === "mouse") {
     window.addEventListener("mousemove", (e) => {
-      // While the cursor is over the narration banner, hold position so the
-      // world doesn't swing around — keeps it calm and easy to read cards.
-      overBanner = !!(e.target.closest && e.target.closest(".narration-card"));
+      // While the cursor is over the (expanded) narration banner, hold position
+      // so the world doesn't swing around — keeps it calm and easy to read
+      // cards. When the card is minimised it no longer freezes navigation, so
+      // the pointer can roam the world freely with the panel parked away.
+      const onCard = e.target.closest && e.target.closest(".narration-card");
+      const isMini = e.target.closest && e.target.closest(".narration.minimized");
+      overBanner = !!onCard && !isMini;
       if (overBanner) return;
       mx = (e.clientX / window.innerWidth) * 2 - 1;
       my = (e.clientY / window.innerHeight) * 2 - 1;

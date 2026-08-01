@@ -14,6 +14,27 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
   const card = narration.querySelector(".narration-card");
   const labelEl = $("narration-label");
   const textEl = $("narration-text");
+  const reduceBtn = $("narration-reduce");
+
+  // Reduce / expand: collapse the card into a top-left miniature. While
+  // minimised the pointer no longer freezes navigation (see navigation.js), so
+  // you can roam the world with the panel tucked away, then click to bring it
+  // back to centre.
+  let minimized = false;
+  function setMinimized(v) {
+    minimized = v;
+    narration.classList.toggle("minimized", v);
+    reduceBtn.setAttribute("aria-label", v ? "Expand panel" : "Minimize panel");
+    reduceBtn.setAttribute("title", v ? "Expand" : "Minimize");
+  }
+  reduceBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setMinimized(!minimized);
+  });
+  // Clicking the parked miniature anywhere brings it back.
+  narration.addEventListener("click", () => {
+    if (minimized) setMinimized(false);
+  });
 
   // Project cards live below the narration text. Built once, repopulated per
   // area from the content data.
@@ -139,28 +160,10 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
     if (id !== "center") fadeHint();
   }
 
-  // Each frame, pin the narration card to its area's world anchor.
-  function update() {
-    if (isCoarse) return; // CSS pins the card on touch devices
-    const view = areaViews[current];
-    if (!view) return;
-    const p = view.anchor.clone().project(camera);
-    const behind = p.z > 1;
-    if (behind) {
-      narration.style.opacity = "0";
-      narration.style.pointerEvents = "none";
-      return;
-    }
-    narration.style.opacity = "";
-    narration.style.pointerEvents = "";
-    const x = (p.x * 0.5 + 0.5) * window.innerWidth;
-    const y = (-p.y * 0.5 + 0.5) * window.innerHeight;
-    // keep the card comfortably on screen
-    const cx = Math.min(Math.max(x, window.innerWidth * 0.28), window.innerWidth * 0.72);
-    const cy = Math.min(Math.max(y, window.innerHeight * 0.34), window.innerHeight * 0.74);
-    narration.style.left = `${cx}px`;
-    narration.style.top = `${cy}px`;
-  }
+  // The card is pinned to screen centre by CSS (same spot & size for every
+  // area), so there is nothing to reposition per frame. Kept for API parity
+  // with the render loop.
+  function update() {}
 
   return { showArea, update };
 }
