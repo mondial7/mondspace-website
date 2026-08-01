@@ -722,6 +722,28 @@ body.fine-pointer #audio-btn { cursor: none; }
   box-shadow: 0 0 10px var(--neon);
 }
 
+/* On desktop the compass doubles as a keybinding legend: each directional dot
+   becomes a little key-cap showing its W/A/S/D letter (C recentres). */
+body.fine-pointer .compass { width: 104px; height: 104px; }
+body.fine-pointer .compass .dot {
+  width: 22px; height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.05);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.5);
+}
+body.fine-pointer .compass .dot::after { content: attr(data-key); }
+body.fine-pointer .compass .dot.active {
+  transform: scale(1.12);
+  color: #0b0f17;
+  box-shadow: 0 0 12px var(--neon);
+}
+
 /* On touch the compass becomes a tappable d-pad — bigger, with real hit areas */
 body.coarse-pointer .compass {
   pointer-events: auto;
