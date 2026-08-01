@@ -143,7 +143,8 @@ export function initWorld(canvas, opts = {}) {
   updatables.push(bench.userData.update);
 
   // waterfall cascading off the ruins island into a tiny lake by the cottage
-  const poolX = -13, poolZ = -13;
+  // (pool kept clear of the cottage footprint, under the island's near edge)
+  const poolX = -12, poolZ = -12.5;
   const poolY = surfaceY(poolX, poolZ);
   const islandEdgeX = -10; // near (-x) rim of the up island (centre -7, radius ~3.4)
   const waterfall = buildWaterfall(islandEdgeX - poolX, upY - poolY);

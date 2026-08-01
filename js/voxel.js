@@ -547,7 +547,7 @@ export function buildStage() {
 
   // ---- spring at the near (-x) edge that overflows into the waterfall ----
   const water = mat(tex.water, { transparent: true, opacity: 0.85 });
-  g.add(box(1.6, 0.3, 1.4, water, [-2.6, 0.65, 0])); // brimming basin at the rim
+  g.add(box(1.7, 0.3, 1.5, water, [-3, 0.65, 0.4])); // brimming basin, spilling over the rim
 
   g.userData.update = () => {};
   return g;
@@ -634,13 +634,13 @@ export function buildWaterfall(topDX, topDY) {
       }
     }
 
-  // falling sheet — overlapping water boxes stepping from the pool up to the
-  // island edge at (topDX, topDY)
-  const N = Math.max(6, Math.round(topDY));
-  for (let i = 0; i <= N; i++) {
-    const f = i / N;
-    g.add(box(1.2, topDY / N + 0.5, 1.2, water, [topDX * f, topDY * f, 0]));
-  }
+  // falling sheet — a single leaning ribbon from the pool up to the island edge
+  // at (topDX, topDY). One mesh, so no overlap-banding; rotated to lean toward
+  // the island.
+  const len = Math.hypot(topDX, topDY);
+  const sheet = box(1.25, len, 0.4, water, [topDX / 2, topDY / 2, 0]);
+  sheet.rotation.z = -Math.atan2(topDX, topDY);
+  g.add(sheet);
 
   // sparkling foam that tumbles down the sheet
   const foam = [];
