@@ -134,17 +134,19 @@ export const knowledgeGarden = [
     context: "talk",
     title: "Assumption Mapping in Hypothesis Engineering",
     type: "M.Sc. thesis",
-    meta: "2020 · Oulu + UPM double degree",
-    themes: ["Research", "Systems thinking", "Ways of working"],
+    meta: "2020 · University of Oulu",
+    themes: ["Research", "Continuous experimentation", "Systems thinking"],
     summary:
-      "Surfacing the assumptions a product hypothesis quietly rests on, worked through an illustrative scenario.",
+      "Does mapping your assumptions actually produce a better set of hypotheses? An evaluation of the newest technique for finding out what you're taking for granted.",
     sections: {
       problem:
-        "Hypothesis-driven development asks teams to state a hypothesis and test it. But a hypothesis is never alone — it sits on a stack of assumptions nobody wrote down, and those are usually what actually decides whether the experiment meant anything.\n\nThe thesis looks at mapping those assumptions explicitly, and what that looks like applied to a concrete scenario rather than in the abstract.",
+        "Traditional requirements engineering assumes you know what you're building. Experiment-driven development doesn't — which is why **hypothesis engineering** emerged as its own discipline, asking how teams systematically define hypotheses from business goals, vision and what they've already learned.\n\nBut a hypothesis is only as good as the assumptions it rests on, and **Assumption Mapping** — the technique proposed in Bland and Osterwalder's *Testing Business Ideas* — was the newest thing in that space and essentially unevaluated. So: how effective is it really? What are its limits, does it produce a *more complete* set of hypotheses, and is it actually easy to use?",
       build:
-        "My master's thesis for the **European Master in Software Engineering**, a double degree taken a year at a time — one at Universidad Politécnica de Madrid, one at the University of Oulu.\n\nThat's also why it appears twice on Google Scholar: the Spanish-titled record (*Mapeo de suposiciones en la ingeniería de hipótesis*) is the translated abstract of this same work, not a second thesis.",
+        "My master's thesis at the University of Oulu, supervised by Professors Minna Isomursu and Oscar Dieste, for the **European Master in Software Engineering** — a double degree taken a year at a time at UPM Madrid and Oulu. (That's also why it appears twice on Google Scholar: the Spanish-titled record is the translated abstract of this same work, not a second thesis.)\n\nTwo parts: a state-of-the-art review across both **white and grey literature**, then a **design science** evaluation cycle run as an illustrative scenario — a two-session workshop using Airbnb as the business case.",
+      decisions:
+        "The results were positive: Assumption Mapping came out well on utility, efficacy and usability. The more interesting part of the thesis is the section where I take that finding apart.\n\nThe subjects were **students, not practitioners**. The sample was too small for saturation or statistical significance. The setting was artificial, and participants worked on a business case that wasn't their own — which usefully cancels founder bias, and simultaneously wrecks generalisability. Even the choice of Airbnb is examined as a limitation in its own right.\n\nI wrote all of that down rather than letting a positive result stand unqualified, and concluded the study is a **benchmark for future work** that needs field studies on real startups before anyone leans on it.",
       learnings:
-        "It's the middle panel of a research arc I didn't plan. The bachelor thesis asked **what to measure**; this one asked **what you're assuming when you decide what to measure**; and the 2025 daBML paper I helped steer extends Build-Measure-Learn for generative AI — the same loop, a third time.\n\nThe habit it left me with is the one I use most in engineering leadership: before arguing about a decision, get the assumptions underneath it written down where everyone can see them. Most disagreements turn out to be about a hidden assumption rather than the decision itself.",
+        "The habit it left me with is the one I use most in engineering leadership: before arguing about a decision, get the assumptions underneath it written down where everyone can see them. Most disagreements turn out to be about a hidden assumption rather than about the decision itself.\n\nIt's also the middle panel of an arc I didn't plan. The bachelor thesis asked **what to measure**; this one asked **what you're assuming when you decide what to measure**; and daBML, five years later, extends Build-Measure-Learn for generative AI. Same loop, three times.",
     },
     related: ["ocean-eye", "dabml-paper", "engineering-kpis"],
     links: [
@@ -163,11 +165,11 @@ export const knowledgeGarden = [
       "An extension of the Build-Measure-Learn loop for adopting generative AI into a product process — Gijs Oliemans' work, which I helped shape and steer.",
     sections: {
       problem:
-        "Build-Measure-Learn assumes you're testing a hypothesis about a product. Adopting generative AI into how a team works is a different shape of problem: the thing you're changing is the process itself, the capability moves under you, and 'did it help?' is genuinely hard to measure.",
+        "Startups adopting generative AI are handed frameworks built for enterprises: maturity models that assume time, budget and a stable target. A startup has fast feedback cycles, tight resources and high uncertainty instead, so the enterprise playbook doesn't transfer.\n\nThe gap the paper goes after is upstream of the experiment. Teams reach for GenAI and start building before anyone has said what problem it's for, what it might cost them, or what 'working' would look like.",
       build:
-        "**This is Gijs Oliemans' paper**, published in *Advances in Software Startups: Generative AI, Product Engineering* (2025). It proposes **daBML**, an extension to the Build-Measure-Learn loop aimed at generative-AI process adoption.\n\nMy part was upstream of the writing: I inspired the direction, then reviewed and steered the work as it developed. I'm a supporting author, not the author.",
+        "**This is Gijs Oliemans' paper**, published in *Advances in Software Startups: Generative AI, Product Engineering* (2025). My part was upstream of the writing: I inspired the direction, then reviewed and steered the work as it developed. Supporting author, not the author.\n\nIt proposes **daBML** — Define-Analyze-Build-Measure-Learn — which adds **two phases in front of the Build-Measure-Learn loop**. Define does the scoping; Analyze does risk awareness and value alignment. Both happen *before* experimentation starts, which is precisely where GenAI adoption tends to skip.\n\nIt's illustrated with two internal use cases from a later-stage software startup, spanning software development, product design, operations and commercial outreach.",
       learnings:
-        "I'm including it precisely because of the shape of my contribution, not in spite of it. Most of what I do now looks like this — the useful work is helping someone else's idea get sharper, and then staying out of the way of it.\n\nIt sits deliberately next to my own 2017 paper, where I did the data work myself and was second author. Eight years apart, the same subject area, and the contribution has moved from *doing the analysis* to *shaping the question and reviewing the argument*. That progression is the honest version of what technical leadership actually looks like, and it's easier to show than to claim.\n\nThe topic is also the academic counterpart to the AI work I do day to day: the *Adapting to AI* talk and the assistant and feedback tooling are the practice, and this is the attempt to give it a loop you can run rather than a pile of anecdotes.",
+        "The paper says of itself that the framework **remains conceptual and is not yet empirically validated**, and calls for work on how it holds up across different startup contexts and beyond initial pilots. I like that it says so in the abstract rather than the last paragraph.\n\nI'm including this precisely because of the shape of my contribution, not in spite of it. Most of what I do now looks like this — the useful work is helping someone else's idea get sharper, and then staying out of the way of it.\n\nIt sits deliberately next to my own 2017 paper, where I did the data work myself and was second author. Eight years apart, the same subject area, and the contribution has moved from *doing the analysis* to *shaping the question and reviewing the argument*. That progression is the honest version of what technical leadership actually looks like, and it's easier to show than to claim.\n\nThe topic is also the academic counterpart to the AI work I do day to day: the *Adapting to AI* talk and the assistant and feedback tooling are the practice, and this is the attempt to give it a loop you can run rather than a pile of anecdotes.",
     },
     related: ["agile-startups-paper", "assumption-mapping", "adapting-to-ai", "ai-engineering-assistant", "career-growth"],
     links: [
@@ -198,7 +200,7 @@ export const knowledgeGarden = [
     context: "talk",
     title: "Development KPIs & Reporting",
     type: "Talk",
-    meta: "Agile Venture Bolzano 2024",
+    meta: "Agile Venture 2024 · Bolzano",
     themes: ["Engineering metrics", "Technical leadership", "Ways of working"],
     summary:
       "Navigating a multi-project, multi-product environment — the metrics work as it actually happened, while building a development team from scratch.",
@@ -206,7 +208,7 @@ export const knowledgeGarden = [
       problem:
         "Most metrics talks are given from a finished system, which makes them useless to the people who need them most. I gave this one from the middle: I was building the uButler development team essentially from scratch, and had to work out what was worth measuring *while* the team, the process and the products were all still moving.\n\nMulti-project and multi-product makes it harder again. Any metric that assumes one team shipping one thing falls apart the moment attention is split.",
       build:
-        "An industry talk at Agile Venture Bolzano in 2024, co-located with XP2024 the following day, on my own work: which KPIs survived contact with a small team spread across several products, how the reporting was built so it cost almost nothing to keep running, and which measures I dropped.",
+        "An industry talk at Agile Venture in 2024 in Bolzano, co-located with XP2024 the following day, on my own work: which KPIs survived contact with a small team spread across several products, how the reporting was built so it cost almost nothing to keep running, and which measures I dropped.",
       learnings:
         "Building the team and building the measurement had to happen together, and that turned out to be an advantage — metrics introduced alongside a growing team read as a shared instrument, where the same metrics imposed on an established team read as surveillance.\n\nThe other lesson: in a multi-product environment, the useful question is almost never 'how fast is the team' but 'where is attention actually going', and those need very different instruments.",
     },
