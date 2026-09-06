@@ -112,19 +112,20 @@ export const knowledgeGarden = [
     context: "talk",
     title: "daBML",
     type: "Peer-reviewed paper",
+    status: "Gijs Oliemans, lead author",
     meta: "2025 · Advances in Software Startups",
-    themes: ["AI adoption", "Research", "Ways of working"],
+    themes: ["AI adoption", "Research", "Mentoring", "Ways of working"],
     summary:
-      "An extension of the Build-Measure-Learn loop for adopting generative AI into a product process.",
+      "An extension of the Build-Measure-Learn loop for adopting generative AI into a product process — Gijs Oliemans' work, which I helped shape and steer.",
     sections: {
       problem:
         "Build-Measure-Learn assumes you're testing a hypothesis about a product. Adopting generative AI into how a team works is a different shape of problem: the thing you're changing is the process itself, the capability moves under you, and 'did it help?' is genuinely hard to measure.",
       build:
-        "A paper with Gijs Oliemans, published in *Advances in Software Startups: Generative AI, Product Engineering* (2025), proposing **daBML** — an extension to the Build-Measure-Learn loop aimed at generative-AI process adoption.",
+        "**This is Gijs Oliemans' paper**, published in *Advances in Software Startups: Generative AI, Product Engineering* (2025). It proposes **daBML**, an extension to the Build-Measure-Learn loop aimed at generative-AI process adoption.\n\nMy part was upstream of the writing: I inspired the direction, then reviewed and steered the work as it developed. I'm a supporting author, not the author.",
       learnings:
-        "This is the academic counterpart to the AI work I do day to day: the *Adapting to AI* talk and the assistant and feedback tooling are the practice, and this is the attempt to give it a loop you can actually run rather than a set of anecdotes.\n\nIt also closes a loop of my own — my first paper was about whether startups really do what they claim, and this one is about how you'd know whether an AI practice is working. Same scepticism, eight years later.",
+        "I'm including it precisely because of the shape of my contribution, not in spite of it. Most of what I do now looks like this — the useful work is helping someone else's idea get sharper, and then staying out of the way of it.\n\nIt sits deliberately next to my own 2017 paper, where I did the data work myself and was second author. Eight years apart, the same subject area, and the contribution has moved from *doing the analysis* to *shaping the question and reviewing the argument*. That progression is the honest version of what technical leadership actually looks like, and it's easier to show than to claim.\n\nThe topic is also the academic counterpart to the AI work I do day to day: the *Adapting to AI* talk and the assistant and feedback tooling are the practice, and this is the attempt to give it a loop you can run rather than a pile of anecdotes.",
     },
-    related: ["agile-startups-paper", "adapting-to-ai", "ai-engineering-assistant"],
+    related: ["agile-startups-paper", "adapting-to-ai", "ai-engineering-assistant", "career-growth"],
     links: [
       { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
     ],
