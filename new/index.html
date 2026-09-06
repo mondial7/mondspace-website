@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Marco Mondini — Mondspace</title>
+  <meta name="description" content="Marco Mondini — building systems that help people and engineering teams thrive. Explore an interactive voxel engineering garden." />
+  <meta name="theme-color" content="#7ec0ee" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <script
+    src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js"
+    data-app-id="DDDD9356-A027-4A8A-9C21-0BBF37511614"
+  ></script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- ============ Loading splash ============ -->
+  <div id="splash" role="status" aria-live="polite">
+    <div class="splash-inner">
+      <div class="splash-logo" aria-hidden="true">
+        <span>M</span><span>O</span><span>N</span><span>D</span><span>S</span><span>P</span><span>A</span><span>C</span><span>E</span>
+      </div>
+      <div class="splash-bar"><div class="splash-bar-fill" id="splash-fill"></div></div>
+      <div class="splash-status" id="splash-status">Generating world…</div>
+    </div>
+  </div>
+
+  <!-- ============ 3D world ============ -->
+  <canvas id="scene"></canvas>
+
+  <!-- Tall spacer that gives the page something to scroll on touch devices -->
+  <div id="scroll-track" aria-hidden="true"></div>
+
+  <!-- ============ HUD overlay ============ -->
+  <div id="hud" aria-hidden="false">
+    <nav class="hud-nav" aria-label="Main navigation">
+      <a class="brand" href="/" id="brand">Marco Mondini</a>
+      <div class="links" id="links">
+        <button class="nav-search" id="nav-search" type="button" aria-label="Search (press /)" title="Search — press /">⌕</button>
+      </div>
+    </nav>
+
+    <!-- Floating, world-anchored narration panel -->
+    <div id="narration" class="narration" role="region" aria-label="About Marco">
+      <div class="narration-card">
+        <button type="button" class="narration-reduce" id="narration-reduce" aria-label="Minimize panel" title="Minimize"></button>
+        <div class="narration-label" id="narration-label"></div>
+        <p class="narration-text" id="narration-text"></p>
+
+        <!-- Audio CV jukebox parked for now — see docs/adr/0008. Source kept in
+             js/audio.js + mmcv-2025-05-26.m4a for a future re-add in About. -->
+      </div>
+    </div>
+
+    <!-- Compass / area minimap -->
+    <div class="compass" id="compass" aria-hidden="true" title="W A S D to move · C to centre">
+      <span class="dot up" data-key="W"></span>
+      <span class="dot left" data-key="A"></span>
+      <span class="dot center" data-key="C"></span>
+      <span class="dot right" data-key="D"></span>
+      <span class="dot down" data-key="S"></span>
+    </div>
+
+    <div class="hint" id="hint"></div>
+  </div>
+
+  <!-- Always-visible work-in-progress notice -->
+  <div class="wip-badge" role="status" aria-label="Preview — this site is a work in progress and some content is still under review">
+    <span class="wip-dot" aria-hidden="true"></span>
+    <span class="wip-text"><strong>Preview</strong> · content still under review</span>
+  </div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <noscript>
+    <p style="color:#fff;font-family:monospace;padding:2rem;">
+      This site is an interactive voxel world that needs JavaScript. I'm Marco Mondini —
+      a Staff-level engineer building systems that help people and engineering teams thrive. Find me on
+      <a style="color:#FF9800" href="https://github.com/mondial7">GitHub</a> and
+      <a style="color:#FF9800" href="https://linkedin.com/in/mondinimarco/">LinkedIn</a>.
+    </p>
+  </noscript>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
