@@ -124,7 +124,29 @@ export const knowledgeGarden = [
       learnings:
         "I did not expect this to be the question I'd still be working on nearly a decade later, but it is.\n\nThe thesis asked what a startup should measure. Six years on I was answering the same question in production while building the uButler development team from close to scratch, and then giving a talk about it in Bolzano — a few hundred metres from where I'd written the thesis. The KPI framework and explorer elsewhere in this world are the applied version of it.\n\nWhat changed in between is only the confidence about *how much* to measure. The thesis wanted completeness. Practice taught me that a small number of measures a team actually trusts beats a complete set nobody looks at.",
     },
-    related: ["engineering-kpis", "engineering-metrics-talk", "agile-startups-paper"],
+    related: ["engineering-kpis", "engineering-metrics-talk", "assumption-mapping", "agile-startups-paper"],
+    links: [
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
+  {
+    slug: "assumption-mapping",
+    context: "talk",
+    title: "Assumption Mapping in Hypothesis Engineering",
+    type: "M.Sc. thesis",
+    meta: "2020 · Oulu + UPM double degree",
+    themes: ["Research", "Systems thinking", "Ways of working"],
+    summary:
+      "Surfacing the assumptions a product hypothesis quietly rests on, worked through an illustrative scenario.",
+    sections: {
+      problem:
+        "Hypothesis-driven development asks teams to state a hypothesis and test it. But a hypothesis is never alone — it sits on a stack of assumptions nobody wrote down, and those are usually what actually decides whether the experiment meant anything.\n\nThe thesis looks at mapping those assumptions explicitly, and what that looks like applied to a concrete scenario rather than in the abstract.",
+      build:
+        "My master's thesis for the **European Master in Software Engineering**, a double degree taken a year at a time — one at Universidad Politécnica de Madrid, one at the University of Oulu.\n\nThat's also why it appears twice on Google Scholar: the Spanish-titled record (*Mapeo de suposiciones en la ingeniería de hipótesis*) is the translated abstract of this same work, not a second thesis.",
+      learnings:
+        "It's the middle panel of a research arc I didn't plan. The bachelor thesis asked **what to measure**; this one asked **what you're assuming when you decide what to measure**; and the 2025 daBML paper I helped steer extends Build-Measure-Learn for generative AI — the same loop, a third time.\n\nThe habit it left me with is the one I use most in engineering leadership: before arguing about a decision, get the assumptions underneath it written down where everyone can see them. Most disagreements turn out to be about a hidden assumption rather than the decision itself.",
+    },
+    related: ["ocean-eye", "dabml-paper", "engineering-kpis"],
     links: [
       { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
     ],
@@ -147,7 +169,7 @@ export const knowledgeGarden = [
       learnings:
         "I'm including it precisely because of the shape of my contribution, not in spite of it. Most of what I do now looks like this — the useful work is helping someone else's idea get sharper, and then staying out of the way of it.\n\nIt sits deliberately next to my own 2017 paper, where I did the data work myself and was second author. Eight years apart, the same subject area, and the contribution has moved from *doing the analysis* to *shaping the question and reviewing the argument*. That progression is the honest version of what technical leadership actually looks like, and it's easier to show than to claim.\n\nThe topic is also the academic counterpart to the AI work I do day to day: the *Adapting to AI* talk and the assistant and feedback tooling are the practice, and this is the attempt to give it a loop you can run rather than a pile of anecdotes.",
     },
-    related: ["agile-startups-paper", "adapting-to-ai", "ai-engineering-assistant", "career-growth"],
+    related: ["agile-startups-paper", "assumption-mapping", "adapting-to-ai", "ai-engineering-assistant", "career-growth"],
     links: [
       { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
     ],
