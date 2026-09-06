@@ -20,7 +20,7 @@ const profile = {
     how:
       "I combine people-first leadership with technical fluency — the two aren't a trade-off, they're the same job seen from two angles.\n\n- **People leadership & mentoring** — 1:1s, feedback, career levels, hiring, psychological safety.\n- **Delivery flow & predictability** — lightweight KPIs/OKRs, Kanban/XP, information radiators.\n- **Technical direction & architecture** — across web, mobile, data and internal platforms.\n- **CI/CD & developer experience** — because friction compounds.\n- **Reliability, observability & incident response** — operational maturity as a feature.",
     path:
-      "Co-founded a mobile startup in Bolzano (**FlashBeing**, 5,500+ users in the first month), built data-visualisation and ML-adjacent products at **Datatellers**, led a remote-first team of five at **RIDE** in Berlin, and have been leading engineering at **uButler** since 2023.\n\nUnderneath it: a B.Sc. from Bolzano, the **European Master in Software Engineering** (Madrid), and an M.Sc. from **Oulu** — plus a decade-long XP and Agile habit that shows up in everything above.",
+      "Co-founded a mobile startup in Bolzano (**FlashBeing**, 5,500+ users in the first month), built data-visualisation and ML-adjacent products at **Datatellers**, led a remote-first team of five at **RIDE** in Berlin, and have been leading engineering at **uButler** since 2023.\n\nUnderneath it: a B.Sc. from Bolzano, the **European Master in Software Engineering** (Madrid), and an M.Sc. from **Oulu** — plus a decade-long XP and Agile habit that shows up in everything above.\n\nThat academic side never quite switched off. I still publish occasionally, and my 2017 paper on agile practice in software startups has been cited over 140 times.",
     beyondTheCV:
       "This site is deliberately *not* the CV. The CV tells you what I was responsible for; the world around you is where I show the reasoning — the trade-offs I'd defend, the things I got wrong, the small apps I ship on my own time, and the books that actually changed how I work.\n\nIf you only have two minutes: download the CV. If you have ten, go left and read a decision I'd argue about.",
   },
@@ -28,6 +28,7 @@ const profile = {
   links: [
     { label: "Download CV (PDF)", href: "/Marco_Mondini-Resume.pdf" },
     { label: "LinkedIn", href: "https://linkedin.com/in/mondinimarco/" },
+    { label: "Google Scholar", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
     { label: "GitHub", href: "https://github.com/mondial7" },
   ],
 };

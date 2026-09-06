@@ -85,20 +85,49 @@ export const knowledgeGarden = [
     slug: "agile-startups-paper",
     context: "talk",
     title: "Are Software Startups Applying Agile Practices?",
-    type: "Conference paper",
-    meta: "XP2017 · Springer",
-    themes: ["Research", "Ways of working", "Continuous learning"],
+    type: "Peer-reviewed paper",
+    status: "140+ citations",
+    meta: "XP2017 · Springer LNBIP 283 · open access",
+    themes: ["Research", "Data analysis", "Ways of working", "Continuous learning"],
     summary:
-      "A peer-reviewed look at the gap between what startups say they do and what they actually practise.",
+      "The state of the practice from a survey of 1,526 software startups — and my first serious piece of work in software-engineering research.",
     sections: {
       problem:
-        "Startups almost universally describe themselves as agile. Whether that survives contact with the day-to-day — the pressure, the pivots, the two-person teams — is an empirical question, and mostly an unasked one.",
+        "Startups almost universally describe themselves as agile. Whether that survives contact with the day-to-day — the pressure, the pivots, the two-person teams — is an empirical question, and at the time a mostly unasked one.\n\nTwo research questions: are software startups applying agile practices, and do the ones following Lean Startup apply them differently?",
       build:
-        "A conference paper published in the XP2017 proceedings (Springer), examining which agile practices software startups genuinely apply versus which they claim.",
+        "Published in the XP2017 proceedings (Springer LNBIP 283, pp. 167–183) with Jevgenija Pantiuchina, Dron Khanna, Xiaofeng Wang and Pekka Abrahamsson, out of the Free University of Bozen-Bolzano and NTNU. I'm second author.\n\n**My contribution was the data.** I did the cleaning and validation, the analysis, and the definition of the results, and contributed to shaping the research questions. The study examined five practices — regular refactoring and test-first (quality), frequent release and agile planning (speed), and the daily standup (communication) — using exploratory factor analysis and chi-square tests in R.",
+      decisions:
+        "The number I still think about: the raw dataset had **10,171 entries and the cleaned one had 1,526**. We threw away 85% of the data.\n\nThat was a deliberate trade-off, and we said so in the paper: strict validation cases certainly removed some genuinely valid entries, but a clean dataset was worth more than a large one. The validation rules were published openly on figshare so anyone could disagree with them.\n\nThe other honest moment: we wanted to aggregate practices into quality and speed dimensions, but Cronbach's alpha came back at 0.41 and 0.50 — too low to justify it. So we dropped the aggregation and analysed each practice on its own, which was less tidy and more true.",
       learnings:
-        "Doing the research is what made me sceptical of self-reported process, in a way that still shapes how I measure teams: ask what the system produces, not what it says about itself.\n\nIt's also why I'd rather ship a lightweight practice a team sustains than a correct one it quietly abandons.",
+        "The headline finding was that speed-related practices are used far more than quality ones, and the daily standup least of all. The one that surprised me: startups following Lean Startup did **not** trade quality for speed more than anyone else — the stereotype didn't survive the data.\n\nDoing this is what made me permanently sceptical of self-reported process, and it still shapes how I measure teams: ask what the system produces, not what it says about itself. It's also why I'd rather ship a lightweight practice a team sustains than a correct one it quietly abandons.\n\nAnd it taught me that the least glamorous part — deciding what data you're willing to throw away — is usually where the result is actually decided.",
     },
-    related: ["first-being-then-doing", "engineering-kpis"],
+    related: ["first-being-then-doing", "engineering-kpis", "dabml-paper"],
+    links: [
+      { label: "Read the paper (open access)", href: "https://doi.org/10.1007/978-3-319-57633-6_11" },
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
+  {
+    slug: "dabml-paper",
+    context: "talk",
+    title: "daBML",
+    type: "Peer-reviewed paper",
+    meta: "2025 · Advances in Software Startups",
+    themes: ["AI adoption", "Research", "Ways of working"],
+    summary:
+      "An extension of the Build-Measure-Learn loop for adopting generative AI into a product process.",
+    sections: {
+      problem:
+        "Build-Measure-Learn assumes you're testing a hypothesis about a product. Adopting generative AI into how a team works is a different shape of problem: the thing you're changing is the process itself, the capability moves under you, and 'did it help?' is genuinely hard to measure.",
+      build:
+        "A paper with Gijs Oliemans, published in *Advances in Software Startups: Generative AI, Product Engineering* (2025), proposing **daBML** — an extension to the Build-Measure-Learn loop aimed at generative-AI process adoption.",
+      learnings:
+        "This is the academic counterpart to the AI work I do day to day: the *Adapting to AI* talk and the assistant and feedback tooling are the practice, and this is the attempt to give it a loop you can actually run rather than a set of anecdotes.\n\nIt also closes a loop of my own — my first paper was about whether startups really do what they claim, and this one is about how you'd know whether an AI practice is working. Same scepticism, eight years later.",
+    },
+    related: ["agile-startups-paper", "adapting-to-ai", "ai-engineering-assistant"],
+    links: [
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
   },
   {
     slug: "xp2024-track-chair",

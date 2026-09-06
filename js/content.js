@@ -57,8 +57,8 @@ export const AREAS = [
     label: "Knowledge Garden",
     color: "#FF9800",
     lines: [
-      "What I teach: talks, experience reports and a peer-reviewed paper — reborn as something explorable, not slides.",
-      "A decade in the XP and Agile community, from a 2017 research paper to co-chairing the XP2024 engineering track.",
+      "What I teach: talks, experience reports and peer-reviewed papers — reborn as something explorable, not slides.",
+      "A decade in the XP and Agile community, from a 2017 research paper still being cited to co-chairing the XP2024 engineering track.",
     ],
     projects: knowledgeGarden,
   },
