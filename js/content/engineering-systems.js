@@ -88,4 +88,46 @@ export const engineeringSystems = [
     },
     related: ["ai-engineering-assistant", "engineering-product-workspace"],
   },
+  {
+    slug: "career-growth",
+    context: "business",
+    title: "Career Levels & Growth",
+    type: "People system",
+    status: "In production",
+    themes: ["People leadership", "Mentoring", "Engineering culture", "Ways of working"],
+    summary:
+      "The system behind growing engineers: career levels, a real 1:1 cadence, feedback that lands, and a hiring bar the team can actually apply.",
+    sections: {
+      problem:
+        "A small team can go a long way on goodwill, and then it stops. Engineers couldn't see what *next* looked like, so growth conversations turned into salary conversations. Feedback arrived in bursts when something went wrong. Hiring decisions leaned on whoever interviewed most confidently that week.\n\nNone of that is a people problem. It's a **missing system** — and its absence is felt hardest by the quietest people on the team.",
+      build:
+        "I introduced the scaffolding that makes growth legible:\n\n- **Career levels** — written expectations for each level, so 'what would it take?' has an answer that isn't my opinion on the day.\n- **A 1:1 cadence that holds** — regular, engineer-owned agenda, not a status report in disguise.\n- **Feedback as a habit** — specific and behavioural, close to the event, in both directions.\n- **A shared hiring bar** — clear expectations and a consistent loop, so decisions are comparable across interviewers.\n- **Practices that reinforce psychological safety** — because none of the above works if people can't say the true thing.",
+      decisions:
+        "- **Levels as a map, not a ladder.** They describe scope and impact, not a queue you wait in. The Staff-track and management-track branches are both drawn, deliberately — nobody should back into management because it was the only path on the wall.\n- **Written beats charismatic.** Anything I only say in a 1:1 doesn't scale past me and quietly favours whoever talks to me most.\n- **Lightweight on purpose.** A framework the team won't maintain is worse than none — it decays into a document people cite when they're unhappy.\n- **Coaching over evaluating.** The levels exist to answer 'how do I grow', and only incidentally 'how did I do'.",
+      learnings:
+        "The framework mattered far less than the fact that it was *written down and applied consistently*. Most of the perceived unfairness in a small team isn't unfairness — it's ambiguity, and people fill ambiguity with their worst guess.\n\nI also learned to be honest that management is a **different job, not a higher one**. Saying that out loud changed which people put their hand up, and made it safe for a strong engineer to stay an engineer.",
+    },
+    related: ["engineering-product-workspace", "ai-360-feedback", "engineering-playbook", "book-managers-path"],
+  },
+  {
+    slug: "operational-maturity",
+    context: "business",
+    title: "Operational Maturity",
+    type: "Engineering system",
+    status: "In production",
+    themes: ["Reliability", "Observability", "Incident response", "Risk & compliance"],
+    summary:
+      "Turning 'the site is slow, I think?' into a system: observability, incident response, security reviews and business-continuity planning a small team can actually sustain.",
+    sections: {
+      problem:
+        "A startup finds out it needs operational maturity in exactly one way: something breaks, and nobody can say when it started, who noticed, or whether it's still happening.\n\nAt the same time the company was growing into real obligations — security reviews, audit readiness, business continuity. The usual answer is a compliance binder that no engineer ever reads. I wanted the version where the team is genuinely better at running its software, and the paperwork falls out of that as a by-product.",
+      build:
+        "Raised the floor across several fronts at once, each deliberately small:\n\n- **Observability** — the boring question first: can we see it? Signals chosen so a human can go from alert to cause without a guided tour.\n- **Incident response** — a lightweight practice for declaring, handling and *writing up* incidents, with blameless review as the default.\n- **Security reviews & risk management** — made routine rather than heroic, and sized to a small team.\n- **Business continuity & audit readiness** — documented where the work already happens, so it stays true.",
+      decisions:
+        "- **Blameless, or don't bother.** The moment a write-up becomes a search for who, you stop learning what — and you lose the reports you most needed to read.\n- **Sustainable for the team we actually are.** A rota that burns out four people is not reliability, it's a deferred outage.\n- **Compliance as an output, not a project.** If the practice is real, the evidence exists already; if you need a project to produce it, the practice wasn't real.\n- **Reliability is a product decision.** Deciding how reliable something needs to be is a conversation with Product, not a target engineering invents alone.",
+      learnings:
+        "Operational maturity reads as bureaucracy right up until the first incident it makes survivable — and after that it's the least negotiable thing you own.\n\nThe surprise was cultural, not technical: the practice that changed the most was **blameless write-ups**. Once engineers stopped expecting the question to be *who*, they started reporting the near-misses, which is where nearly all the useful information turned out to be.",
+    },
+    related: ["engineering-product-workspace", "engineering-kpis", "career-growth"],
+  },
 ];

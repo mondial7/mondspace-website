@@ -66,8 +66,10 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
   LINKS.forEach((l) => {
     const a = document.createElement("a");
     a.href = l.href;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
+    if (!l.href.startsWith("mailto:")) {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
     a.textContent = l.label;
     linksEl.appendChild(a);
   });

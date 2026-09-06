@@ -1,26 +1,9 @@
-// The Library (down area) — an "About Marco" panel plus books that shaped how
-// I think. Project shape is documented in ../content.js. Books use the section
+// The Library (down area) — my engineering playbook plus the books behind the
+// opinions. Project shape is documented in ../content.js. Books use the section
 // keys about / why / takeaway (the drawer labels any section key).
 //
 // NOTE: the book list is a starter set chosen to fit the profile — edit freely
 // to match the real shelf.
-
-const about = {
-  slug: "about-marco",
-  title: "About Marco",
-  type: "Profile",
-  themes: ["Continuous learning", "Sustainable engineering"],
-  summary: "The short version — who I am, what I do now, and what I care about.",
-  sections: {
-    now:
-      "I'm a Staff-level engineer and engineering-systems builder, currently leading engineering at uButler in Amsterdam. I establish the processes, KPIs and AI-assisted workflows that help a small team ship sustainably — while staying hands-on across the stack (TypeScript, Python, React / React Native, Go, GraphQL, GCP).",
-    path:
-      "10+ years across startups and small product teams — from co-founding a mobile startup, through data-visualisation and legacy platforms, to engineering leadership. Underneath it: a European Master in Software Engineering (Madrid + Oulu) and a lifelong XP / Agile habit.",
-    beyond:
-      "I speak in the XP / Agile community, build small honest apps for myself (the shelves around you), and I'm happiest reducing friction — for teams, for users, and for one very good dog.",
-  },
-  related: ["engineering-playbook", "engineering-product-workspace"],
-};
 
 const playbook = {
   slug: "engineering-playbook",
@@ -33,9 +16,9 @@ const playbook = {
     "An open, growing handbook of everything I've learned building software and teams — principles, not prescriptions.",
   sections: {
     problem:
-      "Hard-won engineering lessons usually stay locked in people's heads or scattered across old talk decks. I wanted one growing place where the thinking connects — a reference for engineers and Staff-level ICs, not a listicle.",
+      "Hard-won engineering lessons usually stay locked in people's heads or scattered across old talk decks. I wanted one growing place where the thinking connects — a reference for engineers stepping into technical leadership, whichever track they take — not a listicle.",
     build:
-      "A living playbook, added to over time. Early chapters:\n\n- Sustainable pace is an engineering constraint\n- Influence without authority\n- Build feedback loops, not reporting theatre\n- Use AI to remove friction, not judgment\n- Internal tools are products\n- Pairing as distributed system knowledge\n- Staff engineering in small organisations\n- When process becomes overhead",
+      "A living playbook, added to over time. Early chapters:\n\n- Sustainable pace is an engineering constraint\n- Influence without authority\n- Build feedback loops, not reporting theatre\n- Use AI to remove friction, not judgment\n- Internal tools are products\n- Pairing as distributed system knowledge\n- Technical leadership in small organisations\n- When process becomes overhead",
     learnings:
       "Writing the playbook is how I find out what I actually believe. Each chapter starts as an opinion and gets sharpened until it's useful to someone who isn't me.",
   },
@@ -124,8 +107,22 @@ const books = [
       why: "It named a lot of what I already do — technical strategy, glue work, influence without a title — and gave it a shape to grow into.",
       takeaway: "At this level the job is leverage: the highest-value thing you build is often the system that helps everyone else build better.",
     },
-    related: ["engineering-playbook"],
+    related: ["engineering-playbook", "book-managers-path"],
+  },
+  {
+    slug: "book-managers-path",
+    title: "The Manager's Path",
+    type: "Suggested read",
+    meta: "Camille Fournier",
+    themes: ["People leadership", "Technical leadership", "Continuous learning"],
+    summary: "The other map — what the management track actually asks of you.",
+    sections: {
+      about: "A stage-by-stage walk through engineering leadership: being managed, mentoring, tech lead, managing people, managing managers — and what changes at each step.",
+      why: "I read it next to *Staff Engineer* on purpose. Both describe leadership above senior; only one involves a reporting line. Knowing both maps is what let me choose deliberately rather than drift.",
+      takeaway: "Management is a distinct craft with its own skills to practise — not a promotion you receive for being good at the previous job.",
+    },
+    related: ["book-staff-engineer", "career-growth", "engineering-playbook"],
   },
 ];
 
-export const library = [about, playbook, ...books];
+export const library = [playbook, ...books];

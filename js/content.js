@@ -15,6 +15,7 @@
 // Section bodies use a tiny markdown subset: blank-line-separated paragraphs,
 // "- " bullet lists, **bold**, *italic* and `code` (rendered in js/drawer.js).
 
+import { spawn } from "./content/spawn.js";
 import { engineeringSystems } from "./content/engineering-systems.js";
 import { thoughtfulProducts } from "./content/thoughtful-products.js";
 import { knowledgeGarden } from "./content/knowledge-garden.js";
@@ -36,17 +37,18 @@ export const AREAS = [
     label: "Spawn",
     color: "#76FF03",
     lines: [
-      "I'm Marco. I build systems that help people and engineering teams thrive.",
-      "Software, internal platforms, AI-assisted workflows and developer experiences that reduce friction and improve feedback loops.",
+      "I'm Marco — an Engineering Manager and hands-on product engineer in Amsterdam.",
+      "I build systems that help people and engineering teams thrive. Look around: left is how I lead, right is what I build, up is what I teach, down is how I think.",
     ],
+    projects: spawn,
   },
   {
     id: "up",
     label: "Knowledge Garden",
     color: "#FF9800",
     lines: [
-      "Conference talks reborn as interactive experiences, not slides.",
-      "A decade of XP, Agile and AI-adoption practice, made explorable.",
+      "What I teach: talks, experience reports and a peer-reviewed paper — reborn as something explorable, not slides.",
+      "A decade in the XP and Agile community, from a 2017 research paper to co-chairing the XP2024 engineering track.",
     ],
     projects: knowledgeGarden,
   },
@@ -55,8 +57,8 @@ export const AREAS = [
     label: "Engineering Systems",
     color: "#00FFFF",
     lines: [
-      "Systems that make engineering organisations work better.",
-      "Rebuilt engineering workspaces, KPIs & reporting, AI-assisted workflows — and the practices that hold them together.",
+      "How I lead: systems that make an engineering organisation work better.",
+      "Workspaces, KPIs & reporting, career levels, AI adoption and operational maturity — built at uButler, and the practices that hold them together.",
     ],
     projects: engineeringSystems,
   },
@@ -65,8 +67,8 @@ export const AREAS = [
     label: "Thoughtful Products",
     color: "#DA70D6",
     lines: [
-      "Small, thoughtful software built around real human needs.",
-      "Journaling, a puppy companion, habit-building, travel utilities — each removes friction so you can think about what matters.",
+      "What I build: small, thoughtful software around real human needs — designed, shipped and maintained by me alone.",
+      "Journaling, a puppy companion, habit-building, travel utilities. None of these are on my CV; that's rather the point.",
     ],
     projects: thoughtfulProducts,
   },
@@ -75,7 +77,7 @@ export const AREAS = [
     label: "The Library",
     color: "#F48FB1",
     lines: [
-      "Books that shaped how I think, my engineering playbook, and the short version of me.",
+      "How I think: my engineering playbook, and the books behind the opinions.",
       "A shelf, not a syllabus — pick something up.",
     ],
     projects: library,
@@ -84,6 +86,7 @@ export const AREAS = [
 
 export const LINKS = [
   { label: "CV", href: "/Marco_Mondini-Resume.pdf" },
+  { label: "Email", href: "mailto:mmondini@mondspace.com" },
   { label: "GitHub", href: "https://github.com/mondial7" },
   { label: "LinkedIn", href: "https://linkedin.com/in/mondinimarco/" },
 ];

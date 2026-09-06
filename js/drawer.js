@@ -46,8 +46,13 @@ const SECTION_LABELS = {
   why: "Why I recommend it",
   takeaway: "What I took from it",
   now: "Now",
+  how: "How I work",
   path: "The path here",
   beyond: "Beyond the code",
+  beyondTheCV: "Beyond the CV",
+  map: "The map",
+  whyThis: "Why a world, not a page",
+  controls: "Controls",
 };
 const humanizeKey = (k) => k.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
 
@@ -128,7 +133,9 @@ export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
     const links = (p.links || [])
       .map(
         (l) =>
-          `<a class="drawer-link" href="${escapeHtml(l.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)} ↗</a>`
+          l.href.startsWith("mailto:")
+            ? `<a class="drawer-link" href="${escapeHtml(l.href)}">${escapeHtml(l.label)}</a>`
+            : `<a class="drawer-link" href="${escapeHtml(l.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)} ↗</a>`
       )
       .join("");
 
