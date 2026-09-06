@@ -69,7 +69,7 @@ export const AREAS = [
     color: "#00FFFF",
     lines: [
       "How I lead: systems that make an engineering organisation work better.",
-      "Workspaces, KPIs & reporting, career levels, AI adoption and operational maturity — built at uButler, and the practices that hold them together.",
+      "Cadence, the internal platform behind our engineering flow. KPIs & reporting, career levels, AI adoption and operational maturity — built at uButler, and the practices that hold them together.",
     ],
     projects: engineeringSystems,
   },
