@@ -39,6 +39,7 @@ export const CONTEXTS = {
   business: { label: "Work", full: "Business project", color: "#7ec0ee" },
   indie: { label: "Indie", full: "Indie project", color: "#FF9800" },
   talk: { label: "Talk", full: "Conference talk", color: "#DA70D6" },
+  academic: { label: "University", full: "University project", color: "#76FF03" },
 };
 
 export const AREAS = [
@@ -77,8 +78,8 @@ export const AREAS = [
     label: "Thoughtful Products",
     color: "#DA70D6",
     lines: [
-      "What I build: small, thoughtful software around real human needs — designed, shipped and maintained by me alone.",
-      "Journaling, a puppy companion, habit-building, travel utilities. None of these are on my CV; that's rather the point.",
+      "What I build: software with a real person at the other end — most of it designed, shipped and maintained by me alone.",
+      "Journaling, a puppy companion, habit-building, travel utilities, and the edtech platform behind a university spin-off. Almost none of it is on my CV; that's rather the point.",
     ],
     projects: thoughtfulProducts,
   },
