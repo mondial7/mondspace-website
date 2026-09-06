@@ -54,9 +54,9 @@ export const knowledgeGarden = [
       problem:
         "Remote-first teams can quietly become isolating and unsustainable: knowledge silos, invisible burnout, and connection that erodes one skipped coffee at a time.",
       build:
-        "An experience report at XP2022 (Copenhagen) on using regular pairing as the building block of a sustainable, psychologically safe remote culture — told through what actually happened, not what should have.",
+        "An experience report at XP2022 (Copenhagen), co-authored with five colleagues, on the engineering department at **RIDE Capital** in Berlin — where pairing went from a practice to the load-bearing one.\n\nThe team grew from about five developers in late 2020 into multiple distributed teams spread from IST to BRT, with **50–90% of working time spent pairing**. The report covers what that did for onboarding, knowledge sharing and psychological safety, told through what actually happened rather than what should have.",
       learnings:
-        "Sustainability is built in small, repeated acts. Pairing wasn't just a coding practice — it was the mechanism that kept a distributed team human.",
+        "Sustainability is built in small, repeated acts. Pairing wasn't just a coding practice — it was the mechanism that kept a distributed team human across eight time zones.\n\nThe part I'd defend hardest: pairing at that intensity is not a productivity tactic, it's how a remote team stops knowledge from pooling in whoever happens to be online.",
     },
     related: ["sync-code-reviews", "habit-tracker", "first-being-then-doing"],
     links: [{ label: "Read the experience report", href: "https://www.agilealliance.org/resources/experience-reports/towards-a-sustainable-remote-first-team-environment-one-pairing-session-at-a-time/" }],
@@ -74,9 +74,9 @@ export const knowledgeGarden = [
       problem:
         "Agile is usually taught as a set of ceremonies to perform. That framing produces teams that *do* agile faithfully and never feel any freer for it — the practices arrive, the autonomy doesn't.",
       build:
-        "An experience report at XP2018 (Agile Alliance, Porto) arguing the order matters: the values come first and the practices follow from them. Told as lived experience rather than a framework pitch.",
+        "An experience report at XP2018 (Agile Alliance, Porto), co-authored with Francesco Vettoretti, on the agile transformation at **Datatellers** in Bolzano.\n\nIt documents two attempts. The first was top-down and tool-led — roll out Trello, roll out Asana, declare agility. It failed. The second worked by going the other way: principles first, spread bottom-up through the team, with education instead of imposition.",
       learnings:
-        "You can adopt every ceremony and change nothing. What actually shifts a team is the values underneath — and those are demonstrated, never rolled out.\n\nThis is the earliest thing on this shelf, and I still recognise the argument in how I lead now.",
+        "You can adopt every ceremony and change nothing. Tools are the *output* of a way of working, never the cause of one — installing them first just gives everyone a place to file the old behaviour.\n\nThis is the earliest thing on this shelf and the only one that's mostly a write-up of a failure. I still recognise the argument in how I lead now: I'd rather change what a team believes than what it has installed.",
     },
     related: ["sustainable-remote-pairing", "agile-startups-paper", "engineering-playbook"],
     links: [{ label: "Read the experience report", href: "https://www.agilealliance.org/resources/experience-reports/first-being-then-doing-feeling-the-freedom-through-agileness/" }],
