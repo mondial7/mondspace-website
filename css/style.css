@@ -432,6 +432,28 @@ body.fine-pointer .area-card { cursor: none; }
   background: var(--ctx, var(--accent));
   box-shadow: 0 0 5px var(--ctx, var(--accent));
 }
+
+/* ---- Shelf states -------------------------------------------------------
+   The Library marks what I've actually read. A filled dot means read, a hollow
+   one means it's still on the pile — the unread books stay on the shelf and
+   say so rather than implying otherwise. */
+.area-card--radar { opacity: 0.72; }
+.area-card--radar:hover, .area-card--radar:focus-visible { opacity: 1; }
+
+/* Hollow marker = not read yet. */
+.area-card-ctx.shelf--radar::before,
+.ctx-badge.shelf--radar::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--ctx);
+}
+
+/* Currently reading gently breathes, so the shelf has something alive on it. */
+.area-card-ctx.shelf--now::before { animation: shelf-pulse 2.4s ease-in-out infinite; }
+@keyframes shelf-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 5px var(--ctx); }
+  50% { opacity: 0.45; box-shadow: 0 0 2px var(--ctx); }
+}
+
 .area-card-title { font-size: 0.86rem; font-weight: 700; }
 .area-card-type {
   font-size: 0.64rem;
@@ -850,4 +872,8 @@ body.fine-pointer .cursor { display: block; }
 @media (max-width: 600px) {
   .narration { top: auto !important; bottom: 16vh; transform: translate(-50%, 0) !important; left: 50% !important; }
   .compass { transform: scale(0.85); transform-origin: bottom right; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .area-card-ctx.shelf--now::before { animation: none; }
 }

@@ -1,4 +1,4 @@
-import { AREAS, LINKS, CONTEXTS } from "./content.js";
+import { AREAS, LINKS, CONTEXTS, SHELF } from "./content.js";
 
 const byId = Object.fromEntries(AREAS.map((a) => [a.id, a]));
 
@@ -132,11 +132,15 @@ export function createHUD({ camera, areaViews, isCoarse, onJump, onOpenProject }
     projects.forEach((p) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "area-card";
+      btn.className = "area-card" + (p.shelf ? ` area-card--${p.shelf}` : "");
       btn.style.setProperty("--c", a.color);
+      // A card carries either a project context or, on the shelf, a reading state.
       const ctx = CONTEXTS[p.context];
+      const shelf = SHELF[p.shelf];
       const ctxTag = ctx
         ? `<span class="area-card-ctx ctx--${p.context}" style="--ctx:${ctx.color}">${escapeHtml(ctx.label)}</span>`
+        : shelf
+        ? `<span class="area-card-ctx shelf--${p.shelf}" style="--ctx:${shelf.color}">${escapeHtml(shelf.label)}</span>`
         : "";
       btn.innerHTML =
         ctxTag +

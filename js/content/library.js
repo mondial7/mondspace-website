@@ -1,26 +1,9 @@
-// The Library (down area) — an "About Marco" panel plus books that shaped how
-// I think. Project shape is documented in ../content.js. Books use the section
+// The Library (down area) — my engineering playbook plus the books behind the
+// opinions. Project shape is documented in ../content.js. Books use the section
 // keys about / why / takeaway (the drawer labels any section key).
 //
 // NOTE: the book list is a starter set chosen to fit the profile — edit freely
 // to match the real shelf.
-
-const about = {
-  slug: "about-marco",
-  title: "About Marco",
-  type: "Profile",
-  themes: ["Continuous learning", "Sustainable engineering"],
-  summary: "The short version — who I am, what I do now, and what I care about.",
-  sections: {
-    now:
-      "I'm a Staff-level engineer and engineering-systems builder, currently leading engineering at uButler in Amsterdam. I establish the processes, KPIs and AI-assisted workflows that help a small team ship sustainably — while staying hands-on across the stack (TypeScript, Python, React / React Native, Go, GraphQL, GCP).",
-    path:
-      "10+ years across startups and small product teams — from co-founding a mobile startup, through data-visualisation and legacy platforms, to engineering leadership. Underneath it: a European Master in Software Engineering (Madrid + Oulu) and a lifelong XP / Agile habit.",
-    beyond:
-      "I speak in the XP / Agile community, build small honest apps for myself (the shelves around you), and I'm happiest reducing friction — for teams, for users, and for one very good dog.",
-  },
-  related: ["engineering-playbook", "engineering-product-workspace"],
-};
 
 const playbook = {
   slug: "engineering-playbook",
@@ -33,9 +16,9 @@ const playbook = {
     "An open, growing handbook of everything I've learned building software and teams — principles, not prescriptions.",
   sections: {
     problem:
-      "Hard-won engineering lessons usually stay locked in people's heads or scattered across old talk decks. I wanted one growing place where the thinking connects — a reference for engineers and Staff-level ICs, not a listicle.",
+      "Hard-won engineering lessons usually stay locked in people's heads or scattered across old talk decks. I wanted one growing place where the thinking connects — a reference for engineers stepping into technical leadership, whichever track they take — not a listicle.",
     build:
-      "A living playbook, added to over time. Early chapters:\n\n- Sustainable pace is an engineering constraint\n- Influence without authority\n- Build feedback loops, not reporting theatre\n- Use AI to remove friction, not judgment\n- Internal tools are products\n- Pairing as distributed system knowledge\n- Staff engineering in small organisations\n- When process becomes overhead",
+      "A living playbook, added to over time. Early chapters:\n\n- Sustainable pace is an engineering constraint\n- Influence without authority\n- Build feedback loops, not reporting theatre\n- Use AI to remove friction, not judgment\n- Internal tools are products\n- Pairing as distributed system knowledge\n- Technical leadership in small organisations\n- When process becomes overhead",
     learnings:
       "Writing the playbook is how I find out what I actually believe. Each chapter starts as an opinion and gets sharpened until it's useful to someone who isn't me.",
   },
@@ -47,6 +30,7 @@ const books = [
     slug: "book-pragmatic-programmer",
     title: "The Pragmatic Programmer",
     type: "Suggested read",
+    shelf: "read",
     meta: "Andrew Hunt & David Thomas",
     themes: ["Craft", "Ways of working", "Continuous learning"],
     summary: "The closest thing our field has to a book of good habits.",
@@ -60,6 +44,7 @@ const books = [
     slug: "book-team-topologies",
     title: "Team Topologies",
     type: "Suggested read",
+    shelf: "read",
     meta: "Matthew Skelton & Manuel Pais",
     themes: ["Organisational design", "Ways of working", "Developer experience"],
     summary: "Conway's Law, turned into a design tool for how teams are shaped.",
@@ -74,6 +59,7 @@ const books = [
     slug: "book-thinking-in-systems",
     title: "Thinking in Systems",
     type: "Suggested read",
+    shelf: "read",
     meta: "Donella H. Meadows",
     themes: ["Systems thinking", "Sustainable engineering"],
     summary: "The book behind how I actually see problems.",
@@ -88,6 +74,7 @@ const books = [
     slug: "book-accelerate",
     title: "Accelerate",
     type: "Suggested read",
+    shelf: "read",
     meta: "Forsgren, Humble & Kim",
     themes: ["Engineering metrics", "Ways of working"],
     summary: "The research that made delivery metrics respectable.",
@@ -102,6 +89,7 @@ const books = [
     slug: "book-xp-explained",
     title: "Extreme Programming Explained",
     type: "Suggested read",
+    shelf: "read",
     meta: "Kent Beck",
     themes: ["XP", "Sustainable engineering", "Ways of working"],
     summary: "Where my values as an engineer come from.",
@@ -116,6 +104,7 @@ const books = [
     slug: "book-staff-engineer",
     title: "Staff Engineer",
     type: "Suggested read",
+    shelf: "read",
     meta: "Will Larson",
     themes: ["Technical leadership", "Continuous learning"],
     summary: "A map of the senior-IC path that isn't 'become a manager'.",
@@ -124,8 +113,70 @@ const books = [
       why: "It named a lot of what I already do — technical strategy, glue work, influence without a title — and gave it a shape to grow into.",
       takeaway: "At this level the job is leverage: the highest-value thing you build is often the system that helps everyone else build better.",
     },
-    related: ["engineering-playbook"],
+    related: ["engineering-playbook", "book-managers-path"],
+  },
+  {
+    slug: "book-managers-path",
+    title: "The Manager's Path",
+    type: "Suggested read",
+    shelf: "now",
+    meta: "Camille Fournier",
+    themes: ["People leadership", "Technical leadership", "Continuous learning"],
+    summary: "The other map — what the management track actually asks of you.",
+    sections: {
+      about: "A stage-by-stage walk through engineering leadership: being managed, mentoring, tech lead, managing people, managing managers — and what changes at each step.",
+      why: "I'm reading it next to *Staff Engineer* on purpose. Both describe leadership above senior; only one involves a reporting line. Knowing both maps is what lets you choose deliberately rather than drift into whichever one your company happens to reward.",
+      takeaway: "Management is a distinct craft with its own skills to practise — not a promotion you receive for being good at the previous job.",
+    },
+    related: ["book-staff-engineer", "career-growth", "engineering-playbook"],
+  },
+  {
+    slug: "book-elegant-puzzle",
+    title: "An Elegant Puzzle",
+    type: "On the radar",
+    shelf: "radar",
+    meta: "Will Larson",
+    themes: ["People leadership", "Organisational design", "Engineering metrics"],
+    summary: "Engineering management treated as a systems problem rather than a personality one.",
+    sections: {
+      about: "Larson's other book: sizing teams, managing growth, org design, and the recurring puzzles of engineering management — approached the way you'd approach a system with feedback loops.",
+      whyRadar: "*Staff Engineer* gave me the IC map from this author; this is the management one, and the framing I most want to steal is treating org design as an engineering problem with constraints and trade-offs rather than a people-pleasing exercise.",
+    },
+    related: ["book-staff-engineer", "book-managers-path", "career-growth"],
+  },
+  {
+    slug: "book-tidy-first",
+    title: "Tidy First?",
+    type: "On the radar",
+    shelf: "radar",
+    meta: "Kent Beck",
+    themes: ["Craft", "Ways of working", "Sustainable engineering"],
+    summary: "When to clean the code first, and when that's just procrastination with good intentions.",
+    sections: {
+      about: "A short book on small structural changes — when to make them, when to defer them, and how to think about the economics of design as an option you're buying.",
+      whyRadar: "My values come from *Extreme Programming Explained*, so I want to see where Beck's thinking has moved in the twenty years since. The economic framing of refactoring is the part I expect to argue with, which is usually a sign it's worth reading.",
+    },
+    related: ["book-xp-explained", "engineering-playbook"],
+  },
+  {
+    slug: "book-wiring-winning-org",
+    title: "Wiring the Winning Organization",
+    type: "On the radar",
+    shelf: "radar",
+    meta: "Gene Kim & Steven J. Spear",
+    themes: ["Organisational design", "Systems thinking", "Reliability"],
+    summary: "The follow-on to the DORA work: how organisations move problems out of the danger zone.",
+    sections: {
+      about: "Kim and Spear on slowification, simplification and amplification — the mechanisms by which good organisations make hard problems tractable instead of heroic.",
+      whyRadar: "*Accelerate* told me what to measure; this promises to say something about the wiring underneath the numbers. Given how much of my last two years has been operational maturity work, I want to know whether it names what I did or contradicts it.",
+    },
+    related: ["book-accelerate", "operational-maturity", "book-team-topologies"],
   },
 ];
 
-export const library = [about, playbook, ...books];
+// Shelf order mirrors a real shelf: currently reading, then read, then the pile.
+const SHELF_ORDER = { now: 0, read: 1, radar: 2 };
+export const library = [
+  playbook,
+  ...books.slice().sort((a, b) => (SHELF_ORDER[a.shelf] ?? 9) - (SHELF_ORDER[b.shelf] ?? 9)),
+];

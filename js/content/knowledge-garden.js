@@ -54,10 +54,164 @@ export const knowledgeGarden = [
       problem:
         "Remote-first teams can quietly become isolating and unsustainable: knowledge silos, invisible burnout, and connection that erodes one skipped coffee at a time.",
       build:
-        "An experience report at XP2022 (Copenhagen) on using regular pairing as the building block of a sustainable, psychologically safe remote culture — told through what actually happened, not what should have.",
+        "An experience report at XP2022 (Copenhagen), co-authored with five colleagues, on the engineering department at **RIDE Capital** in Berlin — where pairing went from a practice to the load-bearing one.\n\nThe team grew from about five developers in late 2020 into multiple distributed teams spread from IST to BRT, with **50–90% of working time spent pairing**. The report covers what that did for onboarding, knowledge sharing and psychological safety, told through what actually happened rather than what should have.",
       learnings:
-        "Sustainability is built in small, repeated acts. Pairing wasn't just a coding practice — it was the mechanism that kept a distributed team human.",
+        "Sustainability is built in small, repeated acts. Pairing wasn't just a coding practice — it was the mechanism that kept a distributed team human across eight time zones.\n\nThe part I'd defend hardest: pairing at that intensity is not a productivity tactic, it's how a remote team stops knowledge from pooling in whoever happens to be online.",
     },
-    related: ["sync-code-reviews", "habit-tracker"],
+    related: ["sync-code-reviews", "habit-tracker", "first-being-then-doing"],
+    links: [{ label: "Read the experience report", href: "https://www.agilealliance.org/resources/experience-reports/towards-a-sustainable-remote-first-team-environment-one-pairing-session-at-a-time/" }],
+  },
+  {
+    slug: "first-being-then-doing",
+    context: "talk",
+    title: "First Being, then Doing",
+    type: "Experience report",
+    meta: "XP2018 · Porto",
+    themes: ["Ways of working", "Continuous learning", "Engineering culture"],
+    summary:
+      "Feeling the freedom through agileness — an Agile Alliance experience report on what agility feels like before it becomes a process.",
+    sections: {
+      problem:
+        "Agile is usually taught as a set of ceremonies to perform. That framing produces teams that *do* agile faithfully and never feel any freer for it — the practices arrive, the autonomy doesn't.",
+      build:
+        "An experience report at XP2018 (Agile Alliance, Porto), co-authored with Francesco Vettoretti, on the agile transformation at **Datatellers** in Bolzano.\n\nIt documents two attempts. The first was top-down and tool-led — roll out Trello, roll out Asana, declare agility. It failed. The second worked by going the other way: principles first, spread bottom-up through the team, with education instead of imposition.",
+      learnings:
+        "You can adopt every ceremony and change nothing. Tools are the *output* of a way of working, never the cause of one — installing them first just gives everyone a place to file the old behaviour.\n\nThis is the earliest thing on this shelf and the only one that's mostly a write-up of a failure. I still recognise the argument in how I lead now: I'd rather change what a team believes than what it has installed.",
+    },
+    related: ["sustainable-remote-pairing", "agile-startups-paper", "engineering-playbook"],
+    links: [{ label: "Read the experience report", href: "https://www.agilealliance.org/resources/experience-reports/first-being-then-doing-feeling-the-freedom-through-agileness/" }],
+  },
+  {
+    slug: "agile-startups-paper",
+    context: "talk",
+    title: "Are Software Startups Applying Agile Practices?",
+    type: "Peer-reviewed paper",
+    status: "140+ citations",
+    meta: "XP2017 · Springer LNBIP 283 · open access",
+    themes: ["Research", "Data analysis", "Ways of working", "Continuous learning"],
+    summary:
+      "The state of the practice from a survey of 1,526 software startups — and my first serious piece of work in software-engineering research.",
+    sections: {
+      problem:
+        "Startups almost universally describe themselves as agile. Whether that survives contact with the day-to-day — the pressure, the pivots, the two-person teams — is an empirical question, and at the time a mostly unasked one.\n\nTwo research questions: are software startups applying agile practices, and do the ones following Lean Startup apply them differently?",
+      build:
+        "Published in the XP2017 proceedings (Springer LNBIP 283, pp. 167–183) with Jevgenija Pantiuchina, Dron Khanna, Xiaofeng Wang and Pekka Abrahamsson, out of the Free University of Bozen-Bolzano and NTNU. I'm second author.\n\n**My contribution was the data.** I did the cleaning and validation, the analysis, and the definition of the results, and contributed to shaping the research questions. The study examined five practices — regular refactoring and test-first (quality), frequent release and agile planning (speed), and the daily standup (communication) — using exploratory factor analysis and chi-square tests in R.",
+      decisions:
+        "The number I still think about: the raw dataset had **10,171 entries and the cleaned one had 1,526**. We threw away 85% of the data.\n\nThat was a deliberate trade-off, and we said so in the paper: strict validation cases certainly removed some genuinely valid entries, but a clean dataset was worth more than a large one. The validation rules were published openly on figshare so anyone could disagree with them.\n\nThe other honest moment: we wanted to aggregate practices into quality and speed dimensions, but Cronbach's alpha came back at 0.41 and 0.50 — too low to justify it. So we dropped the aggregation and analysed each practice on its own, which was less tidy and more true.",
+      learnings:
+        "The headline finding was that speed-related practices are used far more than quality ones, and the daily standup least of all. The one that surprised me: startups following Lean Startup did **not** trade quality for speed more than anyone else — the stereotype didn't survive the data.\n\nDoing this is what made me permanently sceptical of self-reported process, and it still shapes how I measure teams: ask what the system produces, not what it says about itself. It's also why I'd rather ship a lightweight practice a team sustains than a correct one it quietly abandons.\n\nAnd it taught me that the least glamorous part — deciding what data you're willing to throw away — is usually where the result is actually decided.",
+    },
+    related: ["first-being-then-doing", "engineering-kpis", "dabml-paper"],
+    links: [
+      { label: "Read the paper (open access)", href: "https://doi.org/10.1007/978-3-319-57633-6_11" },
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
+  {
+    slug: "ocean-eye",
+    context: "talk",
+    title: "Ocean Eye",
+    type: "B.Sc. thesis",
+    meta: "2018 · Free University of Bozen-Bolzano",
+    themes: ["Engineering metrics", "Research", "Systems thinking"],
+    summary:
+      "What should a software startup actually be measuring — and how do you work out which measures are the right ones?",
+    sections: {
+      problem:
+        "A startup can measure almost anything, and most of what it can measure is noise. The hard part was never collection; it's deciding what deserves attention when you have very little of it to spare, and when the thing you're building keeps changing underneath the measurement.\n\nSo the thesis asked two questions rather than one: what information do software startups need to monitor, and how do you *determine* that for a given startup instead of copying someone else's dashboard.",
+      build:
+        "My bachelor thesis at the Free University of Bozen-Bolzano, identifying what information software startups need to monitor and how to arrive at it.",
+      learnings:
+        "I did not expect this to be the question I'd still be working on nearly a decade later, but it is.\n\nThe thesis asked what a startup should measure. Six years on I was answering the same question in production while building the uButler development team from close to scratch, and then giving a talk about it in Bolzano — a few hundred metres from where I'd written the thesis. The KPI framework and explorer elsewhere in this world are the applied version of it.\n\nWhat changed in between is only the confidence about *how much* to measure. The thesis wanted completeness. Practice taught me that a small number of measures a team actually trusts beats a complete set nobody looks at.",
+    },
+    related: ["engineering-kpis", "engineering-metrics-talk", "assumption-mapping", "agile-startups-paper"],
+    links: [
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
+  {
+    slug: "assumption-mapping",
+    context: "talk",
+    title: "Assumption Mapping in Hypothesis Engineering",
+    type: "M.Sc. thesis",
+    meta: "2020 · University of Oulu",
+    themes: ["Research", "Continuous experimentation", "Systems thinking"],
+    summary:
+      "Does mapping your assumptions actually produce a better set of hypotheses? An evaluation of the newest technique for finding out what you're taking for granted.",
+    sections: {
+      problem:
+        "Traditional requirements engineering assumes you know what you're building. Experiment-driven development doesn't — which is why **hypothesis engineering** emerged as its own discipline, asking how teams systematically define hypotheses from business goals, vision and what they've already learned.\n\nBut a hypothesis is only as good as the assumptions it rests on, and **Assumption Mapping** — the technique proposed in Bland and Osterwalder's *Testing Business Ideas* — was the newest thing in that space and essentially unevaluated. So: how effective is it really? What are its limits, does it produce a *more complete* set of hypotheses, and is it actually easy to use?",
+      build:
+        "My master's thesis at the University of Oulu, supervised by Professors Minna Isomursu and Oscar Dieste, for the **European Master in Software Engineering** — a double degree taken a year at a time at UPM Madrid and Oulu. (That's also why it appears twice on Google Scholar: the Spanish-titled record is the translated abstract of this same work, not a second thesis.)\n\nTwo parts: a state-of-the-art review across both **white and grey literature**, then a **design science** evaluation cycle run as an illustrative scenario — a two-session workshop using Airbnb as the business case.",
+      decisions:
+        "The results were positive: Assumption Mapping came out well on utility, efficacy and usability. The more interesting part of the thesis is the section where I take that finding apart.\n\nThe subjects were **students, not practitioners**. The sample was too small for saturation or statistical significance. The setting was artificial, and participants worked on a business case that wasn't their own — which usefully cancels founder bias, and simultaneously wrecks generalisability. Even the choice of Airbnb is examined as a limitation in its own right.\n\nI wrote all of that down rather than letting a positive result stand unqualified, and concluded the study is a **benchmark for future work** that needs field studies on real startups before anyone leans on it.",
+      learnings:
+        "The habit it left me with is the one I use most in engineering leadership: before arguing about a decision, get the assumptions underneath it written down where everyone can see them. Most disagreements turn out to be about a hidden assumption rather than about the decision itself.\n\nIt's also the middle panel of an arc I didn't plan. The bachelor thesis asked **what to measure**; this one asked **what you're assuming when you decide what to measure**; and daBML, five years later, extends Build-Measure-Learn for generative AI. Same loop, three times.",
+    },
+    related: ["ocean-eye", "dabml-paper", "engineering-kpis"],
+    links: [
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
+  {
+    slug: "dabml-paper",
+    context: "talk",
+    title: "daBML",
+    type: "Peer-reviewed paper",
+    status: "Gijs Oliemans, lead author",
+    meta: "2025 · Advances in Software Startups",
+    themes: ["AI adoption", "Research", "Mentoring", "Ways of working"],
+    summary:
+      "An extension of the Build-Measure-Learn loop for adopting generative AI into a product process — Gijs Oliemans' work, which I helped shape and steer.",
+    sections: {
+      problem:
+        "Startups adopting generative AI are handed frameworks built for enterprises: maturity models that assume time, budget and a stable target. A startup has fast feedback cycles, tight resources and high uncertainty instead, so the enterprise playbook doesn't transfer.\n\nThe gap the paper goes after is upstream of the experiment. Teams reach for GenAI and start building before anyone has said what problem it's for, what it might cost them, or what 'working' would look like.",
+      build:
+        "**This is Gijs Oliemans' paper**, published in *Advances in Software Startups: Generative AI, Product Engineering* (2025). My part was upstream of the writing: I inspired the direction, then reviewed and steered the work as it developed. Supporting author, not the author.\n\nIt proposes **daBML** — Define-Analyze-Build-Measure-Learn — which adds **two phases in front of the Build-Measure-Learn loop**. Define does the scoping; Analyze does risk awareness and value alignment. Both happen *before* experimentation starts, which is precisely where GenAI adoption tends to skip.\n\nIt's illustrated with two internal use cases from a later-stage software startup, spanning software development, product design, operations and commercial outreach.",
+      learnings:
+        "The paper says of itself that the framework **remains conceptual and is not yet empirically validated**, and calls for work on how it holds up across different startup contexts and beyond initial pilots. I like that it says so in the abstract rather than the last paragraph.\n\nI'm including this precisely because of the shape of my contribution, not in spite of it. Most of what I do now looks like this — the useful work is helping someone else's idea get sharper, and then staying out of the way of it.\n\nIt sits deliberately next to my own 2017 paper, where I did the data work myself and was second author. Eight years apart, the same subject area, and the contribution has moved from *doing the analysis* to *shaping the question and reviewing the argument*. That progression is the honest version of what technical leadership actually looks like, and it's easier to show than to claim.\n\nThe topic is also the academic counterpart to the AI work I do day to day: the *Adapting to AI* talk and the assistant and feedback tooling are the practice, and this is the attempt to give it a loop you can run rather than a pile of anecdotes.",
+    },
+    related: ["agile-startups-paper", "assumption-mapping", "adapting-to-ai", "ai-engineering-assistant", "career-growth"],
+    links: [
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
+  {
+    slug: "xp2024-track-chair",
+    context: "talk",
+    title: "XP2024 Engineering Track Co-Chair",
+    type: "Community leadership",
+    meta: "XP2024 · Bolzano",
+    themes: ["Engineering culture", "Community", "People leadership"],
+    summary:
+      "Co-chaired the engineering track: reviewing, accepting and giving feedback on session proposals, then facilitating on the day.",
+    sections: {
+      problem:
+        "A conference track is a curation problem with a deadline. Someone has to read every proposal, decide what gets a slot, tell the people who don't — and then make the room actually work once everyone's in it.",
+      build:
+        "As co-chair of the engineering track at XP2024 in Bolzano I reviewed session proposals, decided which were accepted, and gave feedback to the people who submitted them. On the day I helped with facilitation and the arrangements that keep a track running.",
+      learnings:
+        "Reviewing submissions was the unexpectedly useful part. Reading a stack of proposals is the fastest way to find out what the field is actually worried about this year — far faster than attending the talks that result.\n\nGiving feedback on rejected proposals is the part I'd defend: a rejection with nothing attached teaches no one anything, and the person on the other end is usually one draft away from a good session.",
+    },
+    related: ["adapting-to-ai", "engineering-metrics-talk", "engineering-playbook"],
+  },
+  {
+    slug: "engineering-metrics-talk",
+    context: "talk",
+    title: "Development KPIs & Reporting",
+    type: "Talk",
+    meta: "Agile Venture 2024 · Bolzano",
+    themes: ["Engineering metrics", "Technical leadership", "Ways of working"],
+    summary:
+      "Navigating a multi-project, multi-product environment — the metrics work as it actually happened, while building a development team from scratch.",
+    sections: {
+      problem:
+        "Most metrics talks are given from a finished system, which makes them useless to the people who need them most. I gave this one from the middle: I was building the uButler development team essentially from scratch, and had to work out what was worth measuring *while* the team, the process and the products were all still moving.\n\nMulti-project and multi-product makes it harder again. Any metric that assumes one team shipping one thing falls apart the moment attention is split.",
+      build:
+        "An industry talk at Agile Venture in 2024 in Bolzano, co-located with XP2024 the following day, walking through the real system rather than a framework: the context, the reporting surfaces, and the strategies for reacting when the numbers move.\n\nThe part people asked about afterwards was the **Development Radiator** — where it sits between an interactive dashboard and a physical information radiator, and why it updates reactively instead of refreshing itself.\n\nIt also covers the practices the measurement sat on top of, which matter more than the metrics do: TDD and refactoring, continuous delivery, sync code reviews, pairing and mobbing, retrospectives and dojos, and a couple of rituals with better names than most — Demo Tuesday and Throw Away Thursday.",
+      learnings:
+        "Building the team and building the measurement had to happen together, and that turned out to be an advantage — metrics introduced alongside a growing team read as a shared instrument, where the same metrics imposed on an established team read as surveillance.\n\nThe other lesson: in a multi-product environment, the useful question is almost never 'how fast is the team' but 'where is attention actually going', and those need very different instruments. Effort allocation turned out to be worth more upward than velocity ever was.\n\nGiving the talk clarified the honest caveat too. The closing line of the deck is that there's **no real silver bullet when working in a complex environment** — the method is to keep zooming in on a target and back out to re-check it's still the right one.",
+    },
+    related: ["engineering-kpis", "ocean-eye", "xp2024-track-chair", "career-growth"],
   },
 ];

@@ -115,4 +115,29 @@ export const thoughtfulProducts = [
     },
     related: ["engineering-product-workspace"],
   },
+  {
+    slug: "startuppuccino",
+    context: "academic",
+    title: "Startuppuccino",
+    type: "Edtech platform",
+    status: "University spin-off, 2017–2020",
+    meta: "Free University of Bozen-Bolzano",
+    themes: ["Product engineering", "Edtech", "Lean startup"],
+    summary:
+      "The edtech platform behind a university spin-off — I was the main developer, and it's the practical work two team papers were written about.",
+    sections: {
+      problem:
+        "You cannot teach entrepreneurship from a lecture slide. The premise of the project was that students learn it by running an actual venture — which means somebody has to build the actual product, under the actual constraints, and not a classroom mock-up of one.",
+      build:
+        "I was the **main developer of the platform**, and for stretches the only one. Alongside that I contributed to the ideas and the decisions the team was making about where the product went.\n\nIt ran as a spin-off-style project out of the Free University of Bozen-Bolzano, applying Lean Startup properly rather than as an exercise: MVPs that were genuinely minimum, put in front of real users, and changed when the users said so.",
+      decisions:
+        "**On credit, plainly:** two publications came out of this one project, at different stages of it — *Experiment with MVPs: the First 'Startuppuccino' Steps to a Lean Edtech Startup* (2017) on the early MVP work, and *Teaching 'Through' Entrepreneurship* (2020) on the teaching experience around it. Same spin-off, two write-ups.\n\nI'm a listed co-author on both, but they were written mostly by other members of the team. So I don't claim the papers. What I'd claim is the platform they were written about — the thing that had to exist and work before there was an experience to report.",
+      learnings:
+        "This is where I learned that being the person who builds it gives you a different read on a product decision than being the person who decides it. I was in both rooms, and the gap between what sounded right in the discussion and what survived contact with the implementation was the whole education.\n\nIt's also the earliest version of something I still believe: the fastest way to find out whether an idea is any good is to make the smallest true version of it and show it to someone who didn't attend the meeting.",
+    },
+    related: ["agile-startups-paper", "ocean-eye", "journaling"],
+    links: [
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
 ];

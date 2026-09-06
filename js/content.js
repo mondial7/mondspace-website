@@ -15,19 +15,31 @@
 // Section bodies use a tiny markdown subset: blank-line-separated paragraphs,
 // "- " bullet lists, **bold**, *italic* and `code` (rendered in js/drawer.js).
 
+import { spawn } from "./content/spawn.js";
 import { engineeringSystems } from "./content/engineering-systems.js";
 import { thoughtfulProducts } from "./content/thoughtful-products.js";
 import { knowledgeGarden } from "./content/knowledge-garden.js";
 import { library } from "./content/library.js";
 
+const shelfCount = (k) => library.filter((p) => p.shelf === k).length;
+
 export const PALETTE = ["#00FFFF", "#DA70D6", "#FF9800", "#76FF03", "#F48FB1", "#FAFAFA"];
 
 // How a project came to exist — so business-context work reads differently from
 // indie projects and talks. Each project carries a `context` key into this map.
+// Where a book sits on the shelf. Books carry a `shelf` key into this map;
+// "radar" ones are honestly unread, and say so rather than implying otherwise.
+export const SHELF = {
+  now: { label: "Reading now", full: "Reading now", color: "#FF9800" },
+  read: { label: "Read", full: "Read", color: "#76FF03" },
+  radar: { label: "On the radar", full: "On the radar — not read yet", color: "#7ec0ee" },
+};
+
 export const CONTEXTS = {
   business: { label: "Work", full: "Business project", color: "#7ec0ee" },
   indie: { label: "Indie", full: "Indie project", color: "#FF9800" },
   talk: { label: "Talk", full: "Conference talk", color: "#DA70D6" },
+  academic: { label: "University", full: "University project", color: "#76FF03" },
 };
 
 export const AREAS = [
@@ -36,17 +48,18 @@ export const AREAS = [
     label: "Spawn",
     color: "#76FF03",
     lines: [
-      "I'm Marco. I build systems that help people and engineering teams thrive.",
-      "Software, internal platforms, AI-assisted workflows and developer experiences that reduce friction and improve feedback loops.",
+      "I'm Marco — an Engineering Manager and hands-on product engineer in Amsterdam.",
+      "I build systems that help people and engineering teams thrive. Look around: left is how I lead, right is what I build, up is what I teach, down is how I think.",
     ],
+    projects: spawn,
   },
   {
     id: "up",
     label: "Knowledge Garden",
     color: "#FF9800",
     lines: [
-      "Conference talks reborn as interactive experiences, not slides.",
-      "A decade of XP, Agile and AI-adoption practice, made explorable.",
+      "What I teach: talks, experience reports and peer-reviewed papers — reborn as something explorable, not slides.",
+      "A decade in the XP and Agile community, from a 2017 research paper still being cited to co-chairing the XP2024 engineering track.",
     ],
     projects: knowledgeGarden,
   },
@@ -55,8 +68,8 @@ export const AREAS = [
     label: "Engineering Systems",
     color: "#00FFFF",
     lines: [
-      "Systems that make engineering organisations work better.",
-      "Rebuilt engineering workspaces, KPIs & reporting, AI-assisted workflows — and the practices that hold them together.",
+      "How I lead: systems that make an engineering organisation work better.",
+      "Cadence, the internal platform behind our engineering flow. KPIs & reporting, career levels, AI adoption and operational maturity — built at uButler, and the practices that hold them together.",
     ],
     projects: engineeringSystems,
   },
@@ -65,8 +78,8 @@ export const AREAS = [
     label: "Thoughtful Products",
     color: "#DA70D6",
     lines: [
-      "Small, thoughtful software built around real human needs.",
-      "Journaling, a puppy companion, habit-building, travel utilities — each removes friction so you can think about what matters.",
+      "What I build: software with a real person at the other end — most of it designed, shipped and maintained by me alone.",
+      "Journaling, a puppy companion, habit-building, travel utilities, and the edtech platform behind a university spin-off. Almost none of it is on my CV; that's rather the point.",
     ],
     projects: thoughtfulProducts,
   },
@@ -75,20 +88,21 @@ export const AREAS = [
     label: "The Library",
     color: "#F48FB1",
     lines: [
-      "Books that shaped how I think, my engineering playbook, and the short version of me.",
-      "A shelf, not a syllabus — pick something up.",
+      "How I think: my engineering playbook, and the books behind the opinions.",
+      `${shelfCount("read")} read, ${shelfCount("now")} on the go, ${shelfCount("radar")} on the radar. A shelf, not a syllabus — pick something up.`,
     ],
     projects: library,
   },
 ];
 
 export const LINKS = [
+  { label: "CV", href: "/Marco_Mondini-Resume.pdf" },
   { label: "GitHub", href: "https://github.com/mondial7" },
   { label: "LinkedIn", href: "https://linkedin.com/in/mondinimarco/" },
 ];
 
 // Audio CV parked for now (see docs/adr/0008). Kept for a future re-add in About.
-export const AUDIO_SRC = "mmcv-2025-05-26.m4a";
+export const AUDIO_SRC = "/mmcv-2025-05-26.m4a";
 
 // Flat index of every project by slug — used by the drawer for cross-links and
 // by search (see docs/adr/0007).
