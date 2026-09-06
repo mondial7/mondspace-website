@@ -83,12 +83,13 @@ export const AREAS = [
 ];
 
 export const LINKS = [
+  { label: "CV", href: "/Marco_Mondini-Resume.pdf" },
   { label: "GitHub", href: "https://github.com/mondial7" },
   { label: "LinkedIn", href: "https://linkedin.com/in/mondinimarco/" },
 ];
 
 // Audio CV parked for now (see docs/adr/0008). Kept for a future re-add in About.
-export const AUDIO_SRC = "mmcv-2025-05-26.m4a";
+export const AUDIO_SRC = "/mmcv-2025-05-26.m4a";
 
 // Flat index of every project by slug — used by the drawer for cross-links and
 // by search (see docs/adr/0007).
