@@ -27,7 +27,6 @@ const profile = {
   related: ["engineering-playbook", "engineering-product-workspace", "career-growth"],
   links: [
     { label: "Download CV (PDF)", href: "/Marco_Mondini-Resume.pdf" },
-    { label: "Email me", href: "mailto:mmondini@mondspace.com" },
     { label: "LinkedIn", href: "https://linkedin.com/in/mondinimarco/" },
     { label: "GitHub", href: "https://github.com/mondial7" },
   ],

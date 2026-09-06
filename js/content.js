@@ -86,7 +86,6 @@ export const AREAS = [
 
 export const LINKS = [
   { label: "CV", href: "/Marco_Mondini-Resume.pdf" },
-  { label: "Email", href: "mailto:mmondini@mondspace.com" },
   { label: "GitHub", href: "https://github.com/mondial7" },
   { label: "LinkedIn", href: "https://linkedin.com/in/mondinimarco/" },
 ];

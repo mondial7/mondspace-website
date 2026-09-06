@@ -44,7 +44,6 @@ function failGracefully(err) {
         I'm <strong>Marco Mondini</strong> — an Engineering Manager and hands-on product engineer
         in Amsterdam. I build systems that help people and engineering teams thrive.<br><br>
         <a style="color:#FF9800" href="/Marco_Mondini-Resume.pdf">Download CV</a> ·
-        <a style="color:#FF9800" href="mailto:mmondini@mondspace.com">Email</a> ·
         <a style="color:#FF9800" href="https://github.com/mondial7">GitHub</a> ·
         <a style="color:#FF9800" href="https://linkedin.com/in/mondinimarco/">LinkedIn</a>
       </p>

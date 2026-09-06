@@ -133,9 +133,7 @@ export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
     const links = (p.links || [])
       .map(
         (l) =>
-          l.href.startsWith("mailto:")
-            ? `<a class="drawer-link" href="${escapeHtml(l.href)}">${escapeHtml(l.label)}</a>`
-            : `<a class="drawer-link" href="${escapeHtml(l.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)} ↗</a>`
+          `<a class="drawer-link" href="${escapeHtml(l.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)} ↗</a>`
       )
       .join("");
 
