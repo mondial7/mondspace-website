@@ -21,10 +21,20 @@ import { thoughtfulProducts } from "./content/thoughtful-products.js";
 import { knowledgeGarden } from "./content/knowledge-garden.js";
 import { library } from "./content/library.js";
 
+const shelfCount = (k) => library.filter((p) => p.shelf === k).length;
+
 export const PALETTE = ["#00FFFF", "#DA70D6", "#FF9800", "#76FF03", "#F48FB1", "#FAFAFA"];
 
 // How a project came to exist — so business-context work reads differently from
 // indie projects and talks. Each project carries a `context` key into this map.
+// Where a book sits on the shelf. Books carry a `shelf` key into this map;
+// "radar" ones are honestly unread, and say so rather than implying otherwise.
+export const SHELF = {
+  now: { label: "Reading now", full: "Reading now", color: "#FF9800" },
+  read: { label: "Read", full: "Read", color: "#76FF03" },
+  radar: { label: "On the radar", full: "On the radar — not read yet", color: "#7ec0ee" },
+};
+
 export const CONTEXTS = {
   business: { label: "Work", full: "Business project", color: "#7ec0ee" },
   indie: { label: "Indie", full: "Indie project", color: "#FF9800" },
@@ -78,7 +88,7 @@ export const AREAS = [
     color: "#F48FB1",
     lines: [
       "How I think: my engineering playbook, and the books behind the opinions.",
-      "A shelf, not a syllabus — pick something up.",
+      `${shelfCount("read")} read, ${shelfCount("now")} on the go, ${shelfCount("radar")} on the radar. A shelf, not a syllabus — pick something up.`,
     ],
     projects: library,
   },

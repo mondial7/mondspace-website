@@ -1,4 +1,4 @@
-import { PROJECTS, CONTEXTS } from "./content.js";
+import { PROJECTS, CONTEXTS, SHELF } from "./content.js";
 
 // The case-study drawer: a DOM overlay (NOT part of the 3D scene, see
 // docs/adr/0005) that renders any project in the consistent Problem / Build /
@@ -52,6 +52,7 @@ const SECTION_LABELS = {
   beyondTheCV: "Beyond the CV",
   map: "The map",
   whyThis: "Why a world, not a page",
+  whyRadar: "Why it's on the list",
   controls: "Controls",
 };
 const humanizeKey = (k) => k.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
@@ -109,9 +110,13 @@ export function createDrawer({ demos = {}, onNavigate, onTheme } = {}) {
   }
 
   function render(p) {
+    // Project context, or — on the shelf — whether I've actually read it.
     const ctx = CONTEXTS[p.context];
+    const shelf = SHELF[p.shelf];
     const ctxBadge = ctx
       ? `<span class="ctx-badge ctx--${p.context}" style="--ctx:${ctx.color}">${escapeHtml(ctx.full)}</span>`
+      : shelf
+      ? `<span class="ctx-badge shelf--${p.shelf}" style="--ctx:${shelf.color}">${escapeHtml(shelf.full)}</span>`
       : "";
     const badges = [p.type, p.status, p.meta].filter(Boolean);
     const sections = Object.entries(p.sections || {})

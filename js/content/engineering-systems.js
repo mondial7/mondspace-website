@@ -35,7 +35,7 @@ export const engineeringSystems = [
       "Metrics engineers actually enjoy — leading vs lagging, outcome vs output, healthy vs harmful. A framework (and an explorer) for measuring delivery without weaponising numbers.",
     sections: {
       problem:
-        "Most engineering metrics fail the same way: they measure what's easy to count (velocity, lines, tickets) and quietly become targets. Once a metric is a target, it stops measuring anything — people optimise the number, not the outcome.\n\nI kept seeing teams either drown in dashboards nobody trusted, or fly blind because 'metrics are evil'. Both are avoidable.",
+        "Most engineering metrics fail the same way: they measure what's easy to count (velocity, lines, tickets) and quietly become targets. Once a metric is a target, it stops measuring anything — people optimise the number, not the outcome.\n\nI kept seeing teams either drown in dashboards nobody trusted, or fly blind because 'metrics are evil'. Both are avoidable.\n\nI had to solve this while building the uButler development team essentially **from scratch**, across several products at once — so the measurement grew up alongside the team rather than being dropped on one that already existed.",
       build:
         "I built a small, opinionated model for choosing metrics in a multi-project / multi-product environment:\n\n- Separate **leading** indicators (predict the future) from **lagging** ones (confirm the past).\n- Prefer **outcome** metrics (did it help?) over **output** metrics (did we do stuff?).\n- Distinguish **team** signals from **individual** ones — and never use the latter for judgment.\n- Pair every metric with the **harmful version** of itself, so its failure mode is explicit.\n\nIt became a conference talk and the interactive explorer below.",
       decisions:
@@ -44,7 +44,7 @@ export const engineeringSystems = [
         "The point of metrics isn't measurement, it's **conversation**. The best ones give a team a shared language for 'are we OK?' — the worst ones end the conversation by pretending to answer it.\n\nBuilding the explorer taught me the trade-offs land far harder when you can *toggle* them than when you read them on a slide.",
     },
     explore: { kind: "kpi-explorer" },
-    related: ["engineering-product-workspace", "sustainable-remote-pairing"],
+    related: ["engineering-product-workspace", "sustainable-remote-pairing", "engineering-metrics-talk"],
   },
   {
     slug: "ai-engineering-assistant",
@@ -99,7 +99,7 @@ export const engineeringSystems = [
       "The system behind growing engineers: career levels, a real 1:1 cadence, feedback that lands, and a hiring bar the team can actually apply.",
     sections: {
       problem:
-        "A small team can go a long way on goodwill, and then it stops. Engineers couldn't see what *next* looked like, so growth conversations turned into salary conversations. Feedback arrived in bursts when something went wrong. Hiring decisions leaned on whoever interviewed most confidently that week.\n\nNone of that is a people problem. It's a **missing system** — and its absence is felt hardest by the quietest people on the team.",
+        "I was building the uButler development team from close to nothing, which meant the growth system and the team arrived together rather than one being retrofitted onto the other.\n\nA small team can go a long way on goodwill, and then it stops. Engineers couldn't see what *next* looked like, so growth conversations turned into salary conversations. Feedback arrived in bursts when something went wrong. Hiring decisions leaned on whoever interviewed most confidently that week.\n\nNone of that is a people problem. It's a **missing system** — and its absence is felt hardest by the quietest people on the team.",
       build:
         "I introduced the scaffolding that makes growth legible:\n\n- **Career levels** — written expectations for each level, so 'what would it take?' has an answer that isn't my opinion on the day.\n- **A 1:1 cadence that holds** — regular, engineer-owned agenda, not a status report in disguise.\n- **Feedback as a habit** — specific and behavioural, close to the event, in both directions.\n- **A shared hiring bar** — clear expectations and a consistent loop, so decisions are comparable across interviewers.\n- **Practices that reinforce psychological safety** — because none of the above works if people can't say the true thing.",
       decisions:
@@ -107,7 +107,7 @@ export const engineeringSystems = [
       learnings:
         "The framework mattered far less than the fact that it was *written down and applied consistently*. Most of the perceived unfairness in a small team isn't unfairness — it's ambiguity, and people fill ambiguity with their worst guess.\n\nI also learned to be honest that management is a **different job, not a higher one**. Saying that out loud changed which people put their hand up, and made it safe for a strong engineer to stay an engineer.",
     },
-    related: ["engineering-product-workspace", "ai-360-feedback", "engineering-playbook", "book-managers-path"],
+    related: ["engineering-product-workspace", "ai-360-feedback", "engineering-metrics-talk", "engineering-playbook", "book-managers-path"],
   },
   {
     slug: "operational-maturity",

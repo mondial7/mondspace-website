@@ -105,18 +105,37 @@ export const knowledgeGarden = [
     context: "talk",
     title: "XP2024 Engineering Track Co-Chair",
     type: "Community leadership",
-    meta: "XP2024",
+    meta: "XP2024 · Bolzano",
     themes: ["Engineering culture", "Community", "People leadership"],
     summary:
-      "Co-led the engineering track: theme definition, reviews, speaker coordination, agenda and live facilitation.",
+      "Co-chaired the engineering track: reviewing, accepting and giving feedback on session proposals, then facilitating on the day.",
     sections: {
       problem:
-        "A conference track is a curation problem with a deadline. Someone has to decide what the engineering conversation should be about this year, then find the people who can have it well — and make the room work on the day.",
+        "A conference track is a curation problem with a deadline. Someone has to read every proposal, decide what gets a slot, tell the people who don't — and then make the room actually work once everyone's in it.",
       build:
-        "As co-chair of the XP2024 engineering track I helped define the theme, ran the review process, coordinated speakers, shaped the agenda and facilitated live.",
+        "As co-chair of the engineering track at XP2024 in Bolzano I reviewed session proposals, decided which were accepted, and gave feedback to the people who submitted them. On the day I helped with facilitation and the arrangements that keep a track running.",
       learnings:
-        "Chairing is the same job as engineering leadership with the timeline compressed into two days: set direction, review other people's work generously, then get out of the way and hold the room.\n\nReviewing submissions was the unexpectedly useful part — reading fifty proposals is the fastest way to find out what the field is actually worried about.",
+        "Reviewing submissions was the unexpectedly useful part. Reading a stack of proposals is the fastest way to find out what the field is actually worried about this year — far faster than attending the talks that result.\n\nGiving feedback on rejected proposals is the part I'd defend: a rejection with nothing attached teaches no one anything, and the person on the other end is usually one draft away from a good session.",
     },
-    related: ["adapting-to-ai", "engineering-playbook"],
+    related: ["adapting-to-ai", "engineering-metrics-talk", "engineering-playbook"],
+  },
+  {
+    slug: "engineering-metrics-talk",
+    context: "talk",
+    title: "Development KPIs & Reporting",
+    type: "Talk",
+    meta: "Agile Venture Bolzano 2024",
+    themes: ["Engineering metrics", "Technical leadership", "Ways of working"],
+    summary:
+      "Navigating a multi-project, multi-product environment — the metrics work as it actually happened, while building a development team from scratch.",
+    sections: {
+      problem:
+        "Most metrics talks are given from a finished system, which makes them useless to the people who need them most. I gave this one from the middle: I was building the uButler development team essentially from scratch, and had to work out what was worth measuring *while* the team, the process and the products were all still moving.\n\nMulti-project and multi-product makes it harder again. Any metric that assumes one team shipping one thing falls apart the moment attention is split.",
+      build:
+        "An industry talk at Agile Venture Bolzano in 2024, co-located with XP2024 the following day, on my own work: which KPIs survived contact with a small team spread across several products, how the reporting was built so it cost almost nothing to keep running, and which measures I dropped.",
+      learnings:
+        "Building the team and building the measurement had to happen together, and that turned out to be an advantage — metrics introduced alongside a growing team read as a shared instrument, where the same metrics imposed on an established team read as surveillance.\n\nThe other lesson: in a multi-product environment, the useful question is almost never 'how fast is the team' but 'where is attention actually going', and those need very different instruments.",
+    },
+    related: ["engineering-kpis", "xp2024-track-chair", "career-growth"],
   },
 ];
