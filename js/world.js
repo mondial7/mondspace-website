@@ -14,27 +14,6 @@ function lerpAngle(a, b, t) {
   return a + d * t;
 }
 
-// A short synthesized "woof woof" so the site ships no audio asset for it.
-function playBark(ctx) {
-  if (!ctx || ctx.state !== "running") return;
-  const t0 = ctx.currentTime;
-  for (let k = 0; k < 2; k++) {
-    const ts = t0 + k * 0.16;
-    const osc = ctx.createOscillator();
-    osc.type = "sawtooth";
-    osc.frequency.setValueAtTime(420, ts);
-    osc.frequency.exponentialRampToValueAtTime(150, ts + 0.12);
-    const bp = ctx.createBiquadFilter();
-    bp.type = "bandpass"; bp.frequency.value = 900; bp.Q.value = 0.8;
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.0001, ts);
-    gain.gain.exponentialRampToValueAtTime(0.16, ts + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ts + 0.14);
-    osc.connect(bp); bp.connect(gain); gain.connect(ctx.destination);
-    osc.start(ts); osc.stop(ts + 0.16);
-  }
-}
-
 // Gradient sky dome.
 function makeSky() {
   const geo = new THREE.SphereGeometry(220, 24, 16);
@@ -184,9 +163,8 @@ export function initWorld(canvas, opts = {}) {
   const dogPos = dogTargets.center.clone();
   const dogAirCenter = V(-4, 14.5, -11); // dog's flight loop in the sky scene
   let dogHeading = 0;
-  let nextBark = 5;     // seconds; first possible bark
+  let nextBark = 5;     // seconds; first possible silent bark
   let barkUntil = 0;
-  let audioCtx = null;
   dog.position.copy(dogPos);
 
   const _air = new THREE.Vector3();
@@ -199,10 +177,10 @@ export function initWorld(canvas, opts = {}) {
     );
 
   function updateDog(t, dt, activeArea, idle) {
-    // bark scheduling (shared by ground + flight)
+    // Bark scheduling (shared by ground + flight). Animation only — the dog
+    // mimes it; the site plays no sound.
     if (t > nextBark) {
       barkUntil = t + 0.45;
-      playBark(audioCtx);
       nextBark = t + 6 + Math.random() * 9;
     }
     const barking = t < barkUntil;
@@ -247,15 +225,6 @@ export function initWorld(canvas, opts = {}) {
     dog.userData.update(t, Math.min(dt, 0.05), { moving, sitting, barking, heading: dogHeading });
   }
 
-  // The dog's bark needs an AudioContext; browsers only allow it after a
-  // user gesture, so the page resumes it on first interaction.
-  function resumeAudio() {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
-    if (!audioCtx) audioCtx = new AC();
-    if (audioCtx.state === "suspended") audioCtx.resume();
-  }
-
   // ---- camera viewpoints per area ----
   // CENTER is a wide establishing shot; pushing the mouse toward an area flies
   // the camera in close so the avatar / banner there becomes the focus.
@@ -283,6 +252,6 @@ export function initWorld(canvas, opts = {}) {
 
   return {
     scene, camera, renderer, areas, tick, render, resize,
-    updateDog, resumeAudio,
+    updateDog,
   };
 }

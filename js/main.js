@@ -93,12 +93,6 @@ async function boot() {
     onArea: (id) => hud.showArea(id),
   });
 
-  // resume the WebAudio context (for the dog's bark) on the first gesture
-  const resume = () => W.resumeAudio();
-  ["pointerdown", "touchstart", "keydown"].forEach((ev) =>
-    window.addEventListener(ev, resume, { once: true, passive: true })
-  );
-
   // ---- intro camera fly-in ----
   const introStartPos = new THREE.Vector3(0, 30, 46);
   const introStartLook = new THREE.Vector3(0, 8, -4);
