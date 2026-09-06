@@ -108,6 +108,28 @@ export const knowledgeGarden = [
     ],
   },
   {
+    slug: "ocean-eye",
+    context: "talk",
+    title: "Ocean Eye",
+    type: "B.Sc. thesis",
+    meta: "2018 · Free University of Bozen-Bolzano",
+    themes: ["Engineering metrics", "Research", "Systems thinking"],
+    summary:
+      "What should a software startup actually be measuring — and how do you work out which measures are the right ones?",
+    sections: {
+      problem:
+        "A startup can measure almost anything, and most of what it can measure is noise. The hard part was never collection; it's deciding what deserves attention when you have very little of it to spare, and when the thing you're building keeps changing underneath the measurement.\n\nSo the thesis asked two questions rather than one: what information do software startups need to monitor, and how do you *determine* that for a given startup instead of copying someone else's dashboard.",
+      build:
+        "My bachelor thesis at the Free University of Bozen-Bolzano, identifying what information software startups need to monitor and how to arrive at it.",
+      learnings:
+        "I did not expect this to be the question I'd still be working on nearly a decade later, but it is.\n\nThe thesis asked what a startup should measure. Six years on I was answering the same question in production while building the uButler development team from close to scratch, and then giving a talk about it in Bolzano — a few hundred metres from where I'd written the thesis. The KPI framework and explorer elsewhere in this world are the applied version of it.\n\nWhat changed in between is only the confidence about *how much* to measure. The thesis wanted completeness. Practice taught me that a small number of measures a team actually trusts beats a complete set nobody looks at.",
+    },
+    related: ["engineering-kpis", "engineering-metrics-talk", "agile-startups-paper"],
+    links: [
+      { label: "Google Scholar profile", href: "https://scholar.google.com/citations?user=wTXrtyAAAAAJ&hl=en" },
+    ],
+  },
+  {
     slug: "dabml-paper",
     context: "talk",
     title: "daBML",
@@ -166,6 +188,6 @@ export const knowledgeGarden = [
       learnings:
         "Building the team and building the measurement had to happen together, and that turned out to be an advantage — metrics introduced alongside a growing team read as a shared instrument, where the same metrics imposed on an established team read as surveillance.\n\nThe other lesson: in a multi-product environment, the useful question is almost never 'how fast is the team' but 'where is attention actually going', and those need very different instruments.",
     },
-    related: ["engineering-kpis", "xp2024-track-chair", "career-growth"],
+    related: ["engineering-kpis", "ocean-eye", "xp2024-track-chair", "career-growth"],
   },
 ];

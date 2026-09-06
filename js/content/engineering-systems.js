@@ -44,7 +44,7 @@ export const engineeringSystems = [
         "The point of metrics isn't measurement, it's **conversation**. The best ones give a team a shared language for 'are we OK?' — the worst ones end the conversation by pretending to answer it.\n\nBuilding the explorer taught me the trade-offs land far harder when you can *toggle* them than when you read them on a slide.",
     },
     explore: { kind: "kpi-explorer" },
-    related: ["engineering-product-workspace", "sustainable-remote-pairing", "engineering-metrics-talk"],
+    related: ["engineering-product-workspace", "sustainable-remote-pairing", "engineering-metrics-talk", "ocean-eye"],
   },
   {
     slug: "ai-engineering-assistant",
